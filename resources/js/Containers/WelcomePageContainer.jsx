@@ -2,7 +2,7 @@ import WelcomeBackground from '../../../public/assets/welcome-background-video.m
 
 export default function WelcomePageContainer({ children }) {
     return (
-        <main className="relative flex items-center justify-center h-screen overflow-hidden bg-blend-darken"> 
+        <main className="relative flex items-center justify-center h-screen overflow-hidden"> 
             <div className='absolute w-auto min-w-full min-h-full max-w-none bg-black opacity-35 z-10'></div>
             <video src={WelcomeBackground}
                 autoplay="{true}" loop muted 
