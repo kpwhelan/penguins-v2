@@ -1,4 +1,5 @@
 import WelcomePageContainer from '@/Containers/WelcomePageContainer';
+import GspHeader from '../../../public/assets/GSP-header-no-background.png'
 import { Link, Head } from '@inertiajs/react';
 
 export default function Welcome({ auth }) {
@@ -7,7 +8,7 @@ export default function Welcome({ auth }) {
             <Head title="Welcome" />
             
             <WelcomePageContainer>
-                <h1 className=' text-purple-700'>HELLO!!!</h1>
+                <img className='fixed top-3 left-3' src={GspHeader}></img>
             </WelcomePageContainer>
         </>
     );
