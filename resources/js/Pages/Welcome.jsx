@@ -4,22 +4,27 @@ import { Typography } from '@material-tailwind/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import WelcomePageNav from '@/Components/WelcomePageNav';
+import MembershipContainer from '@/Containers/MembershipContainer';
 
 export default function Welcome({ auth }) {
     return (
         <>
             <Head title="Granite State Penguins" />
             
-            <WelcomePageContainer>
-                {/* <div className='fixed top-3 left-3 flex items-center bg-blue-gray-100 bg-opacity-10 p-2 rounded-lg'>
+            <main>
+                <WelcomePageContainer>
+                    <WelcomePageNav />
+
+                    <div className='text-center'>
+                        <h1 className='z-30 font-extrabold text-5xl'>The Granite State Penguins</h1>
+                        <h2 className='z-30 font-semibold text-3xl'>Masters Swim Team</h2>
+                    </div>
+                </WelcomePageContainer>
+
+                <MembershipContainer>
                     
-                </div> */}
-
-                <WelcomePageNav />
-                <Typography color='white' className='z-30 font-extrabold text-5xl'>The Granite State Penguins</Typography>
-
-                {/* <FontAwesomeIcon icon={faBars} color='white' className='fixed top-4 right-4 hover:cursor-pointer' size='xl' /> */}
-            </WelcomePageContainer>
+                </MembershipContainer>
+            </main>
         </>
     );
 }
