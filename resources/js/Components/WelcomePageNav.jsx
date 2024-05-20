@@ -7,12 +7,23 @@ import { useState } from "react";
 
 export default function WelcomePageNav() {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [isAboutUsSelected, setIsAboutUsSelected] = useState(false);
+
+    const toggleThing = (e) => {
+        const id = e.target.id;
+       
+    }
 
     return (
         <nav className=" bg-[#333333] bg-opacity-75 fixed top-8 left-0 w-full h-fit">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex mx-auto justify-between">
+                            <div className="hidden space-x-8 sm:-my-px sm:me-10 sm:flex">
+                                <NavLink onClick={toggleThing} id="about_us" active={isAboutUsSelected}>
+                                    About Us
+                                </NavLink>
+                            </div>
                             <div className="hidden space-x-8 sm:-my-px sm:me-10 sm:flex">
                                 <NavLink >
                                     Membership
@@ -27,6 +38,12 @@ export default function WelcomePageNav() {
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Member Login
+                                </NavLink>
+                            </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink>
+                                    Contact
                                 </NavLink>
                             </div>
 
