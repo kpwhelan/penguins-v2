@@ -15,18 +15,18 @@ export default function WelcomePageNav() {
     }
 
     return (
-        <nav className=" bg-[#333333] bg-opacity-75 fixed top-8 left-0 w-full h-fit">
+        <nav className=" bg-[#333333] bg-opacity-95 fixed top-8 left-0 w-full h-fit z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex mx-auto justify-between">
                             <div className="hidden space-x-8 sm:-my-px sm:me-10 sm:flex">
-                                <NavLink onClick={toggleThing} id="about_us" active={isAboutUsSelected}>
+                                <NavLink onClick={toggleThing} id="about_us" href='#about_us_container' active={isAboutUsSelected}>
                                     About Us
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:me-10 sm:flex">
                                 <NavLink >
-                                    Membership
+                                    Membership / Equipment
                                 </NavLink>
                             </div>
                             <div className="shrink-0 flex items-center">

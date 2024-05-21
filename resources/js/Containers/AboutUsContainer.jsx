@@ -1,6 +1,6 @@
 export default function AboutUsContainer({ className, children }) {
     return (
-        <div className={className}>
+        <div id="about_us_container" className={className}>
             {children}
         </div>
     );
