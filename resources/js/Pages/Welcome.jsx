@@ -1,12 +1,11 @@
 import WelcomePageContainer from '@/Containers/WelcomePageContainer';
 import { Link, Head } from '@inertiajs/react';
-import { Card, CardHeader, List, ListItem, Typography } from '@material-tailwind/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { Card, List, ListItem, Typography } from '@material-tailwind/react';
 import WelcomePageNav from '@/Components/WelcomePageNav';
 import MembershipContainer from '@/Containers/MembershipContainer';
 import AboutUsContainer from '@/Containers/AboutUsContainer';
 import SwimBackground from '../../../public/assets/swim-background.jpg';
+import MembershipBackground from '../../../public/assets/membership-background.jpg';
 
 export default function Welcome({ auth }) {
     return (
@@ -15,31 +14,34 @@ export default function Welcome({ auth }) {
             
             <main>
                 <WelcomePageNav />
-                <WelcomePageContainer>
+                <WelcomePageContainer className="relative flex items-center justify-center h-screen overflow-hidden mb-2">
                     <div className='text-center'>
                         <h1 className='z-30 font-extrabold text-5xl'>The Granite State Penguins</h1>
                         <h2 className='z-30 font-semibold text-3xl'>Masters Swim Team</h2>
                     </div>
                 </WelcomePageContainer>
 
-                <MembershipContainer className='p-10'>
-                    <div className='w-[90%] mx-auto mb-6'>
-                        <h3 className='text-2xl text-black'>Membership & Equipment</h3>
+                <MembershipContainer className='relative mb-2 overflow-hidden pb-6'>
+                    <img src={MembershipBackground} className='absolute  mx-auto left-0 right-0 top-0 m-auto z-0'></img>
+                    <div className='absolute h-full w-[100%] mx-auto left-0 right-0 m-auto z-10 bg-black bg-opacity-75'></div>
+
+                    <div className='w-[90%] mx-auto mt-4 mb-2 relative z-20'>
+                        <h3 className='text-2xl'>Membership & Equipment</h3>
                     </div>
                     
-                    <div className='flex justify-around'>
-                        <Card className='w-[40%] align-middle'>
-                            <List>
-                                <ListItem>Practice Suit</ListItem>
+                    <div className='flex justify-around relative z-20'>
+                        <Card className='w-[40%] align-middle bg-black bg-opacity-30'>
+                            <List className='text-white'>
+                                <ListItem color='white'>Practice Suit</ListItem>
                                 <ListItem>Goggles</ListItem>
                                 <ListItem>Most People Bring Fins</ListItem>
-                                <ListItem>Some Use Paddles</ListItem>
+                                <ListItem>Some People Use Paddles</ListItem>
                                 <ListItem>Note: pull buoys and kick boards are provided at the pool</ListItem>
                             </List>
                         </Card>
 
-                        <Card className='w-[40%] p-2'>
-                            <Typography>
+                        <Card className='w-[40%] p-4 bg-black bg-opacity-30'>
+                            <Typography className='text-white'>
                                 Membership rates are collected quarterly with the current rate set at $120 per quarter. We charge a $10 daily drop-in price that may be applied towards your first quarter membership. For insurance reasons, you are required to join US Masters Swimming (USMS) within 30 days, which is typically $55 depending on options. We’re so sure you’ll love swimming with the Granite State Penguins that we’d like to offer you a one month free trial period. USMS membership is not required for this trial period. Contact Chris Landry at CSL5@cwru.edu or 603-880-6303 for more information. Please fill out the following Penguins application before your first visit.
                             </Typography>
                         </Card>
