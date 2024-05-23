@@ -12,6 +12,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/membership', function () {
+    return Inertia::render('Membership');
+})->name('membership');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -25,25 +25,24 @@ export default function Welcome({ auth }) {
                     <img src={MembershipBackground} className='absolute  mx-auto left-0 right-0 top-0 m-auto z-0'></img>
                     <div className='absolute h-full w-[100%] mx-auto left-0 right-0 m-auto z-10 bg-black bg-opacity-75'></div>
 
-                    <div className='w-[90%] mx-auto mt-4 mb-2 relative z-20'>
-                        <h3 className='text-2xl'>Membership & Equipment</h3>
-                    </div>
+                    {/* <div className='w-[90%] mx-auto mt-4 mb-2 relative z-20'>
+                        
+                    </div> */}
                     
-                    <div className='flex justify-around relative z-20'>
-                        <Card className='w-[40%] align-middle bg-black bg-opacity-30'>
-                            <List className='text-white'>
-                                <ListItem color='white'>Practice Suit</ListItem>
-                                <ListItem>Goggles</ListItem>
-                                <ListItem>Most People Bring Fins</ListItem>
-                                <ListItem>Some People Use Paddles</ListItem>
-                                <ListItem>Note: pull buoys and kick boards are provided at the pool</ListItem>
-                            </List>
-                        </Card>
-
-                        <Card className='w-[40%] p-4 bg-black bg-opacity-30'>
-                            <Typography className='text-white'>
+                    <div className='mx-auto relative z-20 w-[60%] mt-6'>
+                    <h3 className='text-4xl'>Membership & Equipment</h3>
+                        <Card className=' align-middle bg-black text-white text-2xl p-4 bg-opacity-30'>
+                            
+                            <p>Practice Suit</p>
+                            <p>Goggles</p>
+                            <p>Most People Bring Fins</p>
+                            <p>Some People Use Paddles</p>
+                            <p>Note: pull buoys and kick boards are provided at the pool</p>
+                            
+                            <br />
+                            <p>
                                 Membership rates are collected quarterly with the current rate set at $120 per quarter. We charge a $10 daily drop-in price that may be applied towards your first quarter membership. For insurance reasons, you are required to join US Masters Swimming (USMS) within 30 days, which is typically $55 depending on options. We’re so sure you’ll love swimming with the Granite State Penguins that we’d like to offer you a one month free trial period. USMS membership is not required for this trial period. Contact Chris Landry at CSL5@cwru.edu or 603-880-6303 for more information. Please fill out the following Penguins application before your first visit.
-                            </Typography>
+                            </p>
                         </Card>
                     </div>
                 </MembershipContainer>

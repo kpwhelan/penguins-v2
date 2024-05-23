@@ -25,8 +25,8 @@ export default function WelcomePageNav() {
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:me-10 sm:flex">
-                                <NavLink >
-                                    Membership / Equipment
+                                <NavLink href={route('membership')} active={route().current('membership')}>
+                                    Membership
                                 </NavLink>
                             </div>
                             <div className="shrink-0 flex items-center">
