@@ -5,17 +5,17 @@ import ResponsiveNavLink from "./ResponsiveNavLink";
 import ApplicationLogo from "./ApplicationLogo";
 import { useState } from "react";
 
-export default function WelcomePageNav() {
+export default function WelcomePageNav({ className }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [isAboutUsSelected, setIsAboutUsSelected] = useState(false);
 
     const toggleThing = (e) => {
         const id = e.target.id;
-       
+
     }
 
     return (
-        <nav className=" bg-[#333333] bg-opacity-95 fixed top-8 left-0 w-full h-fit z-50">
+        <nav className={`bg-[#333333] bg-opacity-95 fixed top-8 left-0 w-full h-fit z-50 ${className}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex mx-auto justify-between">
