@@ -22,9 +22,7 @@ export default function Membership() {
 
             <MembershipPageInfoContainer className="flex justify-around items-center text-black p-4 mt-36">
                 <div className="w-[40%]">
-                    {/* <p className="text-2xl leading-relaxed">
-                        Membership rates are collected quarterly with the current rate set at $120 per quarter. We charge a $10 daily drop-in price that may be applied towards your first quarter membership. For insurance reasons, you are required to join US Masters Swimming (USMS) within 30 days, which is typically $55 depending on options. We’re so sure you’ll love swimming with the Granite State Penguins that we’d like to offer you a one month free trial period. USMS membership is not required for this trial period. Contact Chris Landry at CSL5@cwru.edu or 603-880-6303 for more information. Please fill out the following Penguins application before your first visit.
-                    </p> */}
+                    <p className="text-4xl mb-4">Membership</p>
 
                     <p className="text-lg leading-relaxed">
                         Our membership structure is designed to suit various preferences. Currently, our quarterly rate stands at $120, providing a convenient option for regular swimmers. Alternatively, we offer a $10 daily drop-in rate, which can be credited towards your first quarter membership if you choose to continue.
@@ -44,6 +42,7 @@ export default function Membership() {
                 </div>
 
                 <ContactFormContainer className="w-[30%]">
+                    <p className="text-4xl mb-4">Contact</p>
                     <ContactForm />
                 </ContactFormContainer>
             </MembershipPageInfoContainer>
