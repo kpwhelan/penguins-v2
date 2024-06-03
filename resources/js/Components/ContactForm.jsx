@@ -3,6 +3,7 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import PrimaryButton from "./PrimaryButton";
 import TextInput from "./TextInput";
+import axios from "axios";
 
 export default function ContactForm({ }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -13,6 +14,16 @@ export default function ContactForm({ }) {
 
     const submit = (e) => {
         e.preventDefault();
+
+        axios.post(route('contact.send'), {
+            name: data.name,
+            email: data.email,
+            message: data.message
+        })
+        .then(res => {
+            console.log(res)
+        })
+        .catch(error => console.log(error))
     }
 
     return (
