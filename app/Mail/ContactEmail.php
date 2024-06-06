@@ -43,7 +43,7 @@ class ContactEmail extends Mailable
         return new Content(
             view: 'mail.contact',
             with: [
-                'message' => $this->message
+                'theMessage' => $this->message
             ]
         );
     }
