@@ -20,7 +20,7 @@ export default function Membership() {
                 </div>
             </div>
 
-            <MembershipPageInfoContainer className="flex justify-around items-center text-black p-4 mt-36">
+            <MembershipPageInfoContainer className="flex justify-around items-center text-black p-4 mt-36 mb-10">
                 <div className="w-[40%]">
                     <p className="text-4xl mb-4">Membership</p>
 
