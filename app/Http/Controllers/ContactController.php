@@ -25,7 +25,7 @@ class ContactController extends Controller {
 
             return response()->json([
                 'success' => false,
-                'message' => 'Uh oh, something went wrong. Please try again or send an email directly to Chris Landry at CSL5@cwru.edu.'
+                'message' => 'Uh oh, something went wrong. Please try again or you can send an email directly to Chris Landry at CSL5@cwru.edu.'
             ], 500);
         }
     }

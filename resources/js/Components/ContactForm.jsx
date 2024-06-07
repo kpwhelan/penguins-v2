@@ -19,6 +19,7 @@ export default function ContactForm({ }) {
     });
 
     const notifySuccess = (message) => toast.success(message);
+    const notifyError = (message) => toast.error(message);
 
     const submit = (e) => {
         e.preventDefault();
@@ -38,11 +39,17 @@ export default function ContactForm({ }) {
         })
         .catch(error => {
             setIsProcessing(false)
-            if (error.response.data.errors) {
+
+            if (error.response.status === 500 && !error.response.data.success) {
+                notifyError(error.response.data.message);
+            }
+
+            if (error.response.status === 422 && error.response.data.errors) {
                 for (const [key, value] of Object.entries(error.response.data.errors)) {
                     errors[key] = value;
                 }
             }
+
 
 
         })
@@ -51,16 +58,18 @@ export default function ContactForm({ }) {
     return (
         <>
         {messageSentAndSuccessful &&
-            <div className="text-center">
+            <div className="text-center h-36">
                 <p className="text-5xl">Thank You</p>
                 <p>Your message has been sent successfully and we will contact you shortly!</p>
             </div>
         }
 
         {!messageSentAndSuccessful &&
+            <>
+            <p className="text-4xl mb-4">Contact</p>
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="name" value="Your Name" />
 
                     <TextInput
                         id="name"
@@ -70,13 +79,14 @@ export default function ContactForm({ }) {
                         autoComplete="name"
                         // isFocused={true}
                         onChange={(e) => setData('name', e.target.value)}
+                        disabled={isProcessing}
                     />
 
                     <InputError message={errors.name} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="Your Email" />
 
                     <TextInput
                         id="email"
@@ -86,6 +96,7 @@ export default function ContactForm({ }) {
                         className="mt-1 block w-full"
                         autoComplete="email"
                         onChange={(e) => setData('email', e.target.value)}
+                        disabled={isProcessing}
                     />
 
                     <InputError message={errors.email} className="mt-2" />
@@ -102,7 +113,9 @@ export default function ContactForm({ }) {
                         onChange={(e) => setData('message', e.target.value)}
                         rows="4"
                         className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="">
+                        placeholder=""
+                        disabled={isProcessing}
+                        >
                         </textarea>
 
 
@@ -120,8 +133,9 @@ export default function ContactForm({ }) {
                     }
                 </div>
 
-                <ToastContainer autoClose={10000} />
+                <ToastContainer position="bottom-right" autoClose={false} />
             </form>
+            </>
         }
         </>
     );

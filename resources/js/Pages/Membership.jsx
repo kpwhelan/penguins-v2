@@ -42,7 +42,6 @@ export default function Membership() {
                 </div>
 
                 <ContactFormContainer className="w-[30%]">
-                    <p className="text-4xl mb-4">Contact</p>
                     <ContactForm />
                 </ContactFormContainer>
             </MembershipPageInfoContainer>
