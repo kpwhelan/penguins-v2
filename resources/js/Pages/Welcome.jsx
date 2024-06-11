@@ -46,7 +46,7 @@ export default function Welcome({ auth }) {
                     </div>
                 </MembershipContainer> */}
 
-                <AboutUsContainer className='h-screen w-screen relative bg-[#333333]'>
+                {/* <AboutUsContainer className='h-screen w-screen relative bg-[#333333]'>
                     <img src={SwimBackground} className='absolute h-[95%] w-[80%] mx-auto left-0 right-0 top-4 m-auto z-0'></img>
                     <div className='absolute h-[95%] w-[80%] mx-auto left-0 right-0 top-4 m-auto z-10 bg-black bg-opacity-75'></div>
 
@@ -63,7 +63,7 @@ export default function Welcome({ auth }) {
                             <p>Everyone is encouraged to participate in 2-3 swim meets or races each year but many team members do not. There is always a wide range of people of all abilities from all age groups at these meets. The meets are usually quite informal. Everyone has fun. Everyone is welcome.</p>
                         </div>
                     </div>
-                </AboutUsContainer>
+                </AboutUsContainer> */}
             </main>
         </>
     );
