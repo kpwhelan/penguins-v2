@@ -19,7 +19,8 @@ module.exports = withMT({
                 sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: {
-                membershipPageBackground: "url('assets/membership-background.jpg')"
+                membershipPageBackground: "url('assets/membership-background.jpg')",
+                aboutUsPageBackground: "url('assets/about-us.jpg')"
             }
         },
     },

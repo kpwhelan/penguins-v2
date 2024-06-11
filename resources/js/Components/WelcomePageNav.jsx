@@ -11,7 +11,6 @@ export default function WelcomePageNav({ className }) {
 
     const toggleThing = (e) => {
         const id = e.target.id;
-
     }
 
     return (
@@ -20,7 +19,7 @@ export default function WelcomePageNav({ className }) {
                     <div className="flex justify-between h-16">
                         <div className="flex mx-auto justify-between">
                             <div className="hidden space-x-8 sm:-my-px sm:me-10 sm:flex">
-                                <NavLink onClick={toggleThing} id="about_us" href='#about_us_container' active={isAboutUsSelected}>
+                                <NavLink href={route('about-us')} active={route().current('about-us')}>
                                     About Us
                                 </NavLink>
                             </div>
