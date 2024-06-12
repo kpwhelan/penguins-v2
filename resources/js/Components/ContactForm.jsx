@@ -69,7 +69,7 @@ export default function ContactForm({ }) {
             <p className="text-4xl mb-4">Contact</p>
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="name" value="Your Name" />
+                    <InputLabel className="text-white" htmlFor="name" value="Your Name" />
 
                     <TextInput
                         id="name"
@@ -86,7 +86,7 @@ export default function ContactForm({ }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Your Email" />
+                    <InputLabel className="text-white" htmlFor="email" value="Your Email" />
 
                     <TextInput
                         id="email"
@@ -103,7 +103,7 @@ export default function ContactForm({ }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="message" value="Message" />
+                    <InputLabel className="text-white" htmlFor="message" value="Message" />
 
                     <textarea
                         id="message"

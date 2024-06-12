@@ -5,7 +5,7 @@ import ResponsiveNavLink from "./ResponsiveNavLink";
 import ApplicationLogo from "./ApplicationLogo";
 import { useState } from "react";
 
-export default function WelcomePageNav({ className }) {
+export default function WelcomePageNav({ className, blurNav }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [isAboutUsSelected, setIsAboutUsSelected] = useState(false);
 
@@ -14,6 +14,8 @@ export default function WelcomePageNav({ className }) {
     }
 
     return (
+        <>
+        <div hidden={!blurNav} className="bg-[#333333] z-40 fixed top-0 left-0 w-full h-36 bg-opacity-80"></div>
         <nav className={`bg-[#333333] bg-opacity-95 fixed top-8 left-0 w-full h-fit z-50 ${className}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
@@ -87,5 +89,6 @@ export default function WelcomePageNav({ className }) {
                     </div>
                 </div>
             </nav>
+            </>
     );
 }

@@ -12,13 +12,13 @@ export default function Membership() {
 
             <WelcomePageNav />
 
-            <div className=" h-96 bg-membershipPageBackground bg-cover flex align-middle justify-center items-center">
+            <div className=" h-96 bg-membershipPageBackground bg-cover bg-blend-darken flex align-middle justify-center items-center">
                 <div className="text-center bg-[#333333] bg-opacity-30 px-2">
-                    <p className=" text-7xl">Membership & Equipment</p>
+                    <p className=" text-7xl font-extrabold">Membership & Equipment</p>
                 </div>
             </div>
 
-            <MembershipPageInfoContainer className=" text-black p-4 mt-32 mb-10">
+            <MembershipPageInfoContainer className="p-4 bg-[#333333]">
                 <div className="flex justify-around items-center">
                     <div className="w-[40%]">
                         <p className="text-4xl mb-4">Membership</p>

@@ -1,13 +1,21 @@
 import WelcomePageNav from "@/Components/WelcomePageNav";
 import AboutUsContainer from "@/Containers/AboutUsContainer";
 import { Head, Link } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function AboutUs({  }) {
+    const [blurNav, setBlurNav] = useState(false);
+
+    const handleScroll = (e) => {
+        window.scrollY >= 35 ? setBlurNav(true) : setBlurNav(false);
+    }
+
+    window.addEventListener('scroll', handleScroll);
     return (
         <main>
             <Head title="Membership" />
 
-            <WelcomePageNav />
+            <WelcomePageNav blurNav={blurNav} />
 
             <div className=" h-96 bg-aboutUsPageBackground bg-cover bg-center flex align-middle justify-center items-center">
                 <div className="text-center bg-[#333333] bg-opacity-20 px-2">
@@ -15,8 +23,8 @@ export default function AboutUs({  }) {
                 </div>
             </div>
 
-            <AboutUsContainer className='h-screen w-screen bg-[#333333]'>
-                    <div className='mx-auto flex justify-center items-center text-xl  h-screen w-[75%]'>
+            <AboutUsContainer className='bg-[#333333]'>
+                    <div className='mx-auto flex justify-center items-center text-xl w-[75%]'>
                         <div>
                             <h2 className='text-4xl mb-4'>Who Are the Penguins?</h2>
                         

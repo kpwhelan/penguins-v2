@@ -13,7 +13,7 @@ export default function Welcome({ auth }) {
 
             <main>
                 <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" />
-                <WelcomePageContainer className="relative flex items-center justify-center h-screen overflow-hidden mb-2">
+                <WelcomePageContainer className="relative flex items-center justify-center h-screen overflow-hidden">
                     <div className='text-center animate__animated animate__slower animate__fadeIn'>
                         <h1 className='z-30 font-extrabold text-7xl'>The Granite State Penguins</h1>
                         <h2 className='z-30 font-semibold text-5xl'>Masters Swim Team</h2>
