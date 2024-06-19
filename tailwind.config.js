@@ -21,6 +21,9 @@ module.exports = withMT({
             backgroundImage: {
                 membershipPageBackground: "url('assets/membership-background.jpg')",
                 aboutUsPageBackground: "url('assets/about-us.jpg')"
+            },
+            colors: {
+                penguinsBlue: '#2ac2f2',
             }
         },
     },

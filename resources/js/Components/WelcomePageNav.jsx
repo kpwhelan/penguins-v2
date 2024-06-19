@@ -15,7 +15,7 @@ export default function WelcomePageNav({ className, blurNav }) {
 
     return (
         <>
-        <div hidden={!blurNav} className="bg-[#333333] z-40 fixed top-0 left-0 w-full h-36 bg-opacity-80"></div>
+        <div className={`bg-[#333333] z-40 fixed top-0 left-0 w-full h-36 bg-opacity-80 transition-opacity ease-in duration-500 ${blurNav ? 'opacity-100' : 'opacity-0'}`}></div>
         <nav className={`bg-[#333333] bg-opacity-95 fixed top-8 left-0 w-full h-fit z-50 ${className}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">

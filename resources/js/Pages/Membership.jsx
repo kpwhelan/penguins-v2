@@ -4,24 +4,34 @@ import MembershipBackground from '../../../public/assets/membership-background.j
 import MembershipPageInfoContainer from "@/Containers/MembershipPageInfoContainer";
 import ContactFormContainer from "@/Containers/ContactFormContainer";
 import ContactForm from "@/Components/ContactForm";
+import { useState } from "react";
 
 export default function Membership() {
+    const [blurNav, setBlurNav] = useState(false);
+
+    const handleScroll = () => {
+        window.scrollY >= 35 ? setBlurNav(true) : setBlurNav(false);
+    }
+
+    
+    window.addEventListener('scroll', handleScroll);
+
     return (
         <main>
             <Head title="Membership" />
 
-            <WelcomePageNav />
+            <WelcomePageNav blurNav={blurNav} />
 
-            <div className=" h-96 bg-membershipPageBackground bg-cover bg-blend-darken flex align-middle justify-center items-center">
+            <div className="h-96 bg-membershipPageBackground bg-cover flex align-middle justify-center items-center opacity-90">
                 <div className="text-center bg-[#333333] bg-opacity-30 px-2">
                     <p className=" text-7xl font-extrabold">Membership & Equipment</p>
                 </div>
             </div>
 
-            <MembershipPageInfoContainer className="p-4 bg-[#333333]">
+            <MembershipPageInfoContainer className="px-8 py-10 text-black">
                 <div className="flex justify-around items-center">
                     <div className="w-[40%]">
-                        <p className="text-4xl mb-4">Membership</p>
+                        <p className="text-6xl mb-6">Membership</p>
 
                         <p className="text-lg leading-relaxed">
                             Our membership structure is designed to suit various preferences. Currently, our quarterly rate stands at $120, providing a convenient option for regular swimmers. Alternatively, we offer a $10 daily drop-in rate, which can be credited towards your first quarter membership if you choose to continue.

@@ -66,10 +66,10 @@ export default function ContactForm({ }) {
 
         {!messageSentAndSuccessful &&
             <>
-            <p className="text-4xl mb-4">Contact</p>
+            <p className="text-6xl mb-6">Contact</p>
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel className="text-white" htmlFor="name" value="Your Name" />
+                    <InputLabel htmlFor="name" value="Your Name" />
 
                     <TextInput
                         id="name"
@@ -86,7 +86,7 @@ export default function ContactForm({ }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel className="text-white" htmlFor="email" value="Your Email" />
+                    <InputLabel htmlFor="email" value="Your Email" />
 
                     <TextInput
                         id="email"
@@ -103,7 +103,7 @@ export default function ContactForm({ }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel className="text-white" htmlFor="message" value="Message" />
+                    <InputLabel htmlFor="message" value="Message" />
 
                     <textarea
                         id="message"

@@ -6,11 +6,12 @@ import { useState } from "react";
 export default function AboutUs({  }) {
     const [blurNav, setBlurNav] = useState(false);
 
-    const handleScroll = (e) => {
+    const handleScroll = () => {
         window.scrollY >= 35 ? setBlurNav(true) : setBlurNav(false);
     }
 
     window.addEventListener('scroll', handleScroll);
+
     return (
         <main>
             <Head title="Membership" />
@@ -19,14 +20,14 @@ export default function AboutUs({  }) {
 
             <div className=" h-96 bg-aboutUsPageBackground bg-cover bg-center flex align-middle justify-center items-center">
                 <div className="text-center bg-[#333333] bg-opacity-20 px-2">
-                    <p className=" text-7xl">About Us</p>
+                    <p className="text-7xl">About Us</p>
                 </div>
             </div>
 
-            <AboutUsContainer className='bg-[#333333]'>
-                    <div className='mx-auto flex justify-center items-center text-xl w-[75%]'>
+            <AboutUsContainer className='text-black py-10 px-8'>
+                    <div className='mx-auto flex justify-center items-center text-xl w-[60%]'>
                         <div>
-                            <h2 className='text-4xl mb-4'>Who Are the Penguins?</h2>
+                            <h2 className='text-6xl mb-4'>Who Are the Penguins?</h2>
                         
                             <p className="text-lg leading-relaxed">We practice Monday, Wednesday, Thursday, and Friday from 6:30am to 8:00am at the Nashua Boys and Girls Club 5-lane 25-yard pool. A team member is on deck at all times during workout sessions. Structured workouts are geared toward adults above age 20 from a wide variety of swimming abilities. Serious swimmers will compete in local, regional, or national meets or in triathlons. Not-so-serious swimmers are very welcome to swim simply to stay in shape.</p>
                             
@@ -38,7 +39,7 @@ export default function AboutUs({  }) {
 
                             <p className="text-lg leading-relaxed mt-6">Learn more about membership <Link
                             href={route('membership')}
-                            className="text-lg underline text-white">here</Link>!</p>
+                            className="text-lg underline">here</Link>!</p>
                         </div>
                     </div>
                 </AboutUsContainer>
