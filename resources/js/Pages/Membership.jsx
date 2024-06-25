@@ -20,9 +20,9 @@ export default function Membership() {
         <main>
             <Head title="Membership" />
 
-            <WelcomePageNav blurNav={blurNav} />
+            <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" blurNav={blurNav} />
 
-            <div className="h-96 bg-membershipPageBackground bg-cover flex align-middle justify-center items-center opacity-90">
+            <div className="animate__animated animate__slower animate__fadeIn h-96 bg-membershipPageBackground bg-cover flex align-middle justify-center items-center opacity-90">
                 <div className="text-center bg-[#333333] bg-opacity-30 px-2">
                     <p className=" text-7xl font-extrabold">Membership & Equipment</p>
                 </div>
