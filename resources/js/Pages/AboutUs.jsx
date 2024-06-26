@@ -18,7 +18,7 @@ export default function AboutUs({  }) {
 
             <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" blurNav={blurNav} />
 
-            <div className=" h-96 bg-aboutUsPageBackground bg-cover bg-center flex align-middle justify-center items-center">
+            <div className="animate__animated animate__slower animate__fadeI h-96 bg-aboutUsPageBackground bg-cover bg-center flex align-middle justify-center items-center">
                 <div className="text-center bg-[#333333] bg-opacity-20 px-2">
                     <p className="text-7xl">About Us</p>
                 </div>

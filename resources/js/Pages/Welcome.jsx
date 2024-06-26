@@ -17,6 +17,10 @@ export default function Welcome({ auth }) {
                     <div className='text-center animate__animated animate__slower animate__fadeIn'>
                         <h1 className='z-30 font-extrabold text-7xl'>The Granite State Penguins</h1>
                         <h2 className='z-30 font-semibold text-5xl'>Masters Swim Team</h2>
+                        {/* <div className='flex justify-around'>
+                            <button className='p-2 rounded-lg bg-[#01a8d4] mt-2'>Locations</button>
+                            <button className='p-2 rounded-lg bg-[#01a8d4] mt-2'>News</button>
+                        </div> */}
                     </div>
                 </WelcomePageContainer>
 
