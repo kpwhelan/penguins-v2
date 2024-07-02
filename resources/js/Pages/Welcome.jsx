@@ -5,6 +5,7 @@ import AboutUsContainer from '@/Containers/AboutUsContainer';
 import 'animate.css';
 import UnderwaterImage from '../../../public/assets/underwater.jpg'
 import NewsContainer from '@/Containers/NewsContainer';
+import EventsContainer from '@/Containers/EventsContainer';
 
 export default function Welcome({ auth }) {
     return (
@@ -24,78 +25,37 @@ export default function Welcome({ auth }) {
                     </div>
                 </WelcomePageContainer>
 
-                <div className='mt-2 ml-2 flex'>
-                    <AboutUsContainer className='rounded-lg bg-swimBackground bg-cover bg-no-repeat bg-right w-[60%]'>
-                        <div className='p-6 bg-[#333333] bg-opacity-80 h-full'>
-                            <div className='text-xl w-[70%] pl-6'>
-                                <div>
-                                    <h2 className='text-6xl mb-4'>Who Are the Penguins?</h2>
-
-                                    <p className="text-xl leading-relaxed">We practice Monday, Wednesday, Thursday, and Friday from 6:30am to 8:00am at the Nashua Boys and Girls Club 5-lane 25-yard pool. A team member is on deck at all times during workout sessions. Structured workouts are geared toward adults above age 20 from a wide variety of swimming abilities. Serious swimmers will compete in local, regional, or national meets or in triathlons. Not-so-serious swimmers are very welcome to swim simply to stay in shape.</p>
-
-                                    <p className="text-xl leading-relaxed mt-6">We have a fairly large range of abilities. Our swimmers’ 100 yard freestyle race times vary from about 2:00 minutes to around :48 seconds. Most swimmers who have competed prior to masters are able to match their former high school speeds. Some college times have been broken.</p>
-
-                                    <p className="text-xl leading-relaxed mt-6">Practices concentrate on stroke technique, starts and turns, as well as cardiovascular fitness. In the winter, workouts are geared toward the shorter distances typically swum at indoor meets. In the summer, workouts are geared toward the longer distances used in open water and triathlon competition. At the start of each season (September/June) emphasis is put on stroke and turn technique by one-on-one instruction and video taping. Later in the season more emphasis is put on cardiovascular strengthening and maintenance. Weekly, tri-weekly, monthly, and seasonal planning is strictly adhered to. Major focus is around building for two yearly meets: one in December, another in April. Yardage is typically 2500-4000 each morning.</p>
-
-                                    <p className="text-xl leading-relaxed mt-6">Everyone is encouraged to participate in 2-3 swim meets or races each year but many team members do not. There is always a wide range of people of all abilities from all age groups at these meets. The meets are usually quite informal. Everyone has fun. Everyone is welcome!</p>
-
-                                    <p className="text-2xl leading-relaxed mt-6">Learn more about membership <Link
-                                    href={route('membership')}
-                                    className="text-2xl underline">here</Link>!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </AboutUsContainer>
-
+                <div className='flex justify-around'>
                     <NewsContainer className="text-black">
                         <p>News will go here...</p>
                     </NewsContainer>
+
+                    <EventsContainer className="text-black">
+                        <p>Events will go here...</p>
+                    </EventsContainer>
                 </div>
 
-                {/* <MembershipContainer className='relative mb-2 overflow-hidden pb-6'>
-                    <img src={MembershipBackground} className='absolute  mx-auto left-0 right-0 top-0 m-auto z-0'></img>
-                    <div className='absolute h-full w-[100%] mx-auto left-0 right-0 m-auto z-10 bg-black bg-opacity-75'></div>
+                <AboutUsContainer className='mt-2 rounded-lg bg-swimBackground bg-cover bg-no-repeat bg-right w-[95%] text-center mx-auto'>
+                    <div className='p-6 bg-[#333333] bg-opacity-80 h-full'>
+                        <div className='text-xl w-[90%] pl-6'>
+                            <div>
+                                <h2 className='text-8xl mb-4'>Who Are the Penguins?</h2>
 
-                    {/* <div className='w-[90%] mx-auto mt-4 mb-2 relative z-20'>
+                                <p className="text-xl leading-relaxed">We are an amazing group of swimmers who practice Monday, Wednesday, Thursday, and Friday from 6:30am to 8:00am at the Nashua Boys and Girls Club's 5-lane, 25-yard pool. A team member is always present during workouts. Our structured sessions cater to adults aged 20 and above, encompassing a diverse range of swimming abilities.</p>
 
-                    </div> */}
+                                <p className="text-xl leading-relaxed mt-6">Our swimmers exhibit a wide range of abilities, with 100-yard freestyle times spanning from around 2:00 minutes to :48 seconds. Many swimmers match or exceed their high school speeds, and some even surpass their college times.</p>
 
-                    {/* <div className='mx-auto relative z-20 w-[60%] mt-6'>
-                    <h3 className='text-4xl'>Membership & Equipment</h3>
-                        <Card className=' align-middle bg-black text-white text-2xl p-4 bg-opacity-30'>
+                                <p className="text-xl leading-relaxed mt-6">Practices focus on stroke technique, starts and turns, and cardiovascular fitness. Winter workouts emphasize shorter distances typical of indoor meets, while summer sessions prepare for longer distances in open water and triathlons. Each season starts with intensive one-on-one instruction and video analysis of stroke and turn techniques, shifting towards cardiovascular strength and maintenance later on. Our training regimen adheres strictly to weekly, tri-weekly, monthly, and seasonal plans, culminating in two main meets each year in December and April.</p>
 
-                            <p>Practice Suit</p>
-                            <p>Goggles</p>
-                            <p>Most People Bring Fins</p>
-                            <p>Some People Use Paddles</p>
-                            <p>Note: pull buoys and kick boards are provided at the pool</p>
+                                <p className="text-xl leading-relaxed mt-6">While encouraged to participate in 2-3 meets annually, many members choose not to. These meets are inclusive and informal, attracting individuals of all ages and abilities. Above all, we prioritize enjoyment and camaraderie for everyone involved. Join us—you're welcome here!</p>
 
-                            <br />
-                            <p>
-                                Membership rates are collected quarterly with the current rate set at $120 per quarter. We charge a $10 daily drop-in price that may be applied towards your first quarter membership. For insurance reasons, you are required to join US Masters Swimming (USMS) within 30 days, which is typically $55 depending on options. We’re so sure you’ll love swimming with the Granite State Penguins that we’d like to offer you a one month free trial period. USMS membership is not required for this trial period. Contact Chris Landry at CSL5@cwru.edu or 603-880-6303 for more information. Please fill out the following Penguins application before your first visit.
-                            </p>
-                        </Card>
-                    </div>
-                </MembershipContainer> */}
-
-                {/* <AboutUsContainer className='h-screen w-screen relative bg-[#333333]'>
-                    <img src={SwimBackground} className='absolute h-[95%] w-[80%] mx-auto left-0 right-0 top-4 m-auto z-0'></img>
-                    <div className='absolute h-[95%] w-[80%] mx-auto left-0 right-0 top-4 m-auto z-10 bg-black bg-opacity-75'></div>
-
-                    <div className='relative z-30 mx-auto flex justify-center items-center text-xl  h-screen w-[75%]'>
-                        <div>
-                            <h2 className='text-2xl'>Who Are the Penguins?</h2>
-                            <br />
-                            <p>We practice Monday, Wednesday, Thursday, and Friday from 6:30am to 8:00am at the Nashua Boys and Girls Club 5-lane 25-yard pool. A team member is on deck at all times during workout sessions. Structured workouts are geared toward adults above age 20 from a wide variety of swimming abilities. Serious swimmers will compete in local, regional, or national meets or in triathlons. Not-so-serious swimmers are very welcome to swim simply to stay in shape.</p>
-                            <br />
-                            <p>We have a fairly large range of abilities. Our swimmers’ 100 yard freestyle race times vary from about 2:00 minutes to around :48 seconds. Most swimmers who have competed prior to masters are able to match their former high school speeds. Some college times have been broken.</p>
-                            <br />
-                            <p>Practices concentrate on stroke technique, starts and turns, as well as cardiovascular fitness. In the winter, workouts are geared toward the shorter distances typically swum at indoor meets. In the summer, workouts are geared toward the longer distances used in open water and triathlon competition. At the start of each season (September/June) emphasis is put on stroke and turn technique by one-on-one instruction and video taping. Later in the season more emphasis is put on cardiovascular strengthening and maintenance. Weekly, tri-weekly, monthly, and seasonal planning is strictly adhered to. Major focus is around building for two yearly meets: one in December, another in April. Yardage is typically 2500-4000 each morning.</p>
-                            <br />
-                            <p>Everyone is encouraged to participate in 2-3 swim meets or races each year but many team members do not. There is always a wide range of people of all abilities from all age groups at these meets. The meets are usually quite informal. Everyone has fun. Everyone is welcome.</p>
+                                <p className="text-2xl leading-relaxed mt-6">Learn more about membership <Link
+                                href={route('membership')}
+                                className="text-2xl underline">here</Link>!</p>
+                            </div>
                         </div>
                     </div>
-                </AboutUsContainer> */}
+                </AboutUsContainer>
             </main>
         </>
     );
