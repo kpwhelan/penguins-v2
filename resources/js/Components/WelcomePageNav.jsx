@@ -32,7 +32,7 @@ export default function WelcomePageNav({ className, blurNav }) {
                             </div>
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block w-auto fill-current text-gray-800" />
+                                    <ApplicationLogo className="block w-52" />
                                 </Link>
                             </div>
 
