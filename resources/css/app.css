@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fc-daygrid-day.fc-day-mon,
+.fc-daygrid-day.fc-day-wed,
+.fc-daygrid-day.fc-day-fri {
+    background-color: #000000;
+    cursor: pointer;
+}
+
+.fc-daygrid-day.fc-day-sun,
+.fc-daygrid-day.fc-day-tue,
+.fc-daygrid-day.fc-day-thu,
+.fc-daygrid-day.fc-day-sat {
+    background-color: #333333;
+}
+
+.fc-header-toolbar {
+    width: 75%;
+    margin-right: auto;
+    margin-left: auto;
+}
