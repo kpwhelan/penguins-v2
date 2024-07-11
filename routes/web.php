@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->prefix('calendar')->group(function () {
     Route::get('/', [CalendarController::class, 'index'])->name('calendar');
+    Route::post('/event', [CalendarController::class, 'signUp'])->name('calendar.signup');
 });
 
 Route::post('/contact', [ContactController::class, 'sendNewContactEmail'])->name('contact.send');
