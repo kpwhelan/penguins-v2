@@ -7,7 +7,7 @@ export default function SignUpContent({signUpDate, submitSignUp, toggleSetDispla
 
     return (
         <div className='p-4'>
-            <p className='text-lg font-bold text-black'>{isSignUpOverride ? overrideText : signUpText}</p>
+            <p className='text-xl font-bold text-black'>{isSignUpOverride ? overrideText : signUpText}</p>
             <p className='text-lg text-black'>For date: {signUpDate}</p>
             <p className='text-lg text-red-400'>Reminder: You must be at deck duty no later than 6:20!</p>
             <div className='w-[75%] mx-auto mt-4 mb-4 flex justify-end'>

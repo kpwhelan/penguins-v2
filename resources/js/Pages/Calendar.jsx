@@ -7,6 +7,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import Modal from '@/Components/Modal';
 import SignUpContent from '@/Components/SignUpContent';
+import { Head } from '@inertiajs/react';
 
 export default function Calendar({ events, auth }) {
     const editableDays = ['fc-day-mon', 'fc-day-wed', 'fc-day-fri'];
@@ -84,7 +85,9 @@ export default function Calendar({ events, auth }) {
         <AuthenticatedLayout
             user={auth.user}
         >
-            <div className='w-[75%] mx-auto'>
+            <Head title="Deck Duty Calendar" />
+
+            <div className='w-[75%] mx-auto mt-8'>
                 <h1 className='text-3xl'>Deck Duty</h1>
             </div>
 
