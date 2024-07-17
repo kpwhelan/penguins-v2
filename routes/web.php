@@ -3,6 +3,7 @@
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WorkoutsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +36,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('calendar')->group(function () {
     Route::get('/', [CalendarController::class, 'index'])->name('calendar');
     Route::post('/event', [CalendarController::class, 'signUp'])->name('calendar.signup');
+});
+
+Route::middleware('auth')->prefix('workouts')->group(function () {
+    Route::get('/', [WorkoutsController::class, 'index'])->name('workouts');
+    Route::post('/', [WorkoutsController::class, 'create'])->name('workouts.create');
 });
 
 Route::post('/contact', [ContactController::class, 'sendNewContactEmail'])->name('contact.send');

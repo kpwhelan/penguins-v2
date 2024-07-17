@@ -55,6 +55,20 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+        'digital-ocean' => [
+            'driver' => 's3',
+            'key' => env('DO_SPACES_KEY'),
+            'secret' => env('DO_SPACES_SECRET'),
+            'region' => env('DO_DEFAULT_REGION'),
+            'bucket' => env('DO_BUCKET'),
+            // 'folder' => env('DO_FOLDER'),
+            'cdn_endpoint' => env('DO_CDN_ENDPOINT'),
+            'bucket_endpoint' => true,
+            'url' => env('DO_ENDPOINT'),
+            'endpoint' => env('DO_ENDPOINT'),
+            'throw' => false,
+            'visibility' => 'public'
+        ],
 
     ],
 
