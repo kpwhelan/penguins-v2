@@ -2,16 +2,34 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import WorkoutsContainer from '@/Containers/WorkoutsContainer';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { Card, CardBody, CardFooter, Typography } from '@material-tailwind/react';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 export default function Workouts({ auth, workouts }) {
-    console.log(workouts)
+    // const [stateWorkouts, setStateWorkouts] = useState([]);
     const [fileData, setFileData] = useState(null);
     const [date, setDate] = useState(new Date());
+
+    const months = {
+        '01': 'Jan',
+        '02': 'Feb',
+        '03': 'Mar',
+        '04': 'Apr',
+        '05': 'May',
+        '06': 'Jun',
+        '07': 'Jul',
+        '08': 'Aug',
+        '09': 'Sep',
+        '10': 'Oct',
+        '11': 'Nov',
+        '12': 'Dec'};
+
+    // useEffect(() => {
+    //     setStateWorkouts(workouts);
+    // }, []);
 
     const handleSelectedFile = (e) => {
         setFileData(e.target.files[0]);
@@ -83,8 +101,35 @@ export default function Workouts({ auth, workouts }) {
                 </form>
             </div>
 
-            <WorkoutsContainer>
+            <WorkoutsContainer className='flex justify-around mt-4'>
+                {Object.keys(workouts).map(yearKey => {
+                    return <Card className='bg-black h-fit'>
+                        <CardBody>
+                            <Typography variant='lead' color='white'>{yearKey}</Typography>
 
+                            {Object.keys(workouts[yearKey]).map(monthKey => {
+                                return <CardBody className='bg-black p-2'>
+                                    <Typography variant='lead' color='white'>{months[monthKey]}</Typography>
+
+                                    {workouts[yearKey][monthKey].map(workout => {
+                                        return <Typography><a href={workout.file_cdn} target='_blank'>{workout.file_path}</a></Typography>
+                                    })}
+                                </CardBody>
+                            })}
+                        </CardBody>
+                    </Card>
+                    // return <div className='bg-blue-gray-500'>
+                    //     <p>Year: {yearKey}</p>
+                    //     {Object.keys(workouts[yearKey]).map(monthKey => {
+                    //         return <div className='bg-deep-orange-800'>
+                    //             <p>Month: {monthKey}</p>
+                    //             {Object.keys(workouts[yearKey][monthKey]).map(workout => {console.log(workout)
+                    //                 return <p>{workout.file_path}</p>
+                    //             })}
+                    //         </div>
+                    //     })}
+                    // </div>
+                })}
             </WorkoutsContainer>
         </AuthenticatedLayout>
     );
