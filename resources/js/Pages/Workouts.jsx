@@ -6,12 +6,19 @@ import { Head, Link } from '@inertiajs/react';
 import { Card, CardBody, CardFooter, Typography } from '@material-tailwind/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Workouts({ auth, workouts }) {
-    // const [stateWorkouts, setStateWorkouts] = useState([]);
+    const [stateWorkouts, setStateWorkouts] = useState({});
     const [fileData, setFileData] = useState(null);
     const [date, setDate] = useState(new Date());
+
+    const notifySuccess = (message) => toast.success(message);
+    const notifyError = (message) => toast.error(message);
+
+    useEffect(() => {
+        setStateWorkouts(workouts);
+    }, [])
 
     const months = {
         '01': 'Jan',
@@ -26,10 +33,6 @@ export default function Workouts({ auth, workouts }) {
         '10': 'Oct',
         '11': 'Nov',
         '12': 'Dec'};
-
-    // useEffect(() => {
-    //     setStateWorkouts(workouts);
-    // }, []);
 
     const handleSelectedFile = (e) => {
         setFileData(e.target.files[0]);
@@ -56,10 +59,11 @@ export default function Workouts({ auth, workouts }) {
         .then(res => {
             let form = document.querySelector('#workout-form');
             form.reset();
-            console.log(res)
+            notifySuccess(res.data.message);
+            setStateWorkouts(res.data.workouts);
         })
         .catch(error => {
-            console.log(error)
+            notifyError(error.response.data.message)
         })
     }
     return (
@@ -67,6 +71,8 @@ export default function Workouts({ auth, workouts }) {
             user={auth.user}
         >
             <Head title="Workouts" />
+
+            <Toaster toastOptions={{duration: 8000, style: {marginTop: '10px'}}} />
 
             <div className='w-[80%] mx-auto mt-20'>
                 <form onSubmit={submit} id="workout-form">
@@ -101,34 +107,23 @@ export default function Workouts({ auth, workouts }) {
                 </form>
             </div>
 
-            <WorkoutsContainer className='flex justify-around mt-4'>
-                {Object.keys(workouts).map(yearKey => {
-                    return <Card className='bg-black h-fit'>
+            <WorkoutsContainer className='mt-4 w-[80%] mx-auto'>
+                {Object.keys(stateWorkouts).map(yearKey => {
+                    return <Card className='bg-black h-fit mt-2' key={yearKey}>
                         <CardBody>
                             <Typography variant='lead' color='white'>{yearKey}</Typography>
 
-                            {Object.keys(workouts[yearKey]).map(monthKey => {
-                                return <CardBody className='bg-black p-2'>
+                            {Object.keys(stateWorkouts[yearKey]).map(monthKey => {
+                                return <CardBody className='bg-black p-2' key={yearKey + monthKey}>
                                     <Typography variant='lead' color='white'>{months[monthKey]}</Typography>
 
-                                    {workouts[yearKey][monthKey].map(workout => {
-                                        return <Typography><a href={workout.file_cdn} target='_blank'>{workout.file_path}</a></Typography>
+                                    {stateWorkouts[yearKey][monthKey].map(workout => {
+                                        return <Typography key={workout.id}><a className='text-[#E2DFD2]' href={workout.file_cdn} target='_blank'>{workout.file_name}</a></Typography>
                                     })}
                                 </CardBody>
                             })}
                         </CardBody>
                     </Card>
-                    // return <div className='bg-blue-gray-500'>
-                    //     <p>Year: {yearKey}</p>
-                    //     {Object.keys(workouts[yearKey]).map(monthKey => {
-                    //         return <div className='bg-deep-orange-800'>
-                    //             <p>Month: {monthKey}</p>
-                    //             {Object.keys(workouts[yearKey][monthKey]).map(workout => {console.log(workout)
-                    //                 return <p>{workout.file_path}</p>
-                    //             })}
-                    //         </div>
-                    //     })}
-                    // </div>
                 })}
             </WorkoutsContainer>
         </AuthenticatedLayout>

@@ -13,5 +13,6 @@ class Workout extends Model
         'file_path',
         'file_cdn',
         'workout_date',
+        'file_name'
     ];
 }

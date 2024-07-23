@@ -52,7 +52,6 @@ export default function Calendar({ events, auth }) {
         })
         .then(res => {
             if (res.data.success) {
-                console.log(res.data)
                 toggleSetDisplaySignUpModal();
                 setIsSignUpOverride(false);
                 notifySuccess(res.data.message);
@@ -110,7 +109,7 @@ export default function Calendar({ events, auth }) {
                 initialView='dayGridMonth'
                 editable={true}
                 eventInteractive={true}
-                eventClick={() => alert('hi')}
+                // eventClick={() => alert('hi')}
                 dateClick={(day) => handleDayClick(day)}
                 events={stateEvents}
                 eventContent={renderEventContent}
