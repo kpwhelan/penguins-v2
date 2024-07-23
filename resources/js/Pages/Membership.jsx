@@ -13,7 +13,7 @@ export default function Membership() {
         window.scrollY >= 35 ? setBlurNav(true) : setBlurNav(false);
     }
 
-    
+
     window.addEventListener('scroll', handleScroll);
 
     return (
@@ -22,7 +22,7 @@ export default function Membership() {
 
             <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" blurNav={blurNav} />
 
-            <div className="animate__animated animate__slower animate__fadeIn h-96 bg-membershipPageBackground bg-cover flex align-middle justify-center items-center opacity-90">
+            <div className="animate__animated animate__slower animate__fadeIn h-96 bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-background.jpg')] bg-cover flex align-middle justify-center items-center opacity-90">
                 <div className="text-center bg-[#333333] bg-opacity-30 px-2">
                     <p className=" text-7xl font-extrabold">Membership & Equipment</p>
                 </div>
@@ -64,7 +64,7 @@ export default function Membership() {
                         <ContactForm />
                     </ContactFormContainer>
                 </div>
-                
+
             </MembershipPageInfoContainer>
         </main>
     );
