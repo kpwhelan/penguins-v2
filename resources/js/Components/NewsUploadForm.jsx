@@ -59,7 +59,7 @@ export default function NewsUploadForm({ className }) {
                             Upload a News Item
                         </Typography>
 
-                        <InputLabel className='text-white text-lg'>Image <span className="text-sm">(optional)</span></InputLabel>
+                        <InputLabel className='text-white text-xl'>Image <span className="text-sm">(optional)</span></InputLabel>
                         <input
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-md p-2 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                         aria-describedby="file_input_help"
@@ -69,7 +69,7 @@ export default function NewsUploadForm({ className }) {
                         />
 
                         <div className="mt-2">
-                            <InputLabel className="text-white" htmlFor="title" value="Title (optional)" />
+                            <InputLabel className="text-white text-xl" htmlFor="title">Title <span className="text-sm">(optional)</span></InputLabel>
 
                             <TextInput
                                 id="title"
@@ -83,7 +83,7 @@ export default function NewsUploadForm({ className }) {
                         </div>
 
                         <div className="mt-2 w-full">
-                            <InputLabel className="text-white" htmlFor="body" value="Body" />
+                            <InputLabel className="text-white text-xl" htmlFor="body" value="Body" />
 
                             {/* <TextInput
                                 id="body"
