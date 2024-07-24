@@ -2,7 +2,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import WorkoutsContainer from '@/Containers/WorkoutsContainer';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { Card, CardBody, CardFooter, Typography } from '@material-tailwind/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -57,10 +57,12 @@ export default function Workouts({ auth, workouts }) {
             }
         })
         .then(res => {
-            let form = document.querySelector('#workout-form');
-            form.reset();
-            notifySuccess(res.data.message);
-            setStateWorkouts(res.data.workouts);
+            if (res.data.success) {
+                let form = document.querySelector('#workout-form');
+                form.reset();
+                notifySuccess(res.data.message);
+                setStateWorkouts(res.data.workouts);
+            }
         })
         .catch(error => {
             notifyError(error.response.data.message)

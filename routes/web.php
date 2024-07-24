@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\NewsItemsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkoutsController;
 use App\Models\Event;
@@ -62,6 +63,11 @@ Route::middleware('auth')->prefix('calendar')->group(function () {
 Route::middleware('auth')->prefix('workouts')->group(function () {
     Route::get('/', [WorkoutsController::class, 'index'])->name('workouts');
     Route::post('/', [WorkoutsController::class, 'create'])->name('workouts.create');
+});
+
+Route::middleware('auth')->prefix('news')->group(function () {
+    Route::get('/', [NewsItemsController::class, 'index'])->name('newsitems');
+    Route::post('/', [NewsItemsController::class, 'create'])->name('newsitems.create');
 });
 
 Route::post('/contact', [ContactController::class, 'sendNewContactEmail'])->name('contact.send');
