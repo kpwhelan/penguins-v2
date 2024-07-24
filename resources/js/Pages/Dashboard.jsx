@@ -9,7 +9,7 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-2xl text-white leading-tight">Hello, {auth.user.first_name}!</h2>}
+            header={<h2 className="font-semibold text-4xl text-white leading-tight">Hello, {auth.user.first_name}!</h2>}
         >
             <Head title="Dashboard" />
 
@@ -29,6 +29,8 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
                     {!!auth.user.is_admin &&
                         <NewsUploadForm className=' mt-14' />
                     }
+
+
                 </div>
 
                <div className='w-[50%]'>

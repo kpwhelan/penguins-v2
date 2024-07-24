@@ -14,7 +14,7 @@ export default function Directory({ auth, users }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-2xl text-white leading-tight">Directory</h2>}
+            header={<h2 className="font-semibold text-4xl text-white leading-tight">Directory</h2>}
         >
             <Head title="Directory" />
 
