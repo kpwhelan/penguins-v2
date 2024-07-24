@@ -14,12 +14,12 @@ export default function Directory({ auth, users }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-white leading-tight">Directory</h2>}
+            header={<h2 className="font-semibold text-2xl text-white leading-tight">Directory</h2>}
         >
             <Head title="Directory" />
 
             <div className="w-full mt-6 ml-[5%]">
-                <input onChange={handleSearch} id="search-bar" className="text-black w-80" type="text" placeholder="Search by name..." aria-label="Search" />
+                <input onChange={handleSearch} id="search-bar" className="text-black w-80 rounded-md" type="text" placeholder="Search by name..." aria-label="Search" />
             </div>
 
             <DirectoryListingsContainer className='w-[90%] mx-auto flex flex-wrap justify-between'>

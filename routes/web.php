@@ -4,8 +4,11 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkoutsController;
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,14 +28,25 @@ Route::get('/about-us', function () {
 })->name('about-us');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $user_id = Auth::user()->id;
+    $deck_duty_count = Event::where('user_id', '=', $user_id)
+        ->whereDate('date', '>', Carbon::now()->subDays(30))
+        ->whereDate('date', '<', Carbon::now())
+        ->get()
+        ->count();
+
+    $next_deck_duty = Event::where('user_id', '=', $user_id)
+        ->whereDate('date', '>=', Carbon::today())
+        ->first();
+
+    return Inertia::render('Dashboard', ['deck_duty_count' => $deck_duty_count, 'next_deck_duty' => $next_deck_duty]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/directory', function () {
     $users = User::where('is_sharing_info', '1')->get();
 
     return Inertia::render('Directory', ['users' => $users]);
-})->name('directory');
+})->middleware('auth')->name('directory');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

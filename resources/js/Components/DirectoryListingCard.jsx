@@ -4,7 +4,7 @@ export default function DirectoryListingCard({ user }) {
     return (
         <Card className="mt-6 w-96">
             <CardBody>
-                <Typography variant="h5" color="blue-gray" className="mb-2">
+                <Typography variant="h3" color="blue-gray" className="mb-2">
                     {user.first_name} {user.last_name}
                 </Typography>
                 <Typography>
@@ -19,7 +19,7 @@ export default function DirectoryListingCard({ user }) {
                 <Typography>
                     {user.phone_number}
                 </Typography>
-                <p className="text-blue">
+                <p className="text-blue text-xl">
                     <a href={`mailto:${user.email}`}>{user.email}</a>
                 </p>
             </CardBody>

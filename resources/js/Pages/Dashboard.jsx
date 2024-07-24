@@ -1,20 +1,36 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
-export default function Dashboard({ auth }) {
+export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
+    const signUpMoreText = 'You should head over to the calendar and sign up for a few more!';
+    const goodJobText = 'Nice job!';
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-white leading-tight">Hello, {auth.user.first_name}</h2>}
+            header={<h2 className="font-semibold text-2xl text-white leading-tight">Hello, {auth.user.first_name}!</h2>}
         >
             <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6">You're logged in!</div>
-                    </div>
+            <div className="w-[70%] mx-auto mt-10 flex justify-between">
+                <div className='w-[40%]'>
+                    <p className='mt-4 font-semibold text-xl'>In the last 30 days you did deck duty...</p>
+                    <p className='font-bold text-6xl'>{deck_duty_count}x</p>
+                    <p className='mt-2 text-3xl font-semibold'>{deck_duty_count > 1 ? goodJobText : signUpMoreText}</p>
+
+                    <p className='mt-10 font-semibold text-xl'>Your next deck duty is...</p>
+                    {next_deck_duty ?
+                        <p className='font-bold text-5xl mt-2'>{next_deck_duty.date}</p>
+                        :
+                        <p className='font-bold text-3xl mt-2'>You're not signed up for any deck duty, you should head over to the calendar and fix that!</p>
+                    }
+
+                    {/* {} */}
+                    {/* <p className='font-bold text-5xl'>{next_deck_duty ? next_deck_duty.date : 'You\'re not signed up for any deck duty, you should head over to the calendar and fix that!'}</p> */}
                 </div>
+
+               <div className='w-[50%]'>
+                    <img className='rounded-md' src='https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/underwater.jpg'></img>
+               </div>
             </div>
         </AuthenticatedLayout>
     );

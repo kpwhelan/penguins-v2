@@ -69,7 +69,7 @@ export default function Workouts({ auth, workouts }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-white leading-tight">Workouts</h2>}
+            header={<h2 className="font-semibold text-2xl text-white leading-tight">Workouts</h2>}
         >
             <Head title="Workouts" />
 
