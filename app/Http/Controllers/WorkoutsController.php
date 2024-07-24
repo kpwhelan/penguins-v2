@@ -33,7 +33,16 @@ class WorkoutsController extends Controller {
             ], 500);
         }
 
-        $results = $this->uploadWorkoutDigitalOcean($workout_file, $year, $month);
+        try {
+            $results = $this->uploadWorkoutDigitalOcean($workout_file, $year, $month);
+        } catch (Exception $e) {
+            Log::error($e);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Uh oh, something went wrong uploading the workout. Try again or notify support.'
+            ], 500);
+        }
 
         if (!$results['success']) {
             return response()->json([

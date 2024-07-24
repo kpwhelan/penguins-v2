@@ -23,11 +23,19 @@ class NewsItemsController extends Controller {
         $path = '';
 
         if ($news_image) {
-            $this->image_upload_results = $this->uploadImageDigitalOcean($news_image);
+            try {
+                $this->image_upload_results = $this->uploadImageDigitalOcean($news_image);
+            } catch(Exception) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Uh oh, something went wrong uploading that image. Try again or contact support.'
+                ], 500);
+            }
+
             $path = $this->image_upload_results['path'];
         }
 
-        if ($news_image && !$this->image_upload_results['success']) {
+        if (isset($news_image) && !$this->image_upload_results['success']) {
             return response()->json([
                 'success' => false,
                 'message' => 'Uh oh, something went wrong uploading that image. Try again or contact support.'
