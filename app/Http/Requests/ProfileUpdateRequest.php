@@ -24,7 +24,8 @@ class ProfileUpdateRequest extends FormRequest
             'zipcode' => ['string', 'nullable'],
             'phone_number' => ['string', 'nullable'],
             'emergency_contact' => ['string', 'nullable'],
-            'emergency_contact_phone' => ['string', 'nullable']
+            'emergency_contact_phone' => ['string', 'nullable'],
+            'is_sharing_info' => ['boolean']
         ];
     }
 }

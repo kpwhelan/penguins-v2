@@ -21,7 +21,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         city: user.city,
         state: user.state,
         zipcode: user.zipcode,
-        is_sharing_info: user.is_sharing_info,
+        is_sharing_info: user.is_sharing_info === '1' ? true : false,
         emergency_contact: user.emergency_contact,
         emergency_contact_phone: user.emergency_contact_phone
     });
@@ -217,7 +217,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         onChange={(e) => setData('is_sharing_info', e.target.checked)}
                     />
 
-                    <InputError className="mt-2" message={errors.zipcode} />
+                    <InputError className="mt-2" message={errors.is_sharing_info} />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
