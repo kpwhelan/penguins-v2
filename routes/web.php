@@ -6,17 +6,20 @@ use App\Http\Controllers\NewsItemsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkoutsController;
 use App\Models\Event;
+use App\Models\NewsItem;
 use App\Models\User;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    $news_items = NewsItem::all();
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
+        'newsItems' => $news_items
     ]);
 });
 

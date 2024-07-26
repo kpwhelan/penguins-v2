@@ -7,8 +7,10 @@ import UnderwaterImage from '../../../public/assets/underwater.jpg'
 import NewsContainer from '@/Containers/NewsContainer';
 import EventsContainer from '@/Containers/EventsContainer';
 import swimBackground from '../../../public/assets/swim-background.jpg';
+import NewsItemCard from '@/Components/NewsItemCard';
+import { Carousel } from '@material-tailwind/react';
 
-export default function Welcome({ auth }) {
+export default function Welcome({ auth, newsItems }) {
     return (
         <>
             <Head title="Granite State Penguins" />
@@ -26,17 +28,16 @@ export default function Welcome({ auth }) {
                     </div>
                 </WelcomePageContainer>
 
-                <div className='flex justify-around'>
-                    <NewsContainer className="text-black">
-                        <p>News will go here...</p>
-                    </NewsContainer>
+                <NewsContainer className="text-white mt-10 ml-10 w-[95%] p-4 rounded-md">
+                    {/* <h2 className='text-6xl font-semibold'>Penguins News</h2> */}
+                        {newsItems.map(newsItem => {
+                            return <NewsItemCard className='w-1/3 h-fit mt-4 rounded-md p-2' newsItem={newsItem} />
+                        })}
+                </NewsContainer>
 
-                    <EventsContainer className="text-black">
-                        <p>Events will go here...</p>
-                    </EventsContainer>
-                </div>
 
-                <AboutUsContainer className='mt-2 w-[95%] text-center mx-auto'>
+
+                <AboutUsContainer className='mt-10 w-[95%] text-center mx-auto'>
                     <div className='flex justify-between'>
                         <div className='text-xl w-[90%] mx-auto'>
                             <h2 className='text-6xl mb-4'>Who Are the Penguins?</h2>
