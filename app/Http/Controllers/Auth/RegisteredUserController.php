@@ -13,8 +13,15 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisteredUserController extends Controller
-{
+class RegisteredUserController extends Controller {
+    public function index() {
+        $users = User::all();
+
+        return response()->json([
+            'success' => true,
+            'users' => $users
+        ]);
+    }
     /**
      * Display the registration view.
      */

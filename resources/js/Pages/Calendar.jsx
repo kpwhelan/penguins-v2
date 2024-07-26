@@ -9,6 +9,7 @@ import Modal from '@/Components/Modal';
 import SignUpContent from '@/Components/SignUpContent';
 import { Head } from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
+import BulkSignUpContent from '@/Components/BulkSingUpContent';
 
 export default function Calendar({ events, auth }) {
     const editableDays = ['fc-day-mon', 'fc-day-wed', 'fc-day-fri'];
@@ -17,6 +18,7 @@ export default function Calendar({ events, auth }) {
 
     const [stateEvents, setStateEvents] = useState([]);
     const [displaySignUpModal, setDisplaySignUpModal] = useState(false);
+    const [displayBulkSignUpModal, setDisplayBulkSignUpModal] = useState(false);
     const [signUpDate, setSignUpDate] = useState('');
     const [isSignUpOverride, setIsSignUpOverride] = useState(false);
     const [isViewingBulk, setIsViewingBulk] = useState(false);
@@ -39,6 +41,15 @@ export default function Calendar({ events, auth }) {
         setIsViewingBulk(isViewingBulk ? false : true);
       }
 
+      const toggleSetDisplaySignUpModal = () => {
+        if (displaySignUpModal) setSignUpDate('');
+        setDisplaySignUpModal(displaySignUpModal ? false : true);
+      }
+
+      const toggleSetDisplayBulkSignUpModal = () => {
+        setDisplayBulkSignUpModal(displayBulkSignUpModal ? false : true);
+      }
+
       const isEditableDay = (day) => {
         const dayClassList = day.dayEl.classList.value;
         let isEditable = false;
@@ -47,11 +58,6 @@ export default function Calendar({ events, auth }) {
         })
 
         return isEditable;
-      }
-
-      const toggleSetDisplaySignUpModal = () => {
-        if (displaySignUpModal) setSignUpDate('');
-        displaySignUpModal ? setDisplaySignUpModal(false) : setDisplaySignUpModal(true);
       }
 
       const submitSignUp = (date) => {
@@ -73,6 +79,25 @@ export default function Calendar({ events, auth }) {
         })
       }
 
+      const submitBulkSignUp = (user) => {
+        axios.post(route('calendar.bulk.signup'), {
+            'dates': bulkEditSelectedDays,
+            'user_id': user
+        })
+        .then(res => {
+            if (res.data.success) {
+                toggleSetDisplayBulkSignUpModal();
+                setBulkEditSelectedDays([]);
+                notifySuccess(res.data.message);
+                setStateEvents(res.data.events);
+            }
+        })
+        .catch(error => {
+            toggleSetDisplayBulkSignUpModal();
+            notifyError(error.response.data.message);
+        })
+      }
+
       const handleDayClick = (day) => {
         //make sure it's a day you can actually sign up for
         if (isEditableDay(day)) {
@@ -88,9 +113,7 @@ export default function Calendar({ events, auth }) {
         }
       }
 
-      const handleBulkEditDayLick = (day, cell) => {
-        console.log(day)
-        
+      const handleBulkEditDayLick = (day) => {
         if (bulkEditSelectedDays.includes(day.dateStr)) {
             setBulkEditSelectedDays(bulkEditSelectedDays.filter(item => item !== day.dateStr));
             day.dayEl.style.backgroundColor = 'black';
@@ -114,8 +137,14 @@ export default function Calendar({ events, auth }) {
                 {!!auth.user.is_admin &&
                     <>
                         <p>Currently Viewing: <span className='text-xl font-semibold'>{isViewingBulk ? 'Bulk Edit Calendar' : 'Standard Calendar'}</span></p>
-                        <PrimaryButton onClick={toggleIsViewingBulk} className='mt-1 active:none'>{isViewingBulk ? 'Switch To Regular Calendar' : 'Switch To Bulk Edit'}</PrimaryButton>
-                        <PrimaryButton onClick={checker}>Click Me!!!</PrimaryButton>
+                        <div className='flex justify-between mt-1 w-[30%]'>
+                            <PrimaryButton onClick={toggleIsViewingBulk}>{isViewingBulk ? 'Switch To Regular Calendar' : 'Switch To Bulk Edit'}</PrimaryButton>
+                            <div>
+                                {(!!auth.user.is_admin && bulkEditSelectedDays.length > 0 && isViewingBulk) &&
+                                    <PrimaryButton onClick={toggleSetDisplayBulkSignUpModal}>Select Swimmer</PrimaryButton>
+                                }
+                            </div>
+                        </div>
                     </>
                 }
             </div>
@@ -130,6 +159,16 @@ export default function Calendar({ events, auth }) {
                         submitSignUp={submitSignUp}
                         isSignUpOverride={isSignUpOverride}
                     />
+                </Modal>
+            }
+
+            {(!!auth.user.is_admin && displayBulkSignUpModal) &&
+                <Modal show={displayBulkSignUpModal}>
+                    <BulkSignUpContent
+                        toggleSetDisplayBulkSignUpModal={toggleSetDisplayBulkSignUpModal}
+                        bulkEditSelectedDays={bulkEditSelectedDays}
+                        submitBulkSignUp={submitBulkSignUp}
+                     />
                 </Modal>
             }
 

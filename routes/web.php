@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsItemsController;
@@ -72,6 +73,10 @@ Route::middleware('auth')->prefix('workouts')->group(function () {
 Route::middleware('auth')->prefix('news')->group(function () {
     Route::get('/', [NewsItemsController::class, 'index'])->name('newsitems');
     Route::post('/', [NewsItemsController::class, 'create'])->name('newsitems.create');
+});
+
+Route::middleware('auth')->prefix('user')->group(function () {
+    Route::get('/', [RegisteredUserController::class, 'index'])->name('users');
 });
 
 Route::post('/contact', [ContactController::class, 'sendNewContactEmail'])->name('contact.send');
