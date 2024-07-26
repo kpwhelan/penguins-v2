@@ -38,7 +38,8 @@ export default function BulkSignUpContent({ bulkEditSelectedDays, toggleSetDispl
             })}
 
             <select onChange={(e) => handleSelectedUser(e)} className="bg-gray-50 mt-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option defaultValue='0'>User</option>
+                <option value=''>Select User</option>
+                <option value="clear">No User - This will clear all selected dates</option>
                 {users.map(user => {
                     return <option key={user.id} value={user.id}>{user.first_name} {user.last_name}</option>
                 })}
