@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventRequest;
 use App\Models\Event;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class CalendarController extends Controller {
@@ -12,7 +14,7 @@ class CalendarController extends Controller {
         return Inertia::render('Calendar', ['events' => Event::all()]);
     }
 
-    public function signUp(EventRequest $request) {
+    public function signUp(EventRequest $request): JsonResponse {
         $date = $request->input('date');
         $user = Auth::user();
 
@@ -32,5 +34,9 @@ class CalendarController extends Controller {
             'success' => true,
             'events'   => Event::all(),
         ], 201);
+    }
+
+    public function bulkSignUp(Request $request) {
+        
     }
 }

@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('calendar')->group(function () {
     Route::get('/', [CalendarController::class, 'index'])->name('calendar');
     Route::post('/event', [CalendarController::class, 'signUp'])->name('calendar.signup');
+    Route::post('/bulk-event', [CalendarController::class, 'bulkSignUp'])->name('calendar.bulk.signup');
 });
 
 Route::middleware('auth')->prefix('workouts')->group(function () {
