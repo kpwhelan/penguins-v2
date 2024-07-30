@@ -21,7 +21,7 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
 
                     <p className='mt-10 font-semibold text-xl'>Your next deck duty is...</p>
                     {next_deck_duty ?
-                        <p className='font-bold text-5xl mt-2'>{next_deck_duty.date}</p>
+                        <p className='font-bold text-4xl mt-2'>{next_deck_duty.date}</p>
                         :
                         <p className='font-bold text-3xl mt-2'>You're not signed up for any deck duty, you should head over to the calendar and fix that!</p>
                     }
