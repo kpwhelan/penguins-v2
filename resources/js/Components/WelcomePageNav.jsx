@@ -20,11 +20,11 @@ export default function WelcomePageNav({ className, blurNav }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex mx-auto justify-between">
-                            <div className="hidden space-x-8 sm:-my-px sm:me-10 sm:flex">
+                            {/* <div className="hidden space-x-8 sm:-my-px sm:me-10 sm:flex">
                                 <NavLink href={route('about-us')} active={route().current('about-us')}>
                                     About Us
                                 </NavLink>
-                            </div>
+                            </div> */}
                             <div className="hidden space-x-8 sm:-my-px sm:me-10 sm:flex">
                                 <NavLink href={route('membership')} active={route().current('membership')}>
                                     Membership

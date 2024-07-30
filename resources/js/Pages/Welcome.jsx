@@ -36,19 +36,17 @@ export default function Welcome({ auth, newsItems }) {
                     </div>
                 </WelcomePageContainer>
 
-                <NewsContainer className="text-white mt-10 w-[60%] mx-auto p-4 rounded-md">
+                <NewsContainer className="text-white mt-10 w-[80%] mx-auto">
                     <h2 className='text-6xl font-semibold'>Penguins News</h2>
 
-                    <Carousel className="rounded-md w-[90%] h-[800px] mx-auto mt-6">
+                    <Carousel className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 items-center">
                         {newsItems.map(newsItem => {
-                            return <NewsItemCard className='rounded-md p-2' newsItem={newsItem} />
+                            return <NewsItemCard className='rounded-md' newsItem={newsItem} />
                         })}
                     </Carousel>
                 </NewsContainer>
 
-
-
-                <AboutUsContainer className='mt-20 w-[95%] text-center mx-auto'>
+                <AboutUsContainer className=' mt-28 w-[95%] text-center mx-auto'>
                     <div className='flex justify-between'>
                         <div className='text-xl w-[90%] mx-auto'>
                             <h2 className='text-6xl mb-4'>Who Are the Penguins?</h2>
