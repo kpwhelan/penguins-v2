@@ -7,15 +7,24 @@ import NewsContainer from '@/Containers/NewsContainer';
 import swimBackground from '../../../public/assets/swim-background.jpg';
 import NewsItemCard from '@/Components/NewsItemCard';
 import { Carousel } from '@material-tailwind/react';
+import { useState } from 'react';
 
 export default function Welcome({ auth, newsItems }) {
+    const [blurNav, setBlurNav] = useState(false);
+
+    const handleScroll = () => {
+        window.scrollY >= 35 ? setBlurNav(true) : setBlurNav(false);
+    }
+
+
+    window.addEventListener('scroll', handleScroll);
 
     return (
         <>
             <Head title="Granite State Penguins" />
 
             <main>
-                <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" />
+                <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" blurNav={blurNav} />
                 <WelcomePageContainer className="relative flex items-center justify-center h-screen overflow-hidden">
                     <div className='text-center animate__animated animate__slower animate__fadeIn'>
                         <h1 className='z-30 font-extrabold text-7xl'>The Granite State Penguins</h1>
