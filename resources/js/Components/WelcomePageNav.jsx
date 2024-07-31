@@ -36,11 +36,11 @@ export default function WelcomePageNav({ className, blurNav }) {
                                 </Link>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            {/* <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                    News
                                 </NavLink>
-                            </div>
+                            </div> */}
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
@@ -48,11 +48,11 @@ export default function WelcomePageNav({ className, blurNav }) {
                                 </NavLink>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            {/* <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink>
                                     Contact
                                 </NavLink>
-                            </div>
+                            </div> */}
 
                             {/* <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('')} active={route().current('')}>

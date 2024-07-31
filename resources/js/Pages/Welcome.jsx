@@ -29,14 +29,10 @@ export default function Welcome({ auth, newsItems }) {
                     <div className='text-center animate__animated animate__slower animate__fadeIn'>
                         <h1 className='z-30 font-extrabold text-7xl'>The Granite State Penguins</h1>
                         <h2 className='z-30 font-semibold text-5xl'>Masters Swim Team</h2>
-                        {/* <div className='flex justify-around'>
-                            <button className='p-2 rounded-lg bg-[#01a8d4] mt-2'>Locations</button>
-                            <button className='p-2 rounded-lg bg-[#01a8d4] mt-2'>News</button>
-                        </div> */}
                     </div>
                 </WelcomePageContainer>
 
-                <NewsContainer className="text-white mt-10 w-[80%] mx-auto">
+                <NewsContainer className="text-white mt-10 w-[90%] p-10 mx-auto bg-sectionBackground bg-no-repeat bg-contain rounded-md">
                     <h2 className='text-6xl font-semibold'>Pengins News</h2>
 
                     <Carousel className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 items-center">
