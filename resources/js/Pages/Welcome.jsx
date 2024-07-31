@@ -32,14 +32,18 @@ export default function Welcome({ auth, newsItems }) {
                     </div>
                 </WelcomePageContainer>
 
-                <NewsContainer className="text-white mt-10 w-[90%] p-10 mx-auto bg-sectionBackground bg-no-repeat bg-contain rounded-md">
+                <NewsContainer className="text-white mt-10 w-[90%] p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-no-repeat bg-cover rounded-md">
                     <h2 className='text-6xl font-semibold'>Pengins News</h2>
 
-                    <Carousel className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 items-center">
-                        {newsItems.map(newsItem => {
-                            return <NewsItemCard className='rounded-md' newsItem={newsItem} />
-                        })}
-                    </Carousel>
+                    {newsItems && newsItems.length > 0 ?
+                        <Carousel className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 items-center">
+                            {newsItems.map(newsItem => {
+                                return <NewsItemCard className='rounded-md' newsItem={newsItem} />
+                            })}
+                        </Carousel>
+                        :
+                        <p className='text-2xl ml-10 mt-6'>No News Yet...</p>
+                    }
                 </NewsContainer>
 
                 <hr className="my-12 h-0.5 border-t-0 bg-white dark:bg-white/10" />
@@ -63,7 +67,7 @@ export default function Welcome({ auth, newsItems }) {
                         </div>
 
                         <div>
-                            <img src={swimBackground} className='mx-auto h-[100%] w-[90%] object-none object-right-bottom'></img>
+                            <img src={swimBackground} className='mx-auto h-[100%] w-[90%] object-none object-right-bottom rounded-md'></img>
                         </div>
                     </div>
                 </AboutUsContainer>

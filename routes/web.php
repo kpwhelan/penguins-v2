@@ -6,7 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsItemsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkoutsController;
-use App\Models\Event;
+use App\Models\DeckDutyEvent;
 use App\Models\NewsItem;
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -34,13 +34,13 @@ Route::get('/about-us', function () {
 
 Route::get('/dashboard', function () {
     $user_id = Auth::user()->id;
-    $deck_duty_count = Event::where('user_id', '=', $user_id)
+    $deck_duty_count = DeckDutyEvent::where('user_id', '=', $user_id)
         ->whereDate('date', '>', Carbon::now()->subDays(30))
         ->whereDate('date', '<', Carbon::now())
         ->get()
         ->count();
 
-    $next_deck_duty = Event::where('user_id', '=', $user_id)
+    $next_deck_duty = DeckDutyEvent::where('user_id', '=', $user_id)
         ->whereDate('date', '>=', Carbon::today())
         ->first();
 

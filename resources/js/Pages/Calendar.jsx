@@ -11,7 +11,7 @@ import { Head } from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
 import BulkSignUpContent from '@/Components/BulkSingUpContent';
 
-export default function Calendar({ events, auth }) {
+export default function Calendar({ deckDutyEvents, auth }) {
     const editableDays = ['fc-day-mon', 'fc-day-wed', 'fc-day-fri'];
     const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message);
@@ -25,7 +25,7 @@ export default function Calendar({ events, auth }) {
     const [bulkEditSelectedDays, setBulkEditSelectedDays] = useState([]);
 
     useEffect(() => {
-        setStateEvents(events);
+        setStateEvents(deckDutyEvents);
     }, [])
 
     function renderEventContent(eventInfo) {
@@ -195,9 +195,9 @@ export default function Calendar({ events, auth }) {
                     eventContent={renderEventContent}
                 />
             }
-            
+
             {/* {isViewingBulk &&
-                
+
             } */}
 
         </AuthenticatedLayout>
