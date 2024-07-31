@@ -37,7 +37,7 @@ export default function Welcome({ auth, newsItems }) {
                 </WelcomePageContainer>
 
                 <NewsContainer className="text-white mt-10 w-[80%] mx-auto">
-                    <h2 className='text-6xl font-semibold'>Penguins News</h2>
+                    <h2 className='text-6xl font-semibold'>Pengins News</h2>
 
                     <Carousel className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 items-center">
                         {newsItems.map(newsItem => {
@@ -45,6 +45,8 @@ export default function Welcome({ auth, newsItems }) {
                         })}
                     </Carousel>
                 </NewsContainer>
+
+                <hr className="my-12 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
                 <AboutUsContainer className=' mt-28 w-[95%] text-center mx-auto'>
                     <div className='flex justify-between'>
