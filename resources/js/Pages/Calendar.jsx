@@ -69,7 +69,7 @@ export default function Calendar({ deckDutyEvents, auth }) {
                 toggleSetDisplaySignUpModal();
                 setIsSignUpOverride(false);
                 notifySuccess(res.data.message);
-                setStateEvents(res.data.events);
+                setStateEvents(res.data.deckDutyEvents);
             }
         })
         .catch(error => {
@@ -89,7 +89,7 @@ export default function Calendar({ deckDutyEvents, auth }) {
                 toggleSetDisplayBulkSignUpModal();
                 setBulkEditSelectedDays([]);
                 notifySuccess(res.data.message);
-                setStateEvents(res.data.events);
+                setStateEvents(res.data.deckDutyEvents);
             }
         })
         .catch(error => {
@@ -137,7 +137,7 @@ export default function Calendar({ deckDutyEvents, auth }) {
                 {!!auth.user.is_admin &&
                     <>
                         <p>Currently Viewing: <span className='text-xl font-semibold'>{isViewingBulk ? 'Bulk Edit Calendar' : 'Standard Calendar'}</span></p>
-                        <div className='flex justify-between mt-1 w-[30%]'>
+                        <div className='flex justify-between mt-1 w-[40%]'>
                             <PrimaryButton onClick={toggleIsViewingBulk}>{isViewingBulk ? 'Switch To Regular Calendar' : 'Switch To Bulk Edit'}</PrimaryButton>
                             <div>
                                 {(!!auth.user.is_admin && bulkEditSelectedDays.length > 0 && isViewingBulk) &&

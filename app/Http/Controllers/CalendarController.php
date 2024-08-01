@@ -15,7 +15,7 @@ use Inertia\Inertia;
 
 class CalendarController extends Controller {
     public function index() {
-        return Inertia::render('Calendar', ['events' => DeckDutyEvent::all()]);
+        return Inertia::render('Calendar', ['deckDutyEvents' => DeckDutyEvent::all()]);
     }
 
     public function signUp(EventRequest $request): JsonResponse {
@@ -36,7 +36,7 @@ class CalendarController extends Controller {
         return response()->json([
             'message' => "You're signed up for deck duty!",
             'success' => true,
-            'events'   => DeckDutyEvent::all(),
+            'deckDutyEvents'   => DeckDutyEvent::all(),
         ], 201);
     }
 
@@ -65,7 +65,7 @@ class CalendarController extends Controller {
             return response()->json([
                 'message' => "{$user->first_name} {$user->last_name} has been signed up for the selected dates!",
                 'success' => true,
-                'events'   => DeckDutyEvent::all(),
+                'deckDutyEvents'   => DeckDutyEvent::all(),
             ], 201);
         }
 
@@ -95,7 +95,7 @@ class CalendarController extends Controller {
             return response()->json([
                 'message' => "The selected dates have been cleared!",
                 'success' => true,
-                'events'   => DeckDutyEvent::all(),
+                'deckDutyEvents'   => DeckDutyEvent::all(),
             ], 200);
         }
     }

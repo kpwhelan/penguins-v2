@@ -32,7 +32,7 @@ export default function Welcome({ auth, newsItems }) {
                     </div>
                 </WelcomePageContainer>
 
-                <NewsContainer className="text-white mt-10 w-[90%] p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-no-repeat bg-cover rounded-md">
+                <NewsContainer className="text-white mt-10 w-[90%] p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-opacity-90 bg-no-repeat bg-cover rounded-md">
                     <h2 className='text-6xl font-semibold'>Pengins News</h2>
 
                     {newsItems && newsItems.length > 0 ?
