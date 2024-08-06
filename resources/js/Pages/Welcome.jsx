@@ -33,6 +33,8 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     </div>
                 </WelcomePageContainer>
 
+                <hr className="my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
+
                 <NewsContainer className="text-white mt-10 w-[90%] p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-no-repeat bg-cover rounded-md">
                     <h2 className='text-6xl font-semibold'>Pengins News</h2>
 
@@ -47,9 +49,9 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     }
                 </NewsContainer>
 
-                <hr className="my-12 h-0.5 border-t-0 bg-white dark:bg-white/10" />
+                <hr className=" my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
-                <AboutUsContainer className=' mt-28 w-[95%] text-center mx-auto'>
+                <AboutUsContainer className=" w-[95%] py-8 px-6 rounded-md text-center mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background2.png')] bg-no-repeat bg-cover">
                     <div className='flex justify-between'>
                         <div className='text-xl w-[90%] mx-auto'>
                             <h2 className='text-6xl mb-4'>Who Are the Penguins?</h2>
@@ -73,13 +75,16 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     </div>
                 </AboutUsContainer>
 
-                <hr className="my-12 h-0.5 border-t-0 bg-white dark:bg-white/10" />
+                <hr className="my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
                 {swimmerBios.length > 0 &&
-                    <SwimmersBioContainer className="w-[80%] mx-auto flex flex-wrap justify-evenly">
-                        {swimmerBios.map(bio => {
-                            return <SwimmerBioCard key={bio.id} bio={bio} />
-                        })}
+                    <SwimmersBioContainer className="w-[95%] rounded-md p-8 mx-auto  bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background3.png')] bg-no-repeat bg-cover">
+                        <h2 className='text-6xl font-semibold'>Pengins All Stars</h2>
+                        <div className='flex flex-wrap justify-evenly w-full'>
+                            {swimmerBios.map(bio => {
+                                return <SwimmerBioCard key={bio.id} bio={bio} />
+                            })}
+                        </div>
                     </SwimmersBioContainer>
                 }
 
