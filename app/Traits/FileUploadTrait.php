@@ -13,8 +13,9 @@ trait FileUploadTrait {
 
         try {
             $path = Storage::disk('digital-ocean')->putFileAs("$directory_path/" . config('app.env') . '/' . $sub_directories, $file, $file->getClientOriginalName(), 'public');
+
             $return_results['path'] = $path;
-            $return_results['success'] = true;
+            $return_results['success'] = !$path ? false : true;
         } catch (Exception $e) {
             Log::error($e);
 

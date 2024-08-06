@@ -43,7 +43,7 @@ class NewsItemsController extends Controller {
         $news_item->body = $body;
         if (isset($news_image)) {
             $news_item->image_path = $path;
-            $news_item->image_cdn = config('filesystems.disks.digital-ocean.news_image_cdn_prefix') . $news_image->getClientOriginalName();
+            $news_item->image_cdn = config('filesystems.disks.digital-ocean.news_image_cdn_prefix') . '/' . $news_image->getClientOriginalName();
         }
 
         if (!$news_item->save()) {
