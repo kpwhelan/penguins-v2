@@ -3,13 +3,13 @@ import { Button, Card, CardBody, CardHeader, Carousel, Typography } from "@mater
 export default function NewsItemCard({ newsItem, className }) {
     let date = new Date(newsItem.created_at);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return (
         <div className="flex justify-between items-center w-[80%] mx-auto">
             {/* <div className="relative h-full w-full">
                 {newsItem.image_cdn &&
-                     <img src={newsItem.image_cdn} 
+                     <img src={newsItem.image_cdn}
                      className="h-full w-full object-cover"
                      alt="nature image"></img>
                 }
@@ -37,8 +37,8 @@ export default function NewsItemCard({ newsItem, className }) {
 
                 <div className="w-[45%] max-h-full">
                     {newsItem.image_cdn &&
-                        <img src={newsItem.image_cdn} 
-                        className="w-full max-h-[790px]"
+                        <img src={newsItem.image_cdn}
+                        className="w-full max-h-[790px] rounded-md"
                         >
                         </img>
                     }
@@ -49,18 +49,18 @@ export default function NewsItemCard({ newsItem, className }) {
                     <Typography
                     variant="h1"
                     color="white"
-                    className="mb-4 text-3xl md:text-4xl lg:text-5xl"
+                    className="mb-2 text-3xl md:text-4xl lg:text-5xl"
                     >
                     {newsItem.title}
                     </Typography>
                    }
 
                    <Typography
-                    variant="small"
+                    variant="paragraph"
                     color="white"
                     className="opacity-80"
                     >
-                    {month}-{day}-{year}
+                    Posted: {month}-{day}-{year}
                     </Typography>
 
                     <Typography

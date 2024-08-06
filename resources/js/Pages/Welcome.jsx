@@ -8,8 +8,11 @@ import swimBackground from '../../../public/assets/swim-background.jpg';
 import NewsItemCard from '@/Components/NewsItemCard';
 import { Carousel } from '@material-tailwind/react';
 import { useState } from 'react';
+import SwimmersBioContainer from '@/Containers/SwimmerBiosContainer';
+import SwimmerBioCard from '@/Components/SwimmerBioCard';
 
-export default function Welcome({ auth, newsItems }) {
+export default function Welcome({ auth, newsItems, swimmerBios }) {
+    console.log(swimmerBios.length)
     const [blurNav, setBlurNav] = useState(false);
 
     const handleScroll = () => {
@@ -38,7 +41,7 @@ export default function Welcome({ auth, newsItems }) {
                     {newsItems && newsItems.length > 0 ?
                         <Carousel className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 items-center">
                             {newsItems.map(newsItem => {
-                                return <NewsItemCard className='rounded-md' newsItem={newsItem} />
+                                return <NewsItemCard key={newsItem.id} className='rounded-md' newsItem={newsItem} />
                             })}
                         </Carousel>
                         :
@@ -71,6 +74,17 @@ export default function Welcome({ auth, newsItems }) {
                         </div>
                     </div>
                 </AboutUsContainer>
+
+                <hr className="my-12 h-0.5 border-t-0 bg-white dark:bg-white/10" />
+
+                {swimmerBios.length > 0 &&
+                    <SwimmersBioContainer className="w-[80%] mx-auto flex flex-wrap justify-evenly">
+                        {swimmerBios.map(bio => {
+                            return <SwimmerBioCard key={bio.id} bio={bio} />
+                        })}
+                    </SwimmersBioContainer>
+                }
+
             </main>
         </>
     );

@@ -9,6 +9,7 @@ use App\Http\Controllers\SwimmerBioController;
 use App\Http\Controllers\WorkoutsController;
 use App\Models\DeckDutyEvent;
 use App\Models\NewsItem;
+use App\Models\SwimmerBio;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,13 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     $news_items = NewsItem::all();
+    $swimmer_bios = SwimmerBio::all();
 
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'newsItems' => $news_items
+        'newsItems' => $news_items,
+        'swimmerBios' => $swimmer_bios,
     ]);
 });
 

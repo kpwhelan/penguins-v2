@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('swimmer_name')->default('');
             $table->string('image_cdn');
-            $table->string('body');
+            $table->text('body');
             $table->timestamps();
         });
     }

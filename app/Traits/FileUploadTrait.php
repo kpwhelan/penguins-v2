@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,12 +18,32 @@ trait FileUploadTrait {
             $return_results['path'] = $path;
             $return_results['success'] = !$path ? false : true;
         } catch (Exception $e) {
-            Log::error($e);
+            $user = Auth::user();
+
+            Log::error($e,[
+                'user_id' => $user->id,
+                'user_name' => "{$user->first_name} {$user->last_name}",
+                'message' => "User tried to upload an image with path: {$directory_path} and it encountered an issue."
+            ]);
 
             $return_results['success'] = false;
         }
 
         return $return_results;
+    }
+
+    protected function deleteFileDigitalOcean($path): void {
+        try {
+            if (Storage::disk('digital-ocean')->exists($path)) Storage::disk('digital-ocean')->delete($path);
+        } catch(Exception $e) {
+            $user = Auth::user();
+
+            Log::error($e, [
+                'user_id' => $user->id,
+                'user_name' => "{$user->first_name} {$user->last_name}",
+                'message' => "Error occured during attempt to delete a file from Digital Ocean with path: {$path}"
+            ]);
+        }
     }
 
     // private function uploadWorkoutDigitalOcean($file, $year, $month): array {
