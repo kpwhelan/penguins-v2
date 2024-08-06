@@ -12,13 +12,12 @@ import SwimmersBioContainer from '@/Containers/SwimmerBiosContainer';
 import SwimmerBioCard from '@/Components/SwimmerBioCard';
 
 export default function Welcome({ auth, newsItems, swimmerBios }) {
-    console.log(swimmerBios.length)
+    console.log(swimmerBios)
     const [blurNav, setBlurNav] = useState(false);
 
     const handleScroll = () => {
         window.scrollY >= 35 ? setBlurNav(true) : setBlurNav(false);
     }
-
 
     window.addEventListener('scroll', handleScroll);
 
