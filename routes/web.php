@@ -5,6 +5,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsItemsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SwimmerBioController;
 use App\Http\Controllers\WorkoutsController;
 use App\Models\DeckDutyEvent;
 use App\Models\NewsItem;
@@ -67,12 +68,16 @@ Route::middleware('auth')->prefix('calendar')->group(function () {
 
 Route::middleware('auth')->prefix('workouts')->group(function () {
     Route::get('/', [WorkoutsController::class, 'index'])->name('workouts');
-    Route::post('/', [WorkoutsController::class, 'create'])->name('workouts.create');
+    Route::post('/', [WorkoutsController::class, 'store'])->name('workouts.store');
 });
 
 Route::middleware('auth')->prefix('news')->group(function () {
     Route::get('/', [NewsItemsController::class, 'index'])->name('newsitems');
-    Route::post('/', [NewsItemsController::class, 'create'])->name('newsitems.create');
+    Route::post('/', [NewsItemsController::class, 'store'])->name('newsitems.store');
+});
+
+Route::middleware('auth')->prefix('swimmer-bios')->group(function () {
+    Route::post('/', [SwimmerBioController::class, 'store'])->name('swimmer-bios.store');
 });
 
 Route::middleware('auth')->prefix('user')->group(function () {

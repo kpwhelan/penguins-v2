@@ -4,28 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NewNewsItemRequest;
 use App\Models\NewsItem;
+use App\Traits\FileUploadTrait;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class NewsItemsController extends Controller {
+    use FileUploadTrait;
+
     private $image_upload_results;
 
     public function index() {
 
     }
 
-    public function create(NewNewsItemRequest $request) {
+    public function store(NewNewsItemRequest $request) {
         $news_image = $request->file('news_image');
         $title = $request->title;
         $body = $request->body;
         $path = '';
 
         if ($news_image) {
-            try {
-                $this->image_upload_results = $this->uploadImageDigitalOcean($news_image);
-            } catch(Exception) {
+
+            $this->image_upload_results = $this->uploadfileDigitalOcean($news_image, 'news-images');
+
+            if (!$this->image_upload_results['success']) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Uh oh, something went wrong uploading that image. Try again or contact support.'
@@ -35,22 +38,17 @@ class NewsItemsController extends Controller {
             $path = $this->image_upload_results['path'];
         }
 
-        if (isset($news_image) && !$this->image_upload_results['success']) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Uh oh, something went wrong uploading that image. Try again or contact support.'
-            ], 500);
-        }
-
         $news_item = new NewsItem();
         $news_item->title = $title;
         $news_item->body = $body;
         if (isset($news_image)) {
             $news_item->image_path = $path;
-            $news_item->image_cdn = env('DO_NEWS_IMAGE_CDN_PREFIX') . $news_image->getClientOriginalName();
+            $news_item->image_cdn = config('filesystems.disks.digital-ocean.news_image_cdn_prefix') . $news_image->getClientOriginalName();
         }
 
         if (!$news_item->save()) {
+            if (Storage::disk('digital-ocean')->exists($path)) Storage::disk('digital-ocean')->delete($path);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Uh oh, something went wrong. Try again or contact support.'
@@ -61,22 +59,5 @@ class NewsItemsController extends Controller {
             'success' => true,
             'message' => 'Uploaded Successfully!'
         ], 201);
-    }
-
-    private function uploadImageDigitalOcean($file): array {
-        $path = '';
-        $return_results = [];
-
-        try {
-            $path = Storage::disk('digital-ocean')->putFileAs("news-images", $file, $file->getClientOriginalName(), 'public');
-            $return_results['path'] = $path;
-            $return_results['success'] = true;
-        } catch (Exception $e) {
-            Log::error($e);
-
-            $return_results['success'] = false;
-        }
-
-        return $return_results;
     }
 }

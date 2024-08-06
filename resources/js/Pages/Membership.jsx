@@ -60,7 +60,7 @@ export default function Membership() {
                         </div>
                     </div>
 
-                    <ContactFormContainer className="w-[30%]">
+                    <ContactFormContainer className="w-[30%] border-2 border-white rounded-md p-4">
                         <ContactForm />
                     </ContactFormContainer>
                 </div>

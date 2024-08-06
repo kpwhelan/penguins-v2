@@ -1,4 +1,5 @@
 import NewsUploadForm from '@/Components/NewsUploadForm';
+import SwimmerBioUploadForm from '@/Components/SwimmerBioUploadForm';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
@@ -32,11 +33,24 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
                </div>
             </div>
 
-            <div className='w-[34%] ml-[15%]'>
+            {!!auth.user.is_admin &&
+                <div className='flex justify-between w-[75%] mx-auto'>
+                    <NewsUploadForm className='w-[45%]' />
+                    <SwimmerBioUploadForm className='w-[45%]' />
+                </div>
+            }
+
+            {/* <div className='w-[34%] ml-[15%]'>
                 {!!auth.user.is_admin &&
                     <NewsUploadForm className=' mt-14' />
                 }
             </div>
+
+            <div>
+                {!!auth.user.is_admin &&
+                <SwimmerBioUploadForm class />
+                }
+            </div> */}
         </AuthenticatedLayout>
     );
 }

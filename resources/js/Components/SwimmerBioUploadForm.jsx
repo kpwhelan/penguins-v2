@@ -1,17 +1,16 @@
-import { Card, CardBody, CardFooter, Typography } from "@material-tailwind/react";
-import InputLabel from "./InputLabel";
-import PrimaryButton from "./PrimaryButton";
-import TextInput from "./TextInput";
-import InputError from "./InputError";
 import { useForm } from "@inertiajs/react";
-import axios from "axios";
+import { Card, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
+import InputLabel from "./InputLabel";
+import InputError from "./InputError";
+import PrimaryButton from "./PrimaryButton";
+import TextInput from "./TextInput";
 
-export default function NewsUploadForm({ className }) {
+export default function SwimmerBioUploadForm({ className }) {
     const [fileData, setFileData] = useState(null);
     const { data, setData, post, errors, processing, recentlySuccessful, reset } = useForm({
-        title: '',
+        swimmer_name: '',
         body: '',
     });
 
@@ -26,18 +25,18 @@ export default function NewsUploadForm({ className }) {
         e.preventDefault();
 
         const formData = new FormData()
-        if (fileData !== null) formData.append('news_image', fileData);
-        formData.append('title', data.title);
+        if (fileData !== null) formData.append('swimmer_image', fileData);
+        formData.append('swimmer_name', data.swimmer_name);
         formData.append('body', data.body);
 
-        axios.post(route('newsitems.store'), formData, {
+        axios.post(route('swimmer-bios.store'), formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
         })
         .then(res => {
             if (res.data.success) {
-                let form = document.querySelector('#newsupload-form');
+                let form = document.querySelector('#swimmer-bio-form');
                 reset();
                 form.reset();
                 notifySuccess(res.data.message);
@@ -52,14 +51,14 @@ export default function NewsUploadForm({ className }) {
         <div className={className}>
             <Toaster toastOptions={{duration: 8000, style: {marginTop: '10px'}}} />
 
-            <form onSubmit={submit} id="newsupload-form">
+            <form onSubmit={submit} id="swimmer-bio-form">
                 <Card className="mt-6 w-full bg-[#000000] text-white">
                     <CardBody>
                         <Typography variant="h5" color="white" className="mb-2">
-                            Upload a News Item
+                            Upload a Swimmer Bio
                         </Typography>
 
-                        <InputLabel className='text-white text-xl'>Image <span className="text-sm">(optional)</span></InputLabel>
+                        <InputLabel className='text-white text-xl'>Swimmer Photo</InputLabel>
                         <input
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-md p-2 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                         aria-describedby="file_input_help"
@@ -69,17 +68,17 @@ export default function NewsUploadForm({ className }) {
                         />
 
                         <div className="mt-2">
-                            <InputLabel className="text-white text-xl" htmlFor="title">Title <span className="text-sm">(optional)</span></InputLabel>
+                            <InputLabel className="text-white text-xl" htmlFor="swimmer_name">Swimmer Name</InputLabel>
 
                             <TextInput
-                                id="title"
+                                id="swimmer_name"
                                 className="mt-1 block w-full text-black"
-                                onChange={(e) => setData('title', e.target.value)}
+                                onChange={(e) => setData('swimmer_name', e.target.value)}
                                 isFocused
-                                autoComplete="title"
+                                autoComplete="swimmer_name"
                             />
 
-                            <InputError className="mt-2" message={errors.title} />
+                            <InputError className="mt-2" message={errors.swimmer_name} />
                         </div>
 
                         <div className="mt-2 w-full">

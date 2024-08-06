@@ -62,12 +62,14 @@ return [
             'region' => env('DO_DEFAULT_REGION'),
             'bucket' => env('DO_BUCKET'),
             // 'folder' => env('DO_FOLDER'),
-            'cdn_endpoint' => env('DO_CDN_ENDPOINT'),
             'bucket_endpoint' => true,
             'url' => env('DO_ENDPOINT'),
             'endpoint' => env('DO_ENDPOINT'),
             'throw' => false,
-            'visibility' => 'public'
+            'visibility' => 'public',
+            'workout_cdn_prefix' => env('DO_CDN_PREFIX') . 'workouts/' . env('APP_ENV'),
+            'news_image_cdn_prefix' => env('DO_CDN_PREFIX')  . 'news-images/' . env('APP_ENV'),
+            'swimmer_bio_image_cdn' => env('DO_CDN_PREFIX') . 'swimmer-bios/' .env('APP_ENV'),
         ],
 
     ],

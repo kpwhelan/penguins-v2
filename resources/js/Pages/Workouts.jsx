@@ -51,7 +51,7 @@ export default function Workouts({ auth, workouts }) {
         formData.append('workout_file', fileData);
         formData.append('date', Math.floor(date.getTime() / 1000));
 
-        axios.post(route('workouts.create'), formData, {
+        axios.post(route('workouts.store'), formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }

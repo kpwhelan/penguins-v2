@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\WorkoutUploadRequest;
 use App\Models\Workout;
+use App\Traits\FileUploadTrait;
 use DateTime;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class WorkoutsController extends Controller {
+    use FileUploadTrait;
+
     public function index() {
         $workouts = Workout::all();
         $sorted_workouts = $this->sortWorkoutsByDate($workouts);
@@ -19,7 +22,7 @@ class WorkoutsController extends Controller {
         return Inertia::render('Workouts', ['workouts' => $sorted_workouts]);
     }
 
-    public function create(WorkoutUploadRequest $request) {
+    public function store(WorkoutUploadRequest $request) {
         $workout_file = $request->file('workout_file');
         $dateTime     = new DateTime('@' . $request->date);
         $year         = $dateTime->format('Y');
@@ -34,7 +37,7 @@ class WorkoutsController extends Controller {
         }
 
         try {
-            $results = $this->uploadWorkoutDigitalOcean($workout_file, $year, $month);
+            $results = $this->uploadfileDigitalOcean($workout_file, "workouts/", "{$year}/{$month}");
         } catch (Exception $e) {
             Log::error($e);
 
@@ -55,7 +58,7 @@ class WorkoutsController extends Controller {
 
         $workout = new Workout();
         $workout->file_path = $path;
-        $workout->file_cdn = env('DO_WORKOUT_CDN_PREFIX') . $workout_file->getClientOriginalName();
+        $workout->file_cdn = config('filesystems.disks.digital-ocean.workout_cdn_prefix') . '/' . "{$year}/{$month}/" . $workout_file->getClientOriginalName();
         $workout->file_name = $workout_file->getClientOriginalName();
         $workout->workout_date = $date;
 
@@ -75,23 +78,6 @@ class WorkoutsController extends Controller {
             'message' => 'Workout uploaded successfully!',
             'workouts'  => $this->sortWorkoutsByDate($workouts),
         ], 201);
-    }
-
-    private function uploadWorkoutDigitalOcean($file, $year, $month): array {
-        $path = '';
-        $return_results = [];
-
-        try {
-            $path = Storage::disk('digital-ocean')->putFileAs("workouts/{$year}/{$month}", $file, $file->getClientOriginalName(), 'public');
-            $return_results['path'] = $path;
-            $return_results['success'] = true;
-        } catch (Exception $e) {
-            Log::error($e);
-
-            $return_results['success'] = false;
-        }
-
-        return $return_results;
     }
 
     private function sortWorkoutsByDate(Collection $workouts): array {
