@@ -40,6 +40,13 @@ export default function Authenticated({ user, header, children }) {
                                     Directory
                                 </NavLink>
                             </div>
+                            {!!user.is_admin &&
+                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                    <NavLink href={route('create-new-user')} active={route().current('create-new-user')}>
+                                        Create New User
+                                    </NavLink>
+                                </div>
+                            }
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">

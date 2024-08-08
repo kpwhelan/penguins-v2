@@ -16,6 +16,8 @@ return [
 
     'default' => env('MAIL_MAILER', 'log'),
 
+    'contact_reply_to_address' => env('CONTACT_EMAIL_ADDRESS_' . strtoupper(env('APP_ENV'))),
+
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations

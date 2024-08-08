@@ -28,6 +28,8 @@ Route::get('/', function () {
     ]);
 });
 
+Route::post('register', [RegisteredUserController::class, 'store']) ->name('register');
+
 Route::get('/membership', function () {
     return Inertia::render('Membership');
 })->name('membership');
@@ -50,6 +52,10 @@ Route::get('/dashboard', function () {
 
     return Inertia::render('Dashboard', ['deck_duty_count' => $deck_duty_count, 'next_deck_duty' => $next_deck_duty]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/create-new-user', function () {
+    return Inertia::render('CreateNewUser');
+})->middleware('auth')->name('create-new-user');
 
 Route::get('/directory', function () {
     $users = User::where('is_sharing_info', '1')->get();
