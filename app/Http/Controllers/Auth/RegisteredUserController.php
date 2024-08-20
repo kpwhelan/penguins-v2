@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -68,7 +69,7 @@ class RegisteredUserController extends Controller {
 
             $registration_token = new RegistrationToken();
             $registration_token->email = $user->email;
-            $registration_token->registration_token = Hash::make($request->last_name . $request->email . $request->first_name);
+            $registration_token->registration_token = Str::password(16);
             $this->registration_token_model_successully_saved = $registration_token->save();
         } catch(Exception $e) {
             Log::error($e, [

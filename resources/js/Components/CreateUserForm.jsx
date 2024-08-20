@@ -30,7 +30,7 @@ export default function CreateUserForm({ mustVerifyEmail, status, className = ''
         e.preventDefault();
        axios.post(route('register'), data)
        .then(res => console.log('hi'))
-       .catch(error => console.log('hello'));
+       .catch(error => console.log(error));
     };
 
     return (

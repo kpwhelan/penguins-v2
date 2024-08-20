@@ -9,12 +9,30 @@ use App\Http\Controllers\SwimmerBioController;
 use App\Http\Controllers\WorkoutsController;
 use App\Models\DeckDutyEvent;
 use App\Models\NewsItem;
+use App\Models\RegistrationToken;
 use App\Models\SwimmerBio;
 use App\Models\User;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+Route::get('/test', function () {
+    $token = RegistrationToken::first();
+    $user = User::find(1);
+    // $markdown = new Markdown(view());
+    // return $markdown->render('mail.token', [
+    //     'token' => $token->registration_token,
+    //     'user'  => $user
+    // ]);
+
+    return (new App\Mail\NewUserRegistraitonEmail($token->registration_token, $user))->render();
+    // return $t('mail.token', [
+    //     'token' => $token->registration_token,
+    //     'user'  => $user
+    // ]);
+});
 
 Route::get('/', function () {
     $news_items = NewsItem::all();

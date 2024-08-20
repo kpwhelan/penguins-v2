@@ -42,7 +42,7 @@ class NewUserRegistraitonEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.token',
+            markdown: 'mail.token',
             with: [
                 'token' => $this->token,
                 'user' => $this->user

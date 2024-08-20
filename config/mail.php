@@ -115,4 +115,18 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Send Emails Using Markdown
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'markdown' => [
+        'theme' => 'default',            # The name of your theme (default.css)
+        'paths' => [                     # The path to your /html and /text dirs
+        resource_path('views/vendor/mail'),
+        ]
+    ],
+
 ];
