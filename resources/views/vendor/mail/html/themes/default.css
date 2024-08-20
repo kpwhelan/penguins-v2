@@ -10,7 +10,7 @@ body *:not(html):not(style):not(br):not(tr):not(code) {
 
 body {
     -webkit-text-size-adjust: none;
-    background-color: #000000;
+    background-color: #ffffff;
     color: #718096;
     height: 100%;
     line-height: 1.4;
@@ -100,7 +100,6 @@ img {
 .header {
     padding: 25px 0;
     text-align: center;
-    background-color: #000000;
 }
 
 .header a {
@@ -114,7 +113,7 @@ img {
 
 .logo {
     height: 75px;
-    max-height: 75px;
+    max-height: 100px;
     max-width: 200px;
 }
 
@@ -124,7 +123,7 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #000000;
+    background-color: #edf2f7;
     border-bottom: 1px solid #edf2f7;
     border-top: 1px solid #edf2f7;
     margin: 0;
@@ -144,7 +143,6 @@ img {
     margin: 0 auto;
     padding: 0;
     width: 570px;
-    margin-bottom: 10px;
 }
 
 /* Subcopy */
