@@ -12,7 +12,7 @@ import { useState } from "react";
 export default function ContactForm({ }) {
     const [isProcessing, setIsProcessing] = useState(false);
     const [messageSentAndSuccessful, setMessageSentAndSuccessful] = useState(false);
-    const { data, setData, errors, reset } = useForm({
+    const { data, setData, errors, setError, reset } = useForm({
         name: '',
         email: '',
         message: '',
@@ -45,13 +45,14 @@ export default function ContactForm({ }) {
             }
 
             if (error.response.status === 422 && error.response.data.errors) {
+                let responseErrors = {};
+
                 for (const [key, value] of Object.entries(error.response.data.errors)) {
-                    errors[key] = value;
+                    responseErrors[key] = value;
                 }
+
+                setError(responseErrors)
             }
-
-
-
         })
     }
 

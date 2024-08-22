@@ -7,12 +7,14 @@ import { Transition } from '@headlessui/react';
 import Checkbox from '@/Components/Checkbox';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
+import { useState } from 'react';
 
 export default function CreateUserForm({ mustVerifyEmail, status, className = '' }) {
     const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message);
 
-    const { data, setData, errors, processing, recentlySuccessful } = useForm({
+    const [processing, setProcessing] = useState(false);
+    const { data, setData, errors, recentlySuccessful, reset } = useForm({
         first_name: '',
         last_name: '',
         email: '',
@@ -28,9 +30,38 @@ export default function CreateUserForm({ mustVerifyEmail, status, className = ''
 
     const submit = (e) => {
         e.preventDefault();
+        setProcessing(true);
+
        axios.post(route('register'), data)
-       .then(res => console.log('hi'))
-       .catch(error => console.log(error));
+       .then(res => {
+            setProcessing(false);
+            reset();
+
+            let form = document.querySelector('#user-upload-form');
+            reset();
+            form.reset();
+
+            if (res.data.success) {
+                notifySuccess(res.data.message)
+            }
+       })
+       .catch(error => {
+            setProcessing(false);
+
+            if (error.response.status === 500 && !error.response.data.success) {
+                notifyError(error.response.data.message);
+            }
+
+            if (error.response.status === 422 && error.response.data.errors) {
+                let responseErrors = {};
+
+                for (const [key, value] of Object.entries(error.response.data.errors)) {
+                    responseErrors[key] = value;
+                }
+
+                setError(responseErrors)
+            }
+       });
     };
 
     return (
@@ -51,7 +82,7 @@ export default function CreateUserForm({ mustVerifyEmail, status, className = ''
 
             <Toaster toastOptions={{duration: 8000, style: {marginTop: '10px'}}} />
 
-            <form onSubmit={submit} className="mt-6 space-y-6 text-black">
+            <form onSubmit={submit} className="mt-6 space-y-6 text-black" id="user-upload-form">
                 <div>
                     <InputLabel className='text-white' htmlFor="first_name" value="First Name" />
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TokenRegistrationRequest;
 use App\Jobs\DeactivateRegistrationToken;
 use App\Jobs\SendRegistrationTokenEmail;
 use App\Mail\NewUserRegistraitonEmail;
@@ -22,6 +23,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Tests\Feature\Auth\RegistrationTest;
 
 class RegisteredUserController extends Controller {
     use JsonResponseTrait;
@@ -91,5 +93,32 @@ class RegisteredUserController extends Controller {
         // Auth::login($user);
 
         // return redirect(route('dashboard', absolute: false));
+    }
+
+    public function tokenRegister(TokenRegistrationRequest $request) {
+        $token_record = RegistrationToken::where([
+            ['registration_token', '=', $request->token],
+            ['email', '=', $request->email],
+            ['is_expired', '=', false],
+            ['successfully_registered', '=', false]
+        ])->first();
+
+        if (!$token_record) return $this->errorResponse('No record exists for this email and token.', 404);
+        if ($token_record->is_expired) return $this->errorResponse('This token has expired. Please reach out to Chris Landry to regenerate one for you.', 401);
+
+        $user = User::where('email', '=', $request->email)->first();
+
+        $user->password = $request->password;
+
+        try {
+            $user->save();
+        } catch (Exception $e) {
+            Log::error($e, ['message' => 'Someone was trying to register with a token, this occured trying to save the user']);
+            return $this->errorResponse('Uh oh, something went wrong. Please try again.');
+        }
+
+        $token_record->update(['successfully_registered' => true]);
+
+        return $this->successResponse('Registered Successfully!', [], 200);
     }
 }

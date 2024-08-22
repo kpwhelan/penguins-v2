@@ -18,21 +18,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/test', function () {
-    $token = RegistrationToken::first();
-    $user = User::find(1);
+// Route::get('/test', function () {
+//     $token = RegistrationToken::first();
+//     $user = User::find(1);
     // $markdown = new Markdown(view());
     // return $markdown->render('mail.token', [
     //     'token' => $token->registration_token,
     //     'user'  => $user
     // ]);
 
-    return (new App\Mail\NewUserRegistraitonEmail($token->registration_token, $user))->render();
+    // return (new App\Mail\NewUserRegistraitonEmail($token->registration_token, $user))->render();
     // return $t('mail.token', [
     //     'token' => $token->registration_token,
     //     'user'  => $user
     // ]);
-});
+// });
 
 Route::get('/', function () {
     $news_items = NewsItem::all();
