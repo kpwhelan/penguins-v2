@@ -35,6 +35,7 @@ export default function Register() {
         axios.post(route('token-register'), data)
         .then(res => {
             setProcessing(false);
+            setError({});
 
             let form = document.querySelector('#user-upload-form');
             reset();
@@ -48,7 +49,7 @@ export default function Register() {
         })
         .catch(error => {
             setProcessing(false);
-            setDisplayForm(true);
+            // setDisplayForm(true);
 
             if (error.response.status === 500 && !error.response.data.success) {
                 notifyError(error.response.data.message);
@@ -68,11 +69,11 @@ export default function Register() {
 
     return (
         <GuestLayout>
-            <Head title="Regi0aster" />
+            <Head title="Register" />
 
             <Toaster toastOptions={{duration: 8000, style: {marginTop: '10px'}}} />
 
-            {!displayForm &&
+            {displayForm &&
                 <form onSubmit={submit} id='user-upload-form'>
                     <div className="mt-4">
                         <InputLabel htmlFor="email" value="Email" />
@@ -155,7 +156,7 @@ export default function Register() {
                 </form>
             }
 
-            {displayForm &&
+            {!displayForm &&
                 <div className="w-[60%] mx-auto text-center">
                     <p className='mb-4 text-lg'>Registration Successul!</p>
 
