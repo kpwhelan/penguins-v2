@@ -10,8 +10,6 @@ import { Carousel } from '@material-tailwind/react';
 import { useState } from 'react';
 import SwimmersBioContainer from '@/Containers/SwimmerBiosContainer';
 import SwimmerBioCard from '@/Components/SwimmerBioCard';
-import LocationCOntainer from '@/Containers/LocationsContainer';
-import Locations from '@/Components/Locations';
 
 export default function Welcome({ auth, newsItems, swimmerBios }) {
     const [blurNav, setBlurNav] = useState(false);
@@ -89,10 +87,6 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                         </div>
                     </SwimmersBioContainer>
                 }
-
-                <LocationCOntainer className='w-[80%] mx-auto'>
-                    <Locations />
-                </LocationCOntainer>
             </main>
         </>
     );
