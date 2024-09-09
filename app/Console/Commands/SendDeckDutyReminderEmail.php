@@ -36,10 +36,8 @@ class SendDeckDutyReminderEmail extends Command
             return;
         }
 
-
-
-        // $this->info('Sending email...');
-        // Mail::to($deck_duty_event->user->email)->send(new DeckDutyReminderEmail($deck_duty_event->user->first_name));
+        $this->info('Sending email...');
+        Mail::to(config('app.env') === 'prod' ? $deck_duty_event->user->email : 'kevinwhelandev@gmail.com')->send(new DeckDutyReminderEmail($deck_duty_event->user->first_name));
 
         $this->info('Email sent!');
     }
