@@ -18,6 +18,8 @@ return [
 
     'contact_reply_to_address' => env('CONTACT_EMAIL_ADDRESS_' . strtoupper(env('APP_ENV'))),
 
+    'deck_duty_reply_to_address' => env('DECK_DUTY_REPLY_TO_ADDRESS'),
+
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations

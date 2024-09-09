@@ -2,22 +2,22 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NewUserRegistraitonEmail extends Mailable
+class DeckDutyReminderEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(protected string $token, protected User $user)
+    public function __construct(protected string $name)
     {
         //
     }
@@ -28,11 +28,11 @@ class NewUserRegistraitonEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('contact@granitestatepenguins.com', 'Granite State Penguins'),
+            from: new Address('deckduty@granitestatepenguins.com', 'Granite State Penguins'),
             replyTo: [
-                new Address(config('mail.contact_reply_to_address')),
+                new Address(config('mail.deck_duty_reply_to_address')),
             ],
-            subject: 'Granite State Penguins Website Registration',
+            subject: 'GSP - Deck Duty Reminder',
         );
     }
 
@@ -42,10 +42,9 @@ class NewUserRegistraitonEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.token',
+            markdown: 'mail.deckdutyreminder',
             with: [
-                'token' => $this->token,
-                'user' => $this->user
+                'name' => $this->name,
             ]
         );
     }

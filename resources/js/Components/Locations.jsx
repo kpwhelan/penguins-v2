@@ -2,11 +2,7 @@ import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function Locations() {
-    const [londonderryDidLoad, setLondonderryDidLoad] = useState(true);
 
-    const toggleSetLondonderryDidLoad = () => {
-        // setLondonderryDidLoad(londonderryDidLoad ? false : true);
-    }
     return (
         <>
             {/* <h2 className='text-6xl mb-4'>Who Are the Penguins?</h2> */}
