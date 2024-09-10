@@ -38,7 +38,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                 <hr className="my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
                 <NewsContainer className="text-white mt-10 w-[90%] p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-no-repeat bg-cover rounded-md">
-                    <h2 className='text-6xl font-semibold'>Pengins News</h2>
+                    <h2 className='text-6xl font-semibold'>Penguins News</h2>
 
                     {newsItems && newsItems.length > 0 ?
                         <Carousel navigation={({})=> (<div></div>)} className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 items-center">

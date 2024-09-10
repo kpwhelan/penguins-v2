@@ -16,7 +16,7 @@ module.exports = withMT({
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+                sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: {
                 membershipPageBackground: "url('assets/membership-background.jpg')",
