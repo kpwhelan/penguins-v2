@@ -5,11 +5,11 @@ Hey {{$user->first_name}}, you've been invited to register on the Granite State 
 
 Please use the token provided below when you register...
 
-Token: {{$token}}
+Token: **{{$token}}**
 
 This token will expire in 48 hours!
 
-@component('mail::button', ['url' => '/register'])
+@component('mail::button', ['url' => config('app.url') . '/register'])
 Register Here
 @endcomponent
 @endcomponent
