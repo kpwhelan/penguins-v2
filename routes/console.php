@@ -11,3 +11,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('deckduty:send_reminder_email')->dailyAt('08:00')->days([0, 2, 4,])->timezone('America/New_York');
+
+Schedule::command('queue:work --queue=send_registration_email --tries=3 --stop-when-empty')
+            ->everyMinute()
+            ->withoutOverlapping();
