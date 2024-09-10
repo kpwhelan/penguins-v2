@@ -10,6 +10,8 @@ import { Carousel } from '@material-tailwind/react';
 import { useState } from 'react';
 import SwimmersBioContainer from '@/Containers/SwimmerBiosContainer';
 import SwimmerBioCard from '@/Components/SwimmerBioCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSwimmer } from '@fortawesome/free-solid-svg-icons';
 
 export default function Welcome({ auth, newsItems, swimmerBios }) {
     const [blurNav, setBlurNav] = useState(false);
@@ -48,6 +50,14 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                         <p className='text-2xl ml-10 mt-6'>No News Yet...</p>
                     }
                 </NewsContainer>
+
+                <div className='w-[95%] flex items-center mt-8'>
+                    <div className=' ml-20 mr-4'>
+                        <FontAwesomeIcon icon={faSwimmer} size='4x'/>
+                    </div>
+
+                    <p>For swim meet schedules, results, and recrods check out the <a className='underline font-semibold' target='_blank' href='https://www.usms.org/'>US Masters Swimming</a> website! </p>
+                </div>
 
                 <hr className=" my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
