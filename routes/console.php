@@ -13,5 +13,9 @@ Artisan::command('inspire', function () {
 Schedule::command('deckduty:send_reminder_email')->dailyAt('08:00')->days([0, 2, 4,])->timezone('America/New_York');
 
 Schedule::command('queue:work --queue=send_registration_email --tries=3 --stop-when-empty')
-            ->everyMinute()
-            ->withoutOverlapping();
+    ->everyMinute()
+    ->withoutOverlapping();
+
+Schedule::command('queue:work --queue=set_registration_token_expired --tries=3 --stop-when-empty')
+    ->everyMinute()
+    ->withoutOverlapping();
