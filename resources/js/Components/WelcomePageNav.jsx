@@ -88,11 +88,11 @@ export default function WelcomePageNav({ className, blurNav }) {
                 </div>
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('membership')} active={route().current('membership')}>
+                    <div className="pt-2 pb-3 space-y-1 mt-6">
+                        <ResponsiveNavLink className="text-white" href={route('membership')} active={route().current('membership')}>
                             Membership
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                        <ResponsiveNavLink className="text-white" href={route('dashboard')} active={route().current('dashboard')}>
                             Penguins Login
                         </ResponsiveNavLink>
                     </div>

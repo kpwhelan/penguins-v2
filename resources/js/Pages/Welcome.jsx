@@ -30,15 +30,15 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                 <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" blurNav={blurNav} />
                 <WelcomePageContainer className="relative flex items-center justify-center h-screen overflow-hidden">
                     <div className='text-center animate__animated animate__slower animate__fadeIn'>
-                        <h1 className='z-30 font-extrabold text-7xl'>The Granite State Penguins</h1>
-                        <h2 className='z-30 font-semibold text-5xl'>Masters Swim Team</h2>
+                        <h1 className='z-30 font-extrabold text-4xl md:text-7xl'>The Granite State Penguins</h1>
+                        <h2 className='z-30 font-semibold text-2xl md:text-5xl'>Masters Swim Team</h2>
                     </div>
                 </WelcomePageContainer>
 
-                <hr className="my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
+                <hr className="my-8 md:my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
-                <NewsContainer className="text-white mt-10 w-[90%] p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-no-repeat bg-cover rounded-md">
-                    <h2 className='text-6xl font-semibold'>Penguins News</h2>
+                <NewsContainer className="text-white mt-10 w-[98%] md:w-[90%] p-2 md:p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-no-repeat bg-cover rounded-md">
+                    <h2 className='text-4xl md:text-6xl font-semibold w-full'>Penguins News</h2>
 
                     {newsItems && newsItems.length > 0 ?
                         <Carousel navigation={({})=> (<div></div>)} className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 items-center">
