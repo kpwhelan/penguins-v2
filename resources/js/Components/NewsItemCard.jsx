@@ -6,7 +6,7 @@ export default function NewsItemCard({ newsItem, className }) {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return (
-        <div className="md:flex md:justify-between md:items-center w-[80%] mx-auto">
+        <div className="md:flex md:justify-between md:items-center w-[85%] md:w-[80%] mx-auto">
             {/* <div className="relative h-full w-full">
                 {newsItem.image_cdn &&
                      <img src={newsItem.image_cdn}
@@ -44,12 +44,12 @@ export default function NewsItemCard({ newsItem, className }) {
                     }
                 </div>
 
-                <div className="w-[90%] text-center md:w-[50%]">
+                <div className="w-[90%] text-center md:w-[50%] mx-auto">
                 {newsItem.title &&
                     <Typography
                     variant="h1"
                     color="white"
-                    className="mb-2 text-3xl md:text-4xl lg:text-5xl"
+                    className="mb-2 text-3xl md:text-4xl lg:text-5xl mt-6 md:mt-0"
                     >
                     {newsItem.title}
                     </Typography>
@@ -66,7 +66,7 @@ export default function NewsItemCard({ newsItem, className }) {
                     <Typography
                     variant="lead"
                     color="white"
-                    className="opacity-80"
+                    className="opacity-80 text-md"
                     >
                     {newsItem.body}
                     </Typography>

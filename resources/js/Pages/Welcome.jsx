@@ -41,7 +41,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     <h2 className='text-4xl md:text-6xl font-semibold w-full'>Penguins News</h2>
 
                     {newsItems && newsItems.length > 0 ?
-                        <Carousel navigation={({})=> (<div></div>)} className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 items-center">
+                        <Carousel navigation={({})=> (<div></div>)} className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 md:items-center">
                             {newsItems.map(newsItem => {
                                 return <NewsItemCard key={newsItem.id} className='rounded-md' newsItem={newsItem} />
                             })}
