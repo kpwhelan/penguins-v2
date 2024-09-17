@@ -41,7 +41,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     <h2 className='text-4xl md:text-6xl font-semibold w-full'>Penguins News</h2>
 
                     {newsItems && newsItems.length > 0 ?
-                        <Carousel navigation={({})=> (<div></div>)} className="rounded-md w-[100%] h-fit max-h-[800px] mt-6 md:items-center">
+                        <Carousel navigation={({})=> (<div></div>)} className="rounded-md w-[100%] h-fit md:max-h-[800px] mt-6 md:items-center">
                             {newsItems.map(newsItem => {
                                 return <NewsItemCard key={newsItem.id} className='rounded-md' newsItem={newsItem} />
                             })}
@@ -51,20 +51,20 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     }
                 </NewsContainer>
 
-                <div className='w-[95%] flex items-center mt-8'>
-                    <div className=' ml-20 mr-4'>
-                        <FontAwesomeIcon icon={faSwimmer} size='4x'/>
+                <div className='w-[95%] flex justify-around items-center mt-16 md:mt-8 mx-auto'>
+                    <div className='md:ml-20 mr-4'>
+                        <FontAwesomeIcon icon={faSwimmer} size='5x'/>
                     </div>
 
-                    <p>For swim meet schedules, results, and recrods check out the <a className='underline font-semibold' target='_blank' href='https://www.usms.org/'>US Masters Swimming</a> website! </p>
+                    <p>For swim meet schedules, results, and records check out the <a className='underline font-semibold' target='_blank' href='https://www.usms.org/'>US Masters Swimming</a> website! </p>
                 </div>
 
                 <hr className=" my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
                 <AboutUsContainer className=" w-[95%] py-8 px-6 rounded-md text-center mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background2.png')] bg-no-repeat bg-cover">
-                    <div className='flex justify-between'>
+                    <div className='md:flex md:justify-between'>
                         <div className='text-xl w-[90%] mx-auto'>
-                            <h2 className='text-6xl mb-4'>Who Are the Penguins?</h2>
+                            <h2 className='text-5xl md:text-6xl mb-4'>Who Are the Penguins?</h2>
 
                             <p className="text-xl leading-relaxed">We are an amazing group of swimmers who practice Monday, Wednesday, Thursday, and Friday from 6:30am to 8:00am at the Nashua Boys and Girls Club's 5-lane, 25-yard pool. A team member is always present during workouts. Our structured sessions cater to adults aged 20 and above, encompassing a diverse range of swimming abilities.</p>
 
@@ -80,7 +80,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                         </div>
 
                         <div>
-                            <img src={swimBackground} className='mx-auto h-[100%] w-[90%] object-none object-right-bottom rounded-md'></img>
+                            <img src={swimBackground} className='mx-auto h-[100%] w-[90%] md:object-none md:object-right-bottom rounded-md'></img>
                         </div>
                     </div>
                 </AboutUsContainer>
