@@ -40,7 +40,7 @@ export default function SwimmerBioCard({ bio }) {
                             </div>
                         </CardBody>
                         <CardFooter className="pt-0">
-                            <PrimaryButton onClick={toggleSetDisplaySwimmerBioModal} className="ml-[90%]">Close</PrimaryButton>
+                            <PrimaryButton onClick={toggleSetDisplaySwimmerBioModal} className="float-end">Close</PrimaryButton>
                         </CardFooter>
                     </Card>
                 </Modal>
@@ -64,7 +64,7 @@ export default function SwimmerBioCard({ bio }) {
                     </div>
                 </CardBody>
                 <CardFooter className="pt-0">
-                    <PrimaryButton onClick={toggleSetDisplaySwimmerBioModal} className="ml-[60%]">Read More</PrimaryButton>
+                    <PrimaryButton onClick={toggleSetDisplaySwimmerBioModal} className=" float-end md:ml-[60%]">Read More</PrimaryButton>
                 </CardFooter>
             </Card>
         </>

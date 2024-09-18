@@ -18,7 +18,7 @@ class SwimmerBioFactory extends Factory
     {
         return [
             'swimmer_name' => fake()->name(),
-            'image_cdn' => fake()->imageUrl(),
+            'image_cdn' => fake()->imageUrl(category: 'animals'),
             'body' => fake()->paragraph(),
         ];
     }

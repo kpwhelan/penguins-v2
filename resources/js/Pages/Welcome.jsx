@@ -37,7 +37,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
 
                 <hr className="my-8 md:my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
-                <NewsContainer className="text-white mt-10 w-[98%] md:w-[90%] p-2 md:p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-no-repeat bg-cover rounded-md">
+                <NewsContainer className="text-white md:mt-10 w-[98%] md:w-[90%] p-2 md:p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-no-repeat bg-cover rounded-md">
                     <h2 className='text-4xl md:text-6xl font-semibold w-full'>Penguins News</h2>
 
                     {newsItems && newsItems.length > 0 ?
@@ -59,7 +59,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     <p>For swim meet schedules, results, and records check out the <a className='underline font-semibold' target='_blank' href='https://www.usms.org/'>US Masters Swimming</a> website! </p>
                 </div>
 
-                <hr className=" my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
+                <hr className="my-8 md:my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
                 <AboutUsContainer className=" w-[95%] py-8 px-6 rounded-md text-center mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background2.png')] bg-no-repeat bg-cover">
                     <div className='md:flex md:justify-between'>
@@ -85,7 +85,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     </div>
                 </AboutUsContainer>
 
-                <hr className="my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
+                <hr className="my-8 md:my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
                 {swimmerBios.length > 0 &&
                     <SwimmersBioContainer className="w-[95%] rounded-md p-8 mx-auto  bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background3.png')] bg-no-repeat bg-cover">
