@@ -30,7 +30,7 @@ export default function Membership() {
                 </div> */}
             </div>
 
-            <MembershipPageInfoContainer className="px-8 py-10">
+            <MembershipPageInfoContainer className="px-8 py-10 bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-content-background.png')] bg-no-repeat bg-cover">
                 <div className="flex justify-around items-center">
                     <div className="w-[40%]">
                         <p className="text-6xl mb-6">Membership</p>
