@@ -51,7 +51,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     }
                 </NewsContainer>
 
-                <div className='w-[95%] flex justify-around items-center mt-16 md:mt-8 mx-auto'>
+                <div className='w-[95%] flex justify-start lg:justify-around items-center mt-16 md:mt-8 mx-auto'>
                     <div className='md:ml-20 mr-4'>
                         <FontAwesomeIcon icon={faSwimmer} size='5x'/>
                     </div>
@@ -61,8 +61,8 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
 
                 <hr className="my-8 md:my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
-                <AboutUsContainer className=" w-[95%] py-8 px-6 rounded-md text-center mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background2.png')] bg-no-repeat bg-cover">
-                    <div className='md:flex md:justify-between'>
+                <AboutUsContainer className=" w-[95%] py-8 px-6 rounded-md text-center mx-auto">
+                    <div className="p-4  rounded-md md:flex md:justify-between bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background2.png')] bg-no-repeat bg-cover">
                         <div className='text-xl w-[90%] mx-auto'>
                             <h2 className='text-5xl md:text-6xl mb-4'>Who Are the Penguins?</h2>
 
