@@ -26,7 +26,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
         <>
             <Head title="Granite State Penguins" />
 
-            <main className="bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-content-background.png')] bg-no-repeat bg-cover">
+            <main className="">
                 <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" blurNav={blurNav} />
                 <WelcomePageContainer className="relative flex items-center justify-center h-screen overflow-hidden">
                     <div className='text-center animate__animated animate__slower animate__fadeIn'>
@@ -37,7 +37,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
 
                 <hr className="my-8 md:my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
-                <NewsContainer className="text-white md:mt-10 w-[98%] md:w-[90%] p-2 md:p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background.png')] bg-cover bg-center rounded-md">
+                <NewsContainer className="text-white md:mt-10 w-[98%] md:w-[90%] p-2 md:p-10 mx-auto bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-content-background.png')] bg-cover bg-no-repeat bg-center rounded-md">
                     <h2 className='text-4xl md:text-6xl font-semibold w-full'>Penguins News</h2>
 
                     {newsItems && newsItems.length > 0 ?
@@ -88,7 +88,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                 <hr className="my-8 md:my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />
 
                 {swimmerBios.length > 0 &&
-                    <SwimmersBioContainer className="w-[95%] rounded-md p-8 mx-auto  bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background3.png')] bg-no-repeat bg-cover">
+                    <SwimmersBioContainer className="w-[95%] rounded-md p-8 mx-auto">
                         <h2 className='text-6xl font-semibold'>Pengins All Stars</h2>
                         <div className='flex flex-wrap justify-evenly w-full'>
                             {swimmerBios.map(bio => {
