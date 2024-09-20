@@ -70,7 +70,7 @@ export default function Membership() {
                     </div>
 
                     <ContactFormContainer className="mx-auto lg:mx-0 w-[80%] mt-8 lg:w-[30%] h-full border-2 border-white rounded-md p-4 bg-opacity-10">
-                        <img src="https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-placeholder-img.jpg"></img>
+                        <img className="rounded-md" src="https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-placeholder-img.jpg"></img>
                         <ContactForm />
                     </ContactFormContainer>
                 </div>
