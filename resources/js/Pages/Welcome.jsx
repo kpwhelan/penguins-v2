@@ -12,6 +12,7 @@ import SwimmersBioContainer from '@/Containers/SwimmerBiosContainer';
 import SwimmerBioCard from '@/Components/SwimmerBioCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSwimmer } from '@fortawesome/free-solid-svg-icons';
+import { Footer } from '@/Components/Footer';
 
 export default function Welcome({ auth, newsItems, swimmerBios }) {
     const [blurNav, setBlurNav] = useState(false);
@@ -97,6 +98,8 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                         </div>
                     </SwimmersBioContainer>
                 }
+
+                <Footer />
             </main>
         </>
     );
