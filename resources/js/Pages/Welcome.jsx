@@ -51,12 +51,12 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                     }
                 </NewsContainer>
 
-                <div className='w-[95%] flex justify-around items-center mt-16 md:mt-8 mx-auto'>
+                <div className='w-[95%] flex items-center mt-16 md:mt-16 mx-auto'>
                     <div className='md:ml-20 mr-4'>
                         <FontAwesomeIcon icon={faSwimmer} size='5x'/>
                     </div>
 
-                    <p>For swim meet schedules, results, and records check out the <a className='underline font-semibold' target='_blank' href='https://www.usms.org/'>US Masters Swimming</a> website! </p>
+                    <p className='text-xl'>For swim meet schedules, results, and records check out the <a className='underline font-semibold' target='_blank' href='https://www.usms.org/'>US Masters Swimming</a> website! </p>
                 </div>
 
                 <hr className="my-8 md:my-24 h-0.5 border-t-0 bg-white dark:bg-white/10" />

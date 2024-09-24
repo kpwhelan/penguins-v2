@@ -14,8 +14,8 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
         >
             <Head title="Dashboard" />
 
-            <div className="w-[70%] mx-auto mt-10 flex justify-between items-center">
-                <div className='w-[40%] border-l-2 border-white pl-4'>
+            <div className="w-[90%] lg:w-[70%] mx-auto mt-10 lg:flex lg:justify-between lg:items-center">
+                <div className='w-full lg:w-[40%] border-l-2 border-white pl-4'>
                     <p className='mt-4 font-semibold text-xl'>In the last 30 days you did deck duty...</p>
                     <p className='font-bold text-6xl'>{deck_duty_count}<span className='text-4xl'>x</span></p>
                     <p className='mt-2 text-3xl font-semibold'>{deck_duty_count > 1 ? goodJobText : signUpMoreText}</p>
@@ -28,15 +28,15 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
                     }
                 </div>
 
-               <div className='w-[50%]'>
+               <div className='mt-4 lg:mt-0 w-full lg:w-[50%]'>
                     <img className='rounded-md' src='https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/underwater.jpg'></img>
                </div>
             </div>
 
             {!!auth.user.is_admin &&
-                <div className='flex justify-between w-[75%] mx-auto'>
-                    <NewsUploadForm className='w-[45%]' />
-                    <SwimmerBioUploadForm className='w-[45%]' />
+                <div className='lg:flex lg:justify-between w-[75%] mx-auto'>
+                    <NewsUploadForm className='w-[90%] lg:w-[45%]' />
+                    <SwimmerBioUploadForm className='w-[90%] lg:w-[45%]' />
                 </div>
             }
 
