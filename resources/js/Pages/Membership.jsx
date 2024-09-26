@@ -7,6 +7,7 @@ import ContactForm from "@/Components/ContactForm";
 import { useState } from "react";
 import LocationCOntainer from "@/Containers/LocationsContainer";
 import Locations from "@/Components/Locations";
+import { Footer } from "@/Components/Footer";
 
 export default function Membership() {
     const [blurNav, setBlurNav] = useState(false);
@@ -85,6 +86,7 @@ export default function Membership() {
                 </LocationCOntainer>
 
             </MembershipPageInfoContainer>
+            <Footer />
         </main>
     );
 }

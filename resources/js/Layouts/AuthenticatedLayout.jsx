@@ -47,6 +47,13 @@ export default function Authenticated({ user, header, children }) {
                                     </NavLink>
                                 </div>
                             }
+                            {!!user.is_admin &&
+                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                    <NavLink href={route('registration-status')} active={route().current('registration-status')}>
+                                        Registration Status
+                                    </NavLink>
+                                </div>
+                            }
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">

@@ -14,7 +14,7 @@ export default function CreateUserForm({ mustVerifyEmail, status, className = ''
     const notifyError = (message) => toast.error(message);
 
     const [processing, setProcessing] = useState(false);
-    const { data, setData, errors, recentlySuccessful, reset } = useForm({
+    const { data, setData, errors, recentlySuccessful, reset, setError } = useForm({
         first_name: '',
         last_name: '',
         email: '',

@@ -81,6 +81,12 @@ Route::get('/directory', function () {
     return Inertia::render('Directory', ['users' => $users]);
 })->middleware('auth')->name('directory');
 
+Route::get('/registration-status', function () {
+    $registration_tokens = RegistrationToken::where('successfully_registered', '=', 'false')->get();
+
+    return Inertia::render('RegistrationStatus', ['registration_tokens' => $registration_tokens]);
+})->middleware('auth')->name('registration-status');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
