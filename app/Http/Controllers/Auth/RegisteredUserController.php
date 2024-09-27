@@ -6,24 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TokenRegistrationRequest;
 use App\Jobs\DeactivateRegistrationToken;
 use App\Jobs\SendRegistrationTokenEmail;
-use App\Mail\NewUserRegistraitonEmail;
 use App\Models\RegistrationToken;
 use App\Models\User;
 use App\Traits\JsonResponseTrait;
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
-use Tests\Feature\Auth\RegistrationTest;
 
 class RegisteredUserController extends Controller {
     use JsonResponseTrait;
@@ -69,22 +60,24 @@ class RegisteredUserController extends Controller {
         try {
             $user = User::create($request->all());
 
-            $registration_token = new RegistrationToken();
-            $registration_token->email = $user->email;
-            $registration_token->registration_token = Str::password(16);
-            $this->registration_token_model_successully_saved = $registration_token->save();
+            // $registration_token = new RegistrationToken();
+            // $registration_token->email = $user->email;
+            // $registration_token->registration_token = Str::password(16, symbols: false);
+            $token_generation_results = RegistrationToken::generateRegistrationToken($user->email);
         } catch(Exception $e) {
             Log::error($e, [
                 'message' => 'Error occured while attempting to make a new user'
             ]);
 
-            $this->registration_token_model_successully_saved = false;
+            $token_generation_results['successfully_saved'] = false;
         }
 
-        if (!$this->registration_token_model_successully_saved) return $this->errorResponse('Something went wrong while saving the user, try again or contact support.', 500);
+        if (!$token_generation_results) return $this->errorResponse('Something went wrong while saving the user, try again or contact support.', 500);
 
-        SendRegistrationTokenEmail::dispatch($user, $registration_token->registration_token)->onQueue('send_registration_email');
-        DeactivateRegistrationToken::dispatch($registration_token)->delay(now()->addHours(48))->onQueue('set_registration_token_expired');
+        RegistrationToken::dispatchRegistrationTokenEmailJob($user, $token_generation_results['token_record']->registration_token);
+        RegistrationToken::dispatchRegistrationTokenExpirationJob($token_generation_results['token_record']->registration_token);
+        // SendRegistrationTokenEmail::dispatch($user, $token_generation_results['token_record']->registration_token)->onQueue('send_registration_email');
+        // DeactivateRegistrationToken::dispatch($token_generation_results['token_record']->registration_token)->delay(now()->addHours(48))->onQueue('set_registration_token_expired');
 
         // event(new Registered($user));
 

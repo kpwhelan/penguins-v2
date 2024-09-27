@@ -25,7 +25,6 @@ class DeactivateRegistrationToken implements ShouldQueue
      * Execute the job.
      */
     public function handle(): void {
-
         $this->token->is_expired = true;
 
         try {

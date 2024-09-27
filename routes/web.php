@@ -5,6 +5,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsItemsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistrationTokenController;
 use App\Http\Controllers\SwimmerBioController;
 use App\Http\Controllers\WorkoutsController;
 use App\Models\DeckDutyEvent;
@@ -115,6 +116,10 @@ Route::middleware('auth')->prefix('swimmer-bios')->group(function () {
 
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/', [RegisteredUserController::class, 'index'])->name('users');
+});
+
+Route::middleware('auth')->prefix('registration-token')->group(function () {
+    Route::post('/', [RegistrationTokenController::class, 'generateRegistrationToken'])->name('registration-token.store');
 });
 
 Route::post('/contact', [ContactController::class, 'sendNewContactEmail'])->name('contact.send');

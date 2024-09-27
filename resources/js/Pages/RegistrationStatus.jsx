@@ -4,8 +4,16 @@ import { Card, CardBody, CardFooter, CardHeader, Typography } from '@material-ta
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 import PrimaryButton from '@/Components/PrimaryButton';
+import axios from 'axios';
 
 export default function RegistrationStatus({ auth, registration_tokens }) {
+    const generateNewToken = (email) => {
+        axios.post(route('registration-token.store'), {
+            'email': email
+        })
+        .then(res => console.log(res))
+        .catch(error => console.log(error))
+    }
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -14,7 +22,7 @@ export default function RegistrationStatus({ auth, registration_tokens }) {
             <Head title="Registration Status" />
 
             <main>
-                <div className='w-[80%] mx-auto flex flex-wrap'>
+                <div className='w-[80%] mx-auto flex flex-wrap justify-around'>
                     {registration_tokens.map(token => {
                         return <Card key={token} className="mt-6 w-96">
                         <CardBody>
@@ -29,7 +37,7 @@ export default function RegistrationStatus({ auth, registration_tokens }) {
                           </Typography>
                         </CardBody>
                         <CardFooter>
-                            <PrimaryButton disabled={token.is_expired ? false : true}>
+                            <PrimaryButton onClick={() => generateNewToken(token.email)} disabled={token.is_expired ? false : true}>
                                 Resend Token
                             </PrimaryButton>
                         </CardFooter>
