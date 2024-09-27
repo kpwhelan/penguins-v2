@@ -16,13 +16,24 @@ class RegistrationTokenController extends Controller {
         $email = $request->email;
         $user = User::where('email', $email)->first();
 
-        $token_generation_results = RegistrationToken::generateRegistrationToken($email);
+        // $token_generation_results = RegistrationToken::generateRegistrationToken($email);
+        $token_record = RegistrationToken::where([
+            ['email', $email],
+            ['has_been_resent', false]
+        ])->first();
 
-        if (!$token_generation_results['successfully_saved']) return $this->errorResponse('Something went wrong generating the token, try again or contact support', 500);
+        $token_record->registration_token = Str::password(16, symbols: false);
+        $token_record->is_expired = false;
+        $token_record->email_successfully_sent = false;
+        $token_record->has_been_resent = true;
 
-        RegistrationToken::dispatchRegistrationTokenEmailJob($user, $token_generation_results['token_record']->registration_token);
-        RegistrationToken::dispatchRegistrationTokenExpirationJob($token_generation_results['token_record']);
+        if (!$token_record->save()) return $this->errorResponse('Something went wrong generating the token, try again or contact support', 500);
 
-        return $this->successResponse('Successfully sent a new registration email!');
+        RegistrationToken::dispatchRegistrationTokenEmailJob($user, $token_record->registration_token);
+        RegistrationToken::dispatchRegistrationTokenExpirationJob($token_record);
+
+        $tokens = RegistrationToken::where('successfully_registered', '=', 'false')->get();
+
+        return $this->successResponse('Successfully sent a new registration email!', ['tokens' => $tokens]);
     }
 }

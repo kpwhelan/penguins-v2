@@ -16,7 +16,8 @@ class RegistrationToken extends Model
         'email',
         'registration_token',
         'is_expired',
-        'successfully_registered'
+        'successfully_registered',
+        'has_been_resent'
     ];
 
     public static function generateRegistrationToken(string $email): array {
