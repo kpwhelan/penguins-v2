@@ -65,7 +65,7 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                 <AboutUsContainer className=" w-[95%] py-8 px-6 rounded-md text-center mx-auto">
                     <div id="about-us-section" className="p-4  rounded-md md:flex md:justify-between bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/section-background2.png')] bg-no-repeat bg-cover">
                         <div className='text-xl w-[90%] mx-auto'>
-                            <h2 className='text-5xl md:text-6xl mb-4'>Who Are the Penguins?</h2>
+                            <h2 className='text-5xl md:text-6xl mb-4 font-semibold'>Who Are the Penguins?</h2>
 
                             <p className="text-xl leading-relaxed">We are an amazing group of swimmers who practice Monday, Wednesday, Thursday, and Friday from 6:30am to 8:00am at the Nashua Boys and Girls Club's 5-lane, 25-yard pool. A team member is always present during workouts. Our structured sessions cater to adults aged 20 and above, encompassing a diverse range of swimming abilities.</p>
 
