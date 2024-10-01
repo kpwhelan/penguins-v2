@@ -139,7 +139,7 @@ export default function Calendar({ deckDutyEvents, auth }) {
                         <p>Currently Viewing: <span className='text-xl font-semibold'>{isViewingBulk ? 'Bulk Edit Calendar' : 'Standard Calendar'}</span></p>
                         <div className='flex justify-between mt-1 w-[40%]'>
                             <PrimaryButton onClick={toggleIsViewingBulk}>{isViewingBulk ? 'Switch To Regular Calendar' : 'Switch To Bulk Edit'}</PrimaryButton>
-                            <div>
+                            <div className='ml-2'>
                                 {(!!auth.user.is_admin && bulkEditSelectedDays.length > 0 && isViewingBulk) &&
                                     <PrimaryButton onClick={toggleSetDisplayBulkSignUpModal}>Select Swimmer</PrimaryButton>
                                 }

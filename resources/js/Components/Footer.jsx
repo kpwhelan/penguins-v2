@@ -1,5 +1,7 @@
 import { Typography } from "@material-tailwind/react";
 import ApplicationLogo from "./ApplicationLogo";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInstagram, faFacebook } from "@fortawesome/free-brands-svg-icons";
 
 export function Footer() {
   return (
@@ -10,42 +12,25 @@ export function Footer() {
           <li>
             <Typography
               as="a"
-              href="#"
+              href="https://www.facebook.com/granitestatepenguins/"
+              target="_blank"
               color="blue-gray"
-              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+            //   className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
-              About Us
+              <FontAwesomeIcon size="4x" icon={faFacebook} />
             </Typography>
           </li>
           <li>
             <Typography
               as="a"
-              href="#"
+              href="https://www.instagram.com/rowdypenguins/"
+              target="_blank"
               color="blue-gray"
-              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+            //   className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
-              License
+              <FontAwesomeIcon size="4x" icon={faInstagram} />
             </Typography>
-          </li>
-          <li>
-            <Typography
-              as="a"
-              href="#"
-              color="blue-gray"
-              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
-            >
-              Contribute
-            </Typography>
-          </li>
-          <li>
-            <Typography
-              as="a"
-              href="#"
-              color="blue-gray"
-              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
-            >
-              Contact Us
-            </Typography>
+
           </li>
         </ul>
       </div>
