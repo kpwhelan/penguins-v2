@@ -81,8 +81,8 @@ export default function Membership() {
                     </ContactFormContainer>
                 </div>
 
-                <LocationCOntainer className='w-[90%] lg:w-[80%] mx-auto'>
-                    <div className="lg:ml-[8%] mt-10">
+                <LocationCOntainer className='w-[95%] lg:w-[80%] mx-auto'>
+                    <div className="lg:ml-[8%] mt-10 mx-auto">
                         <h2 className="text-3xl">Alternate Locations</h2>
                         <p>All Granite State Penguins locations come with their own dues and rules. <br/> For more information please reach out via the contact information below each location!</p>
                     </div>
