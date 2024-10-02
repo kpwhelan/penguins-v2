@@ -63,6 +63,11 @@ export default function Membership() {
                         </div>
 
                         <div className="mt-10">
+                            <p>Please fill out the following Penguins application before your first visit.</p>
+                            <a className="underline" target="_blank" href='https://penguins.nyc3.cdn.digitaloceanspaces.com/GSP-Application.pdf'>GSP Application</a>
+                        </div>
+
+                        <div className="mt-10">
                             <p className="text-4xl mb-4">Location</p>
                             <p className="text-xl">Boys & Girls Club of Greater Nashua</p>
                             <p>One Positive Pl, Nashua, NH 03060</p>
@@ -70,7 +75,7 @@ export default function Membership() {
                         </div>
                     </div>
 
-                    <ContactFormContainer className="mx-auto lg:mx-0 w-[80%] mt-8 lg:w-[30%] h-full border-2 border-white rounded-md p-4 bg-opacity-10">
+                    <ContactFormContainer className="mx-auto lg:mx-0 w-[80%] mt-8 lg:w-[40%] h-full border-2 border-white rounded-md p-4 bg-opacity-10">
                         <img className="rounded-md" src="https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-placeholder-img.jpg"></img>
                         <ContactForm />
                     </ContactFormContainer>
