@@ -36,7 +36,7 @@ class CalendarController extends Controller {
         return response()->json([
             'message' => "You're signed up for deck duty!",
             'success' => true,
-            'deckDutyEvents'   => DeckDutyEvent::all(),
+            'deckDutyEvents' => DeckDutyEvent::all(),
         ], 201);
     }
 
