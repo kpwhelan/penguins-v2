@@ -31,9 +31,9 @@ export default function Membership() {
                 </div> */}
             </div>
 
-            <MembershipPageInfoContainer className="text-center lg:text-left px-8 py-10 bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-content-background.png')] bg-no-repeat bg-cover">
+            <MembershipPageInfoContainer className="text-center lg:text-left lg:px-8 py-10 bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-content-background.png')] bg-no-repeat bg-cover">
                 <div className="lg:flex lg:justify-around lg:items-center">
-                    <div className="w-full lg:w-[40%]">
+                    <div className="w-[95%] mx-auto lg:mx-0 lg:w-[40%]">
                         <p className="text-6xl mb-6">Membership</p>
 
                         <p className="text-lg leading-relaxed">
@@ -75,14 +75,14 @@ export default function Membership() {
                         </div>
                     </div>
 
-                    <ContactFormContainer className="mx-auto lg:mx-0 w-[80%] mt-8 lg:w-[40%] h-full border-2 border-white rounded-md p-4 bg-opacity-10">
+                    <ContactFormContainer className="mx-auto lg:mx-0 w-[90%] mt-8 lg:w-[40%] h-full border-2 border-white rounded-md p-4 bg-opacity-10">
                         <img className="rounded-md" src="https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-placeholder-img.jpg"></img>
                         <ContactForm />
                     </ContactFormContainer>
                 </div>
 
-                <LocationCOntainer className='w-[80%] mx-auto'>
-                    <div className="ml-[8%] mt-10">
+                <LocationCOntainer className='w-[90%] lg:w-[80%] mx-auto'>
+                    <div className="lg:ml-[8%] mt-10">
                         <h2 className="text-3xl">Alternate Locations</h2>
                         <p>All Granite State Penguins locations come with their own dues and rules. <br/> For more information please reach out via the contact information below each location!</p>
                     </div>

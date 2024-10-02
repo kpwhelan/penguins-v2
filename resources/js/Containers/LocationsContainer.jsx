@@ -1,6 +1,6 @@
 export default function LocationCOntainer({ children, className }) {
     return (
-        <div className="">
+        <div className="w-full">
             {children}
         </div>
     );
