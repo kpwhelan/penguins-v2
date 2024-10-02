@@ -22,7 +22,7 @@ class NewNewsItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['string', 'nullable'],
+            'title' => ['string', 'required'],
             'body'  => ['required', 'string'],
             'news_image' => ['nullable', 'mimes:jpg,png,jpeg,heic', 'max:5120'],
         ];
