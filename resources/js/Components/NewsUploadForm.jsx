@@ -69,7 +69,7 @@ export default function NewsUploadForm({ className }) {
                         />
 
                         <div className="mt-2">
-                            <InputLabel className="text-white text-xl" htmlFor="title">Title <span className="text-sm">(optional)</span></InputLabel>
+                            <InputLabel className="text-white text-xl" htmlFor="title">Title</InputLabel>
 
                             <TextInput
                                 id="title"
