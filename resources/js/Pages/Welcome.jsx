@@ -27,8 +27,8 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
         <>
             <Head title="Granite State Penguins" />
 
-            <main className="">
-                <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" blurNav={blurNav} />
+            <main id="main-content">
+                <WelcomePageNav />
                 <WelcomePageContainer className="relative flex items-center justify-center h-screen overflow-hidden">
                     <div className='text-center animate__animated animate__slower animate__fadeIn'>
                         <h1 className='z-30 font-extrabold text-4xl md:text-7xl'>The Granite State Penguins</h1>
