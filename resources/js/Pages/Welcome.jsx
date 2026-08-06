@@ -3,6 +3,7 @@ import WelcomePageNav from '@/Components/WelcomePageNav';
 import HeroSection from '@/Components/Home/HeroSection';
 import WhySwimSection from '@/Components/Home/WhySwimSection';
 import PracticeSection from '@/Components/Home/PracticeSection';
+import NewsSection from '@/Components/Home/NewsSection';
 
 export default function Welcome({ auth, newsItems, swimmerBios }) {
     return (
@@ -17,6 +18,8 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
                 <WhySwimSection />
 
                 <PracticeSection />
+
+                <NewsSection newsItems={newsItems} />
 
             </main>
         </>

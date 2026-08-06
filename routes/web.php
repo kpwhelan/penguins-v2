@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsItemsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationTokenController;
@@ -13,7 +14,6 @@ use App\Models\NewsItem;
 use App\Models\RegistrationToken;
 use App\Models\SwimmerBio;
 use App\Models\User;
-use Illuminate\Mail\Markdown;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -35,17 +35,20 @@ use Inertia\Inertia;
     // ]);
 // });
 
-Route::get('/', function () {
-    $news_items = NewsItem::all();
-    $swimmer_bios = SwimmerBio::all();
+// Route::get('/', function () {
+//     $news_items = NewsItem::all();
+//     $swimmer_bios = SwimmerBio::all();
 
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'newsItems' => $news_items,
-        'swimmerBios' => $swimmer_bios,
-    ]);
-});
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'newsItems' => $news_items,
+//         'swimmerBios' => $swimmer_bios,
+//     ]);
+// });
+
+Route::get('/', HomeController::class)
+    ->name('home');
 
 Route::post('register', [RegisteredUserController::class, 'store']) ->name('register');
 
