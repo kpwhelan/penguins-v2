@@ -1,15 +1,8 @@
-import { Link, Head } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import WelcomePageNav from '@/Components/WelcomePageNav';
-import AboutUsContainer from '@/Containers/AboutUsContainer';
-import NewsContainer from '@/Containers/NewsContainer';
-import swimBackground from '../../../public/assets/swim-background.jpg';
-import NewsItemCard from '@/Components/NewsItemCard';
-import SwimmersBioContainer from '@/Containers/SwimmerBiosContainer';
-import SwimmerBioCard from '@/Components/SwimmerBioCard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSwimmer } from '@fortawesome/free-solid-svg-icons';
-import { Footer } from '@/Components/Footer';
 import HeroSection from '@/Components/Home/HeroSection';
+import WhySwimSection from '@/Components/Home/WhySwimSection';
+import PracticeSection from '@/Components/Home/PracticeSection';
 
 export default function Welcome({ auth, newsItems, swimmerBios }) {
     return (
@@ -20,6 +13,10 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
 
             <main id="main-content">
                 <HeroSection />
+
+                <WhySwimSection />
+
+                <PracticeSection />
 
             </main>
         </>
