@@ -4,6 +4,9 @@ import HeroSection from '@/Components/Home/HeroSection';
 import WhySwimSection from '@/Components/Home/WhySwimSection';
 import PracticeSection from '@/Components/Home/PracticeSection';
 import NewsSection from '@/Components/Home/NewsSection';
+import AllStarsSection from '@/Components/Home/AllStarsSection';
+import MembershipCta from '@/Components/Home/MembershipCta';
+import { Footer } from '@/Components/Footer';
 
 export default function Welcome({ auth, newsItems, swimmerBios }) {
     return (
@@ -21,6 +24,11 @@ export default function Welcome({ auth, newsItems, swimmerBios }) {
 
                 <NewsSection newsItems={newsItems} />
 
+                <AllStarsSection swimmerBios={swimmerBios} />
+
+                <MembershipCta />
+
+                <Footer />
             </main>
         </>
     );

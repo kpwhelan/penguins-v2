@@ -4,6 +4,7 @@ const variants = {
     primary: 'button-primary',
     secondary: 'button-secondary',
     dark: 'button-dark',
+    light: 'button-light',
     outlineLight: 'button-outline-light',
 };
 

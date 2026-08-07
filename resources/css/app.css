@@ -148,6 +148,10 @@
         @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/35 bg-white/5 px-6 py-3 text-sm font-bold text-white backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/10;
     }
 
+    .button-light {
+        @apply inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-extrabold text-navy-950 shadow-soft transition duration-200 hover:-translate-y-0.5 hover:bg-penguins-50 hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-penguins-600;
+    }
+
     /*
      * Cards and panels
      */
