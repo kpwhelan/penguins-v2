@@ -8,7 +8,7 @@ import AllStarsSection from '@/Components/Home/AllStarsSection';
 import MembershipCta from '@/Components/Home/MembershipCta';
 import { Footer } from '@/Components/Footer';
 
-export default function Welcome({ auth, newsItems, swimmerBios }) {
+export default function Welcome({ newsItems, swimmerBios }) {
     return (
         <>
             <Head title="Granite State Penguins" />
