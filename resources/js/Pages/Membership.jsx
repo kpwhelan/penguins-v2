@@ -20,10 +20,10 @@ export default function Membership() {
     window.addEventListener('scroll', handleScroll);
 
     return (
-        <main>
+        <main id="main-content" className="pt-20 lg:pt-24">
             <Head title="Membership" />
 
-            <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" blurNav={blurNav} />
+            <WelcomePageNav />
 
             <div className="animate__animated animate__slower animate__fadeIn h-96 bg-[url('https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/membership-background.jpg')] bg-cover flex align-middle justify-center items-center opacity-90">
                 {/* <div className="text-center bg-[#333333] bg-opacity-30 px-2">

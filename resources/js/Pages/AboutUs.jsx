@@ -1,19 +1,10 @@
 import WelcomePageNav from "@/Components/WelcomePageNav";
 import AboutUsContainer from "@/Containers/AboutUsContainer";
 import { Head, Link } from "@inertiajs/react";
-import { useState } from "react";
 
 export default function AboutUs({  }) {
-    const [blurNav, setBlurNav] = useState(false);
-
-    const handleScroll = () => {
-        window.scrollY >= 35 ? setBlurNav(true) : setBlurNav(false);
-    }
-
-    window.addEventListener('scroll', handleScroll);
-
     return (
-        <main>
+        <main id="main-content" className="pt-20 lg:pt-24">
             <Head title="Membership" />
 
             <WelcomePageNav className="animate__animated animate__slower animate__fadeIn" blurNav={blurNav} />
