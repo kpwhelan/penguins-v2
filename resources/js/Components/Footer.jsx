@@ -22,33 +22,8 @@ export function Footer() {
                 className="absolute -bottom-40 right-0 h-96 w-96 rounded-full bg-penguins-700/15 blur-3xl"
             />
 
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 opacity-15"
-            >
-                <svg
-                    className="h-28 w-full"
-                    viewBox="0 0 1440 120"
-                    preserveAspectRatio="none"
-                    fill="none"
-                >
-                    <path
-                        d="M-100 55C110 8 310 10 510 57C710 104 900 108 1100 58C1260 18 1395 17 1540 47"
-                        stroke="white"
-                        strokeWidth="2"
-                    />
-
-                    <path
-                        d="M-100 82C110 35 310 37 510 84C710 131 900 135 1100 85C1260 45 1395 44 1540 74"
-                        stroke="white"
-                        strokeWidth="2"
-                    />
-                </svg>
-            </div>
-
             <div className="site-container relative z-10">
-                <div className="grid gap-12 py-16 sm:py-20 lg:grid-cols-[1.15fr_0.85fr_0.85fr] lg:gap-16">
-                    {/* Brand */}
+                <div className="grid gap-12 py-14 sm:py-16 lg:grid-cols-[1.15fr_0.85fr_0.85fr] lg:gap-16">                    {/* Brand */}
                     <div>
                         <Link
                             href="/"
