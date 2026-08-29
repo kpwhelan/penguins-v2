@@ -75,7 +75,21 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
                 toast.success(response.data.message);
                 closeSignUpModal();
             })
-            .catch((error) => toast.error(error.response?.data?.message ?? 'We could not update that date. Please try again.'))
+            .catch((error) => {
+                const responseData = error.response?.data;
+
+                if (responseData?.deckDutyEvents) {
+                    setEvents(responseData.deckDutyEvents);
+                }
+
+                if (responseData?.requires_confirmation) {
+                    setIsSignUpOverride(true);
+                } else {
+                    closeSignUpModal();
+                }
+
+                toast.error(responseData?.message ?? 'We could not update that date. Please try again.');
+            })
             .finally(() => setProcessing(false));
     };
 

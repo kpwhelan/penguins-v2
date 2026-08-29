@@ -18,14 +18,14 @@ class ContactController extends Controller
             ?: config('mail.contact_form_recipient_address');
 
         try {
-            throw_if(!$recipient, new Exception('The contact form recipient is not configured.'));
+            throw_if(! $recipient, new Exception('The contact form recipient is not configured.'));
 
             Mail::to($recipient)
-                ->send(new ContactEmail($input['name'], $input['email'], $input['message']));
+                ->queue(new ContactEmail($input['name'], $input['email'], $input['message']));
 
             return response()->json([
                 'success' => true,
-                'message' => 'Your message has been sent, we will be in touch shortly!',
+                'message' => 'Your message has been received. We will be in touch shortly!',
             ], 200);
         } catch (Exception $exception) {
             Log::error('Contact form email could not be sent.', [

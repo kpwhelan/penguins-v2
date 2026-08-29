@@ -49,7 +49,7 @@ class SendDeckDutyReminderEmail extends Command
         $failures = 0;
 
         foreach ($events as $event) {
-            if (!$event->user || !$event->user->email) {
+            if (! $event->user || ! $event->user->email) {
                 $this->warn("Deck duty event {$event->id} has no member email address; reminder skipped.");
 
                 continue;

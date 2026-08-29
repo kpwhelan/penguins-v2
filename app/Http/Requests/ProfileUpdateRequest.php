@@ -25,7 +25,7 @@ class ProfileUpdateRequest extends FormRequest
             'phone_number' => ['string', 'nullable'],
             'emergency_contact' => ['string', 'nullable'],
             'emergency_contact_phone' => ['string', 'nullable'],
-            'is_sharing_info' => ['boolean']
+            'is_sharing_info' => ['boolean'],
         ];
     }
 }

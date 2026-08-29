@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\SwimmerBio;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SwimmerBio>
+ * @extends Factory<SwimmerBio>
  */
 class SwimmerBioFactory extends Factory
 {

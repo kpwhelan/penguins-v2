@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventRequest extends FormRequest
@@ -18,7 +19,7 @@ class EventRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -31,7 +32,7 @@ class EventRequest extends FormRequest
                 function (string $attribute, mixed $value, Closure $fail): void {
                     $weekday = (int) date('N', strtotime($value));
 
-                    if (!in_array($weekday, [1, 3, 5], true)) {
+                    if (! in_array($weekday, [1, 3, 5], true)) {
                         $fail('Deck duty is only available on Monday, Wednesday, or Friday.');
                     }
                 },

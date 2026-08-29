@@ -10,10 +10,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationTokenController;
 use App\Http\Controllers\SwimmerBioController;
 use App\Http\Controllers\WorkoutsController;
+use App\Mail\ContactEmail;
+use App\Mail\DeckDutyReminderEmail;
+use App\Mail\NewUserRegistraitonEmail;
 use App\Models\DeckDutyEvent;
-use App\Models\NewsItem;
 use App\Models\RegistrationToken;
-use App\Models\SwimmerBio;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -52,18 +53,19 @@ Route::get('/sitemap.xml', function () {
 
 Route::get('/dashboard', function () {
     $user_id = Auth::user()->id;
+    $today = Carbon::today();
     $deck_duty_count = DeckDutyEvent::where('user_id', '=', $user_id)
-        ->whereDate('date', '>', Carbon::now()->subDays(30))
-        ->whereDate('date', '<', Carbon::now())
-        ->get()
+        ->whereDate('date', '>=', $today->copy()->startOfQuarter())
+        ->whereDate('date', '<', $today)
         ->count();
 
     $next_deck_duty = DeckDutyEvent::where('user_id', '=', $user_id)
-        ->whereDate('date', '>=', Carbon::today())
+        ->whereDate('date', '>=', $today)
+        ->orderBy('date')
         ->first();
 
     return Inertia::render('Dashboard', ['deck_duty_count' => $deck_duty_count, 'next_deck_duty' => $next_deck_duty]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
 Route::get('/create-new-user', function () {
     return Inertia::render('CreateNewUser');
@@ -133,7 +135,7 @@ if (app()->environment('local')) {
             app('debugbar')->disable();
         }
 
-        return new App\Mail\DeckDutyReminderEmail(
+        return new DeckDutyReminderEmail(
             'Kevin',
             now('America/New_York')->addDay()->format('l, F j, Y'),
         );
@@ -146,10 +148,10 @@ if (app()->environment('local')) {
             app('debugbar')->disable();
         }
 
-        return new App\Mail\ContactEmail(
+        return new ContactEmail(
             'Taylor Morgan',
             'taylor@example.com',
-            "Hi! I recently moved to the area and I’m interested in joining a Masters practice. Could you tell me a little more about the group and what I should bring for my first swim?",
+            'Hi! I recently moved to the area and I’m interested in joining a Masters practice. Could you tell me a little more about the group and what I should bring for my first swim?',
         );
     });
 
@@ -166,7 +168,7 @@ if (app()->environment('local')) {
             'email' => 'taylor@example.com',
         ]);
 
-        return new App\Mail\NewUserRegistraitonEmail(
+        return new NewUserRegistraitonEmail(
             route('invitation.show', ['invitation' => 1, 'token' => 'preview-token']),
             $user,
         );

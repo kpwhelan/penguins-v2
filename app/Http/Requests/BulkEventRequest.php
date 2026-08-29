@@ -23,7 +23,7 @@ class BulkEventRequest extends FormRequest
                 'date_format:Y-m-d',
                 'after_or_equal:today',
                 function (string $attribute, mixed $value, Closure $fail): void {
-                    if (!in_array((int) date('N', strtotime($value)), [1, 3, 5], true)) {
+                    if (! in_array((int) date('N', strtotime($value)), [1, 3, 5], true)) {
                         $fail('Every selected date must be a Monday, Wednesday, or Friday.');
                     }
                 },

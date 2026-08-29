@@ -20,10 +20,10 @@ class BulkEventRequestTest extends TestCase
     {
         $request = BulkEventRequest::create('/calendar/bulk-event', 'POST');
 
-        $request->setUserResolver(fn () => (new User())->forceFill(['is_admin' => false]));
+        $request->setUserResolver(fn () => (new User)->forceFill(['is_admin' => false]));
         $this->assertFalse($request->authorize());
 
-        $request->setUserResolver(fn () => (new User())->forceFill(['is_admin' => true]));
+        $request->setUserResolver(fn () => (new User)->forceFill(['is_admin' => true]));
         $this->assertTrue($request->authorize());
     }
 

@@ -18,7 +18,7 @@ class Workout extends Model
         'file_mime_type',
         'file_size',
         'workout_date',
-        'file_name'
+        'file_name',
     ];
 
     public function getDownloadUrlAttribute(): string

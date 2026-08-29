@@ -4,7 +4,7 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 
-//days of week are 0 indexed starting on Sunday
+// days of week are 0 indexed starting on Sunday
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());

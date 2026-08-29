@@ -5,7 +5,7 @@ import UpdateProfileInformationForm from './Partials/UpdateProfileInformationFor
 import { Head } from '@inertiajs/react';
 import UpdateEmergencyContactForm from './Partials/UpdateEmergencyContactForm';
 
-export default function Edit({ auth, mustVerifyEmail, status }) {
+export default function Edit({ auth }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -16,11 +16,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
             <div>
                 <div className="mx-auto max-w-6xl space-y-6">
                     <div className="rounded-panel border border-navy-950/15 bg-white p-5 shadow-soft sm:p-8">
-                        <UpdateProfileInformationForm
-                            mustVerifyEmail={mustVerifyEmail}
-                            status={status}
-                            className="max-w-4xl"
-                        />
+                        <UpdateProfileInformationForm className="max-w-4xl" />
                     </div>
 
                     <div className="grid items-start gap-6 lg:grid-cols-2">

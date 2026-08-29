@@ -26,7 +26,7 @@ return new class extends Migration
                 ->unique();
 
             if ($assignments->count() > 1) {
-                throw new \RuntimeException("Deck duty date {$date} has conflicting assignments and must be resolved before migrating.");
+                throw new RuntimeException("Deck duty date {$date} has conflicting assignments and must be resolved before migrating.");
             }
 
             DB::table('deck_duty_events')

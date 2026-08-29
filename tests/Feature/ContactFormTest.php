@@ -17,7 +17,7 @@ class ContactFormTest extends TestCase
         $response = $this->postJson(route('contact.send'), $this->validMessage());
 
         $response->assertOk()->assertJson(['success' => true]);
-        Mail::assertSent(ContactEmail::class, function (ContactEmail $mail): bool {
+        Mail::assertQueued(ContactEmail::class, function (ContactEmail $mail): bool {
             return $mail->hasTo('developer@example.com')
                 && $mail->envelope()->from->address === 'website@granitestatepenguins.com'
                 && $mail->envelope()->from->name === 'Granite State Penguins Website'
@@ -34,7 +34,7 @@ class ContactFormTest extends TestCase
         $response = $this->postJson(route('contact.send'), $this->validMessage());
 
         $response->assertOk()->assertJson(['success' => true]);
-        Mail::assertSent(ContactEmail::class, fn (ContactEmail $mail): bool => $mail->hasTo('team@example.com'));
+        Mail::assertQueued(ContactEmail::class, fn (ContactEmail $mail): bool => $mail->hasTo('team@example.com'));
     }
 
     public function test_missing_recipient_returns_a_safe_error(): void
@@ -46,7 +46,7 @@ class ContactFormTest extends TestCase
         $response = $this->postJson(route('contact.send'), $this->validMessage());
 
         $response->assertStatus(500)->assertJson(['success' => false]);
-        Mail::assertNothingSent();
+        Mail::assertNothingQueued();
     }
 
     private function validMessage(): array
@@ -69,7 +69,7 @@ class ContactFormTest extends TestCase
         $message['website'] = 'https://spam.example';
 
         $this->postJson(route('contact.send'), $message)->assertUnprocessable();
-        Mail::assertNothingSent();
+        Mail::assertNothingQueued();
     }
 
     public function test_submissions_completed_too_quickly_are_rejected(): void
@@ -80,7 +80,7 @@ class ContactFormTest extends TestCase
         $message['submitted_at'] = now()->timestamp;
 
         $this->postJson(route('contact.send'), $message)->assertUnprocessable();
-        Mail::assertNothingSent();
+        Mail::assertNothingQueued();
     }
 
     public function test_excessive_contact_submissions_are_rate_limited(): void

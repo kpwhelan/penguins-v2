@@ -27,7 +27,7 @@ class AssetStorageService
         $filename = basename($path);
         $storedPath = Storage::disk($disk)->putFileAs($directory, $file, $filename);
 
-        if (!$storedPath) {
+        if (! $storedPath) {
             throw new RuntimeException('The uploaded document could not be stored.');
         }
 
@@ -74,7 +74,7 @@ class AssetStorageService
         $filename = Str::uuid().'.'.$extension;
         $path = Storage::disk($disk)->putFileAs("{$prefix}/{$directory}", $file, $filename);
 
-        if (!$path) {
+        if (! $path) {
             throw new RuntimeException('The uploaded file could not be stored.');
         }
 

@@ -2,7 +2,7 @@
 {{-- Header --}}
 <x-slot:header>
 <x-mail::header :url="config('app.url')">
-    <img src="https://penguins.nyc3.cdn.digitaloceanspaces.com/assets/GSP-header-no-background.png" class="logo" alt="GSP Logo">
+    <img src="{{ asset('assets/gsp-logo-navbar-480w@2x.png') }}" class="logo" alt="Granite State Penguins">
 </x-mail::header>
 </x-slot:header>
 
@@ -21,7 +21,7 @@
 {{-- Footer --}}
 <x-slot:footer>
 <x-mail::footer>
-© {{ date('Y') }} {{ config('app.name') }}. {{ __('All rightssss reserved.') }}
+© {{ date('Y') }} {{ config('app.name') }}. {{ __('All rights reserved.') }}
 </x-mail::footer>
 </x-slot:footer>
 </x-mail::layout>

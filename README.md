@@ -1,67 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Granite State Penguins
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The redesigned public website and member portal for the Granite State Penguins masters swimming group. It is built with Laravel, Inertia, React, and Tailwind CSS.
 
-## About Laravel
+## Local development
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Requirements: PHP 8.3+, Composer, Node.js/npm, and Docker for the local MySQL database.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+composer run dev
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+`composer run dev` starts the MySQL-only Docker service, Laravel, the queue worker, scheduler, application log viewer, and Vite. Configure the database values in `.env` before the first run, then run `php artisan migrate`.
 
-## Learning Laravel
+## External services
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Cloudflare R2 stores public images and private workout documents. Production uses the `r2-public` and `r2-private` disks.
+- Resend delivers registration invitations, deck-duty reminders, contact-form messages, and password-reset mail.
+- The queue worker must remain running for invitations and contact messages.
+- Laravel's scheduler must run continuously so deck-duty reminders are dispatched at the configured time.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+For a private test deployment using production data, set `MAIL_OVERRIDE_ADDRESS` to the tester's email address. Laravel will reroute every outgoing message to that address, including invitations, password resets, contact submissions, and deck-duty reminders. Remove the setting before public launch; `php artisan production:check` intentionally reports an active override as a launch blocker.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Use `.env.example` as the complete list of settings. Secrets belong only in `.env` locally or in the production server's environment settings.
 
-## Laravel Sponsors
+## Verification
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+php artisan test
+npm run build
+vendor/bin/pint --test
+```
 
-### Premium Partners
+Before deploying, run this with the production environment loaded:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+php artisan production:check
+```
 
-## Contributing
+It fails when critical settings such as HTTPS, Resend, persistent queues, or either R2 bucket are missing or unsafe.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Production deployment
 
-## Code of Conduct
+Import the final database from the existing InMotion site before running this application's migrations. Then deploy with the usual optimized Laravel sequence:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer install --no-dev --optimize-autoloader
+npm ci
+npm run build
+php artisan migrate --force
+php artisan optimize
+php artisan queue:restart
+php artisan production:check
+```
 
-## Security Vulnerabilities
+The server must run a persistent queue worker and Laravel scheduler. The web root must point to `public/`, HTTPS must be enabled, and writable storage/cache directories must be configured for the web and queue processes.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# penguins-v2
+The Content Security Policy currently runs in report-only mode. Review real production browser reports before switching it to enforcement so legitimate third-party resources are not accidentally blocked.

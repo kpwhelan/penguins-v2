@@ -19,7 +19,8 @@ function StatIcon({ type }) {
 }
 
 export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
-    const hasRecentDuty = deck_duty_count > 1;
+    const hasMetQuarterlyDutyGoal = deck_duty_count >= 2;
+    const remainingDutyDates = Math.max(0, 2 - deck_duty_count);
 
     return (
         <AuthenticatedLayout
@@ -38,15 +39,15 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
                 <article className="surface-card p-6 sm:p-8">
                     <div className="flex items-start justify-between gap-5">
                         <div>
-                            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate">Last 30 Days</p>
-                            <p className="mt-4 text-5xl font-extrabold tracking-[-0.04em] text-navy-950">{deck_duty_count}<span className="ml-1 text-2xl text-penguins-600">times</span></p>
+                            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate">Current Quarter</p>
+                            <p className="mt-4 text-5xl font-extrabold tracking-[-0.04em] text-navy-950">{deck_duty_count}<span className="ml-1 text-2xl text-penguins-600">{deck_duty_count === 1 ? 'time' : 'times'}</span></p>
                         </div>
                         <StatIcon type="count" />
                     </div>
                     <p className="mt-5 leading-7 text-slate">
-                        {hasRecentDuty
+                        {hasMetQuarterlyDutyGoal
                             ? 'Nice work—thank you for helping keep practices running smoothly.'
-                            : 'It looks like you may need another date. Check the calendar and choose a morning that works.'}
+                            : `Choose ${remainingDutyDates} more ${remainingDutyDates === 1 ? 'date' : 'dates'} to reach the two-times-per-quarter deck-duty goal.`}
                     </p>
                     <Link href={route('calendar')} className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-penguins-700 transition hover:text-penguins-950">
                         View deck-duty calendar <span aria-hidden="true">→</span>

@@ -16,6 +16,8 @@ return [
 
     'default' => env('MAIL_MAILER', 'log'),
 
+    'override_address' => env('MAIL_OVERRIDE_ADDRESS'),
+
     'contact_form_recipient_address' => env('CONTACT_FORM_RECIPIENT_ADDRESS'),
 
     'contact_form_override_address' => env('CONTACT_FORM_OVERRIDE_ADDRESS'),
@@ -137,10 +139,10 @@ return [
     */
 
     'markdown' => [
-        'theme' => 'default',            # The name of your theme (default.css)
-        'paths' => [                     # The path to your /html and /text dirs
-        resource_path('views/vendor/mail'),
-        ]
+        'theme' => 'default',            // The name of your theme (default.css)
+        'paths' => [                     // The path to your /html and /text dirs
+            resource_path('views/vendor/mail'),
+        ],
     ],
 
 ];

@@ -7,14 +7,17 @@ use App\Http\Requests\EventRequest;
 use App\Models\DeckDutyEvent;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
-class CalendarController extends Controller {
-    public function index() {
+class CalendarController extends Controller
+{
+    public function index()
+    {
         $user = Auth::user();
 
         return Inertia::render('Calendar', [
@@ -25,17 +28,19 @@ class CalendarController extends Controller {
         ]);
     }
 
-    public function signUp(EventRequest $request): JsonResponse {
+    public function signUp(EventRequest $request): JsonResponse
+    {
         $date = $request->input('date');
         $user = Auth::user();
 
         $event = DeckDutyEvent::firstOrNew(['date' => $date]);
 
-        if ($event->exists && $event->user_id !== $user->id && !$request->boolean('confirm_override')) {
+        if ($event->exists && $event->user_id !== $user->id && ! $request->boolean('confirm_override')) {
             return response()->json([
                 'message' => 'Someone is already assigned to this date. Please confirm before replacing them.',
                 'success' => false,
                 'requires_confirmation' => true,
+                'deckDutyEvents' => $this->calendarEvents(),
             ], 409);
         }
 
@@ -46,11 +51,20 @@ class CalendarController extends Controller {
             $event->reminder_sent_at = null;
         }
 
-        if (!$event->save()) {
+        try {
+            $event->save();
+        } catch (UniqueConstraintViolationException $exception) {
+            Log::notice('Deck duty date was claimed during a concurrent signup.', [
+                'date' => $date,
+                'user_id' => $user->id,
+                'exception' => $exception,
+            ]);
+
             return response()->json([
-                'message' => "Something went wrong, try again or contact support",
+                'message' => 'That date was just claimed by another swimmer. The calendar has been refreshed.',
                 'success' => false,
-            ], 500);
+                'deckDutyEvents' => $this->calendarEvents(),
+            ], 409);
         }
 
         return response()->json([
@@ -60,7 +74,8 @@ class CalendarController extends Controller {
         ], 201);
     }
 
-    public function bulkSignUp(BulkEventRequest $request): JsonResponse {
+    public function bulkSignUp(BulkEventRequest $request): JsonResponse
+    {
         $validated = $request->validated();
         $dates = $validated['dates'];
         $isClearing = $validated['user_id'] === 'clear';
@@ -70,6 +85,7 @@ class CalendarController extends Controller {
             DB::transaction(function () use ($dates, $isClearing, $user): void {
                 if ($isClearing) {
                     DeckDutyEvent::whereIn('date', $dates)->delete();
+
                     return;
                 }
 
@@ -102,7 +118,8 @@ class CalendarController extends Controller {
         ], $isClearing ? 200 : 201);
     }
 
-    private function calendarEvents() {
+    private function calendarEvents()
+    {
         return DeckDutyEvent::query()
             ->orderBy('date')
             ->get(['id', 'date', 'user_name', 'user_id']);

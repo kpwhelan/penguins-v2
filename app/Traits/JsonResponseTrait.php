@@ -2,20 +2,23 @@
 
 namespace App\Traits;
 
-trait JsonResponseTrait {
-    protected function successResponse($message = null, $data = [], $code = 200) {
+trait JsonResponseTrait
+{
+    protected function successResponse($message = null, $data = [], $code = 200)
+    {
         return response()->json([
-            'success'  => true,
+            'success' => true,
             'message' => $message,
-            'data'    => $data,
+            'data' => $data,
         ], $code);
     }
 
-    protected function errorResponse($message = null, $code = null) {
+    protected function errorResponse($message = null, $code = null)
+    {
         return response()->json([
-            'success'  => false,
+            'success' => false,
             'message' => $message,
-            'data'    => null,
+            'data' => null,
         ], $code);
     }
 }

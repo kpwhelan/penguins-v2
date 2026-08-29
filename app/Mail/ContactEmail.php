@@ -3,9 +3,9 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -13,6 +13,15 @@ use Illuminate\Queue\SerializesModels;
 class ContactEmail extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public int $tries = 3;
+
+    public int $timeout = 30;
+
+    /**
+     * @var array<int, int>
+     */
+    public array $backoff = [60, 300, 900];
 
     /**
      * Create a new message instance.
@@ -57,7 +66,7 @@ class ContactEmail extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {
