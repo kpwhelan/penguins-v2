@@ -1,112 +1,86 @@
-import { useForm } from "@inertiajs/react";
-import { useState } from "react";
+import InputError from './InputError';
+import InputLabel from './InputLabel';
+import PrimaryButton from './PrimaryButton';
+import TextInput from './TextInput';
+import { useForm } from '@inertiajs/react';
+import axios from 'axios';
+import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import InputLabel from "./InputLabel";
-import InputError from "./InputError";
-import PrimaryButton from "./PrimaryButton";
-import TextInput from "./TextInput";
 
-export default function SwimmerBioUploadForm({ className }) {
+export default function SwimmerBioUploadForm({ className = '' }) {
     const [fileData, setFileData] = useState(null);
-    const { data, setData, post, errors, processing, recentlySuccessful, reset } = useForm({
-        swimmer_name: '',
-        body: '',
-    });
+    const [submitting, setSubmitting] = useState(false);
+    const { data, setData, errors, reset, setError } = useForm({ swimmer_name: '', body: '' });
 
-    const notifySuccess = (message) => toast.success(message);
-    const notifyError = (message) => toast.error(message);
-
-    const handleSelectedFile = (e) => {
-        setFileData(e.target.files[0]);
-    }
-
-    const submit = (e) => {
-        e.preventDefault();
-
-        const formData = new FormData()
-        if (fileData !== null) formData.append('swimmer_image', fileData);
+    const submit = (event) => {
+        event.preventDefault();
+        setSubmitting(true);
+        const formData = new FormData();
+        if (fileData) formData.append('swimmer_image', fileData);
         formData.append('swimmer_name', data.swimmer_name);
         formData.append('body', data.body);
 
-        axios.post(route('swimmer-bios.store'), formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            }
-        })
-        .then(res => {
-            if (res.data.success) {
-                let form = document.querySelector('#swimmer-bio-form');
-                reset();
-                form.reset();
-                notifySuccess(res.data.message);
-            }
-        })
-        .catch(error => {
-            notifyError(error.response.data.message);
-        })
-    }
+        axios.post(route('swimmer-bios.store'), formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            .then((response) => {
+                if (response.data.success) {
+                    reset();
+                    setFileData(null);
+                    document.querySelector('#swimmer-bio-form')?.reset();
+                    toast.success(response.data.message);
+                }
+            })
+            .catch((error) => {
+                if (error.response?.status === 422) setError(error.response.data.errors ?? {});
+                toast.error(error.response?.data?.message ?? 'The swimmer profile could not be published.');
+            })
+            .finally(() => setSubmitting(false));
+    };
 
     return (
-        <div className={className}>
-            <Toaster toastOptions={{duration: 8000, style: {marginTop: '10px'}}} />
+        <form onSubmit={submit} id="swimmer-bio-form" className={`overflow-hidden rounded-panel border border-navy-950/15 bg-white shadow-card ${className}`}>
+            <Toaster toastOptions={{ duration: 8000, style: { marginTop: '10px' } }} />
 
-            <form onSubmit={submit} id="swimmer-bio-form">
-                <section className="mt-6 w-full rounded-panel bg-navy-950 text-white shadow-elevated">
-                    <div className="p-6 sm:p-8">
-                        <h3 className="mb-5 text-2xl font-extrabold text-white">
-                            Upload a Swimmer Bio
-                        </h3>
+            <header className="flex items-start gap-4 border-b border-navy-950/10 p-6 sm:p-7">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-penguins-100 text-penguins-700">
+                    <svg aria-hidden="true" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="3" /><path d="M5.5 20c.4-4 2.5-6 6.5-6s6.1 2 6.5 6" /></svg>
+                </span>
+                <div>
+                    <p className="text-xs font-extrabold uppercase tracking-[0.15em] text-penguins-700">Swimmer spotlight</p>
+                    <h3 className="mt-1 text-xl font-extrabold text-navy-950">Publish a swimmer bio</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate">Introduce a teammate and share their story on the public site.</p>
+                </div>
+            </header>
 
-                        <InputLabel className='text-white text-xl'>Swimmer Photo</InputLabel>
-                        <input
-                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-md p-2 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                        aria-describedby="file_input_help"
-                        id="file_input"
-                        type="file"
-                        onChange={handleSelectedFile}
-                        />
+            <div className="space-y-5 p-6 sm:p-7">
+                <div>
+                    <InputLabel htmlFor="swimmer_image" value="Swimmer photo" />
+                    <label htmlFor="swimmer_image" className="mt-2 flex min-h-24 cursor-pointer items-center gap-4 rounded-2xl border border-dashed border-navy-950/25 bg-mist px-5 py-4 transition hover:border-penguins-600 hover:bg-penguins-50">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-penguins-700 shadow-sm">
+                            <svg aria-hidden="true" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 16V4m0 0L8 8m4-4 4 4M5 14v5h14v-5" /></svg>
+                        </span>
+                        <span className="min-w-0"><span className="block truncate text-sm font-extrabold text-navy-950">{fileData?.name ?? 'Choose a portrait'}</span><span className="mt-1 block text-xs text-slate">JPG or PNG recommended</span></span>
+                        <input id="swimmer_image" type="file" accept=".jpg,.jpeg,.png,.webp" onChange={(event) => setFileData(event.target.files[0] ?? null)} className="sr-only" />
+                    </label>
+                    <InputError className="mt-2" message={errors.swimmer_image} />
+                </div>
 
-                        <div className="mt-2">
-                            <InputLabel className="text-white text-xl" htmlFor="swimmer_name">Swimmer Name</InputLabel>
+                <div>
+                    <InputLabel htmlFor="swimmer_name" value="Swimmer name" />
+                    <TextInput id="swimmer_name" className="mt-2 block w-full" value={data.swimmer_name} onChange={(event) => setData('swimmer_name', event.target.value)} autoComplete="off" />
+                    <InputError className="mt-2" message={errors.swimmer_name} />
+                </div>
 
-                            <TextInput
-                                id="swimmer_name"
-                                className="mt-1 block w-full text-black"
-                                onChange={(e) => setData('swimmer_name', e.target.value)}
-                                isFocused
-                                autoComplete="swimmer_name"
-                            />
+                <div>
+                    <div className="flex items-center justify-between gap-4"><InputLabel htmlFor="swimmer_body" value="Biography" /><span className="text-xs text-slate">{data.body.length} characters</span></div>
+                    <textarea id="swimmer_body" value={data.body} onChange={(event) => setData('body', event.target.value)} className="mt-2 block min-h-48 w-full resize-y rounded-xl border-navy-950/15 bg-white px-4 py-3 text-sm leading-6 text-navy-950 shadow-sm focus:border-penguins-500 focus:ring-penguins-500" placeholder="Tell their swimming story…" />
+                    <InputError className="mt-2" message={errors.body} />
+                </div>
+            </div>
 
-                            <InputError className="mt-2" message={errors.swimmer_name} />
-                        </div>
-
-                        <div className="mt-2 w-full">
-                            <InputLabel className="text-white text-xl" htmlFor="body" value="Body" />
-
-                            {/* <TextInput
-                                id="body"
-                                className="mt-1 block w-full"
-                                value={data.body}
-                                onChange={(e) => setData('body', e.target.value)}
-                                isFocused
-                                autoComplete="body"
-                            /> */}
-
-                            <textarea
-                                className="rounded-md w-full h-60 text-black"
-                                onChange={(e) => setData('body', e.target.value)}
-                            ></textarea>
-
-                            <InputError className="mt-2" message={errors.body} />
-                        </div>
-
-
-                    </div>
-                    <div className="px-6 pb-6 sm:px-8 sm:pb-8">
-                        <PrimaryButton>Submit</PrimaryButton>
-                    </div>
-                </section>
-            </form>
-        </div>
+            <footer className="flex items-center justify-between gap-4 border-t border-navy-950/10 bg-navy-50/60 px-6 py-5 sm:px-7">
+                <p className="text-xs leading-5 text-slate">Appears in the swimmer spotlight section.</p>
+                <PrimaryButton disabled={submitting}>{submitting ? 'Publishing…' : 'Publish bio'}</PrimaryButton>
+            </footer>
+        </form>
     );
 }

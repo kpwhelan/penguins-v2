@@ -14,7 +14,16 @@ class DeckDutyEvent extends Model {
         'time',
         'user_name',
         'user_id',
+        'reminder_sent_at',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date',
+            'reminder_sent_at' => 'datetime',
+        ];
+    }
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);

@@ -11,7 +11,7 @@ class WorkoutUploadRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return (bool) $this->user()?->is_admin;
     }
 
     /**
@@ -22,7 +22,8 @@ class WorkoutUploadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'workout_file' => ['required', 'mimes:pdf,doc,docx,txt', 'max:2048'],
+            'workout_file' => ['required', 'file', 'mimes:pdf', 'max:5120'],
+            'date' => ['required', 'integer', 'min:1'],
         ];
     }
 }

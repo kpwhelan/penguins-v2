@@ -55,7 +55,7 @@ export default function RegistrationStatus({ auth, registration_tokens }) {
 
                 <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                     {tokens.map(token => {
-                        return <article key={token.id ?? token.email} className="w-full rounded-panel border border-navy-950/10 bg-white p-6 shadow-soft">
+                        return <article key={token.id ?? token.email} className="w-full rounded-panel border border-navy-950/15 bg-white p-6 shadow-soft">
                         <div>
                           <h2 className="mb-4 break-all text-xl font-extrabold text-navy-950">
                             {token.email}

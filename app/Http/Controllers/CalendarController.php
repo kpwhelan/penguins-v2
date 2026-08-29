@@ -42,6 +42,10 @@ class CalendarController extends Controller {
         $event->user_name = "{$user->first_name} {$user->last_name}";
         $event->user_id = $user->id;
 
+        if ($event->isDirty('user_id')) {
+            $event->reminder_sent_at = null;
+        }
+
         if (!$event->save()) {
             return response()->json([
                 'message' => "Something went wrong, try again or contact support",
@@ -72,7 +76,11 @@ class CalendarController extends Controller {
                 foreach ($dates as $date) {
                     DeckDutyEvent::updateOrCreate(
                         ['date' => $date],
-                        ['user_name' => "{$user->first_name} {$user->last_name}", 'user_id' => $user->id],
+                        [
+                            'user_name' => "{$user->first_name} {$user->last_name}",
+                            'user_id' => $user->id,
+                            'reminder_sent_at' => null,
+                        ],
                     );
                 }
             });

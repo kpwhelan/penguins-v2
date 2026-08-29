@@ -4,95 +4,91 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\WorkoutUploadRequest;
 use App\Models\Workout;
-use App\Traits\FileUploadTrait;
+use App\Services\AssetStorageService;
 use DateTime;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Inertia\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class WorkoutsController extends Controller {
-    use FileUploadTrait;
+class WorkoutsController extends Controller
+{
+    public function __construct(private readonly AssetStorageService $assets) {}
 
-    public function index() {
-        $workouts = Workout::all();
-        $sorted_workouts = $this->sortWorkoutsByDate($workouts);
-
-        return Inertia::render('Workouts', ['workouts' => $sorted_workouts]);
+    public function index(): Response
+    {
+        return Inertia::render('Workouts', [
+            'workouts' => $this->sortWorkoutsByDate(Workout::all()),
+        ]);
     }
 
-    public function store(WorkoutUploadRequest $request) {
-        $workout_file = $request->file('workout_file');
-        $dateTime     = new DateTime('@' . $request->date);
-        $year         = $dateTime->format('Y');
-        $month        = $dateTime->format('m');
-        $date         = $dateTime->format('Y-m-d');
-
-        if (Workout::where('file_name', $workout_file->getClientOriginalName())->exists()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'A workout with that file name already exists, please change file name and try again!'
-            ], 500);
-        }
+    public function store(WorkoutUploadRequest $request): JsonResponse
+    {
+        $file = $request->file('workout_file');
+        $dateTime = new DateTime('@'.$request->integer('date'));
+        $year = $dateTime->format('Y');
+        $month = $dateTime->format('m');
+        $upload = null;
 
         try {
-            $results = $this->uploadfileDigitalOcean($workout_file, "workouts/", "{$year}/{$month}");
-        } catch (Exception $e) {
-            Log::error($e);
+            $upload = $this->assets->storePrivateDocument($file, "workouts/{$year}/{$month}");
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Uh oh, something went wrong uploading the workout. Try again or notify support.'
-            ], 500);
+            Workout::create([
+                'file_name' => $file->getClientOriginalName(),
+                'file_disk' => $upload['disk'],
+                'file_path' => $upload['path'],
+                'file_mime_type' => $upload['mime_type'],
+                'file_size' => $upload['size'],
+                'file_cdn' => null,
+                'workout_date' => $dateTime->format('Y-m-d'),
+            ]);
+        } catch (Exception $exception) {
+            if ($upload) {
+                $this->assets->delete($upload['disk'], $upload['path']);
+            }
+
+            Log::error('Workout upload failed.', ['exception' => $exception, 'user_id' => $request->user()->id]);
+
+            return response()->json(['success' => false, 'message' => 'The workout could not be uploaded. Please try again or contact support.'], 500);
         }
-
-        if (!$results['success']) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Uh oh, something went wrong uploading the workout. Try again or notify support.'
-            ], 500);
-        }
-
-        $path = $results['path'];
-
-        $workout = new Workout();
-        $workout->file_path = $path;
-        $workout->file_cdn = config('filesystems.disks.digital-ocean.workout_cdn_prefix') . '/' . "{$year}/{$month}/" . $workout_file->getClientOriginalName();
-        $workout->file_name = $workout_file->getClientOriginalName();
-        $workout->workout_date = $date;
-
-        if (!$workout->save()) {
-            if (Storage::disk('digital-ocean')->exists($path)) Storage::disk('digital-ocean')->delete($path);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Uh oh, something went wrong uploading the workout. Try again or notify support.'
-            ], 500);
-        }
-
-        $workouts = Workout::all();
 
         return response()->json([
             'success' => true,
-            'message' => 'Workout uploaded successfully!',
-            'workouts'  => $this->sortWorkoutsByDate($workouts),
+            'message' => 'Workout uploaded successfully.',
+            'workouts' => $this->sortWorkoutsByDate(Workout::all()),
         ], 201);
     }
 
-    private function sortWorkoutsByDate(Collection $workouts): array {
+    public function download(Workout $workout): RedirectResponse|StreamedResponse|BinaryFileResponse
+    {
+        if ($workout->file_disk && $workout->file_path) {
+            $disk = Storage::disk($workout->file_disk);
+
+            if ($disk->providesTemporaryUrls()) {
+                return redirect()->away($disk->temporaryUrl($workout->file_path, now()->addMinutes(10)));
+            }
+
+            return $disk->download($workout->file_path, $workout->file_name);
+        }
+
+        abort_unless($workout->file_cdn, 404);
+
+        return redirect()->away($workout->file_cdn);
+    }
+
+    private function sortWorkoutsByDate(Collection $workouts): array
+    {
         $groupedData = [];
 
         foreach ($workouts as $workout) {
             $date = new DateTime($workout->workout_date);
-            $year = $date->format('Y');
-            $month = $date->format('m');
-
-            if (!isset($groupedData[$year][$month])) {
-                $groupedData[$year][$month] = [];
-            }
-
-            $groupedData[$year][$month][] = $workout;
+            $groupedData[$date->format('Y')][$date->format('m')][] = $workout;
         }
 
         return $groupedData;

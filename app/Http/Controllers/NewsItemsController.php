@@ -4,66 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NewNewsItemRequest;
 use App\Models\NewsItem;
-use App\Traits\FileUploadTrait;
+use App\Services\AssetStorageService;
 use App\Traits\JsonResponseTrait;
 use Exception;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
-class NewsItemsController extends Controller {
-    use FileUploadTrait, JsonResponseTrait;
+class NewsItemsController extends Controller
+{
+    use JsonResponseTrait;
 
-    private $image_upload_results;
-    private $news_item_model_saved_successfully;
+    public function __construct(private readonly AssetStorageService $assets) {}
 
-    public function index() {
-
-    }
-
-    public function store(NewNewsItemRequest $request) {
-        $news_image = $request->file('news_image');
-        $title = $request->title;
-        $body = $request->body;
-        $path = '';
-
-        //image is optional so if there is one, lets try to upload it first
-        //and fail gracefully if there's an issue
-        if ($news_image) {
-            $this->image_upload_results = $this->uploadfileDigitalOcean($news_image, 'news-images');
-
-            if (!$this->image_upload_results['success']) return $this->errorResponse('Uh oh, something went wrong uploading that image. Try again or contact support.', 500);
-
-            $path = $this->image_upload_results['path'];
-        }
-
-        $news_item = new NewsItem();
-        $news_item->title = $title;
-        $news_item->body = $body;
-        if (isset($news_image)) {
-            $news_item->image_path = $path;
-            $news_item->image_cdn = config('filesystems.disks.digital-ocean.news_image_cdn_prefix') . '/' . $news_image->getClientOriginalName();
-        }
+    public function store(NewNewsItemRequest $request): JsonResponse
+    {
+        $upload = null;
 
         try {
-            $this->news_item_model_saved_successfully = $news_item->save();
-        } catch(Exception $e) {
-            $user = Auth::user();
-            $this->news_item_model_saved_successfully = false;
+            if ($request->hasFile('news_image')) {
+                $upload = $this->assets->storePublicImage($request->file('news_image'), 'news-images');
+            }
 
-            Log::error($e, [
-                'user_id' => $user->id,
-                'user_name' => "{$user->first_name} {$user->last_name}",
-                'message' => "User was attempting to upload a new news item."
+            NewsItem::create([
+                'title' => $request->string('title'),
+                'body' => $request->string('body'),
+                'image_disk' => $upload['disk'] ?? null,
+                'image_path' => $upload['path'] ?? null,
+                'image_original_name' => $upload['original_name'] ?? null,
+                'image_mime_type' => $upload['mime_type'] ?? null,
+                'image_size' => $upload['size'] ?? null,
+                'image_cdn' => null,
             ]);
+        } catch (Exception $exception) {
+            if ($upload) {
+                $this->assets->delete($upload['disk'], $upload['path']);
+            }
+
+            Log::error('News item upload failed.', ['exception' => $exception, 'user_id' => $request->user()->id]);
+
+            return $this->errorResponse('The news item could not be published. Please try again or contact support.', 500);
         }
 
-        if (!$this->news_item_model_saved_successfully) {
-            $this->deleteFileDigitalOcean($path);
-
-            return $this->errorResponse('Uh oh, something went wrong. Try again or contact support.', 500);
-        }
-
-        return $this->successResponse('Uploaded Successfully!', [], 201);
+        return $this->successResponse('News item published successfully.', [], 201);
     }
 }

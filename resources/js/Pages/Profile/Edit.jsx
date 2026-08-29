@@ -15,7 +15,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
 
             <div>
                 <div className="mx-auto max-w-6xl space-y-6">
-                    <div className="rounded-panel border border-navy-950/10 bg-white p-5 shadow-soft sm:p-8">
+                    <div className="rounded-panel border border-navy-950/15 bg-white p-5 shadow-soft sm:p-8">
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
@@ -24,7 +24,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                     </div>
 
                     <div className="grid items-start gap-6 lg:grid-cols-2">
-                        <div className="rounded-panel border border-navy-950/10 bg-white p-5 shadow-soft sm:p-8">
+                        <div className="rounded-panel border border-navy-950/15 bg-white p-5 shadow-soft sm:p-8">
                             <UpdatePasswordForm />
                         </div>
 

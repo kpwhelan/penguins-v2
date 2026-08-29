@@ -55,23 +55,35 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
-        'digital-ocean' => [
+        'r2-public' => [
             'driver' => 's3',
-            'key' => env('DO_SPACES_KEY'),
-            'secret' => env('DO_SPACES_SECRET'),
-            'region' => env('DO_DEFAULT_REGION'),
-            'bucket' => env('DO_BUCKET'),
-            // 'folder' => env('DO_FOLDER'),
-            'bucket_endpoint' => true,
-            'url' => env('DO_ENDPOINT'),
-            'endpoint' => env('DO_ENDPOINT'),
-            'throw' => false,
-            'visibility' => 'public',
-            'workout_cdn_prefix' => env('DO_CDN_PREFIX') . 'workouts/' . env('APP_ENV'),
-            'news_image_cdn_prefix' => env('DO_CDN_PREFIX')  . 'news-images/' . env('APP_ENV'),
-            'swimmer_bio_image_cdn' => env('DO_CDN_PREFIX') . 'swimmer-bios/' .env('APP_ENV'),
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => 'auto',
+            'bucket' => env('R2_PUBLIC_BUCKET'),
+            'url' => env('R2_PUBLIC_URL'),
+            'endpoint' => env('R2_ENDPOINT'),
+            'use_path_style_endpoint' => false,
+            'throw' => true,
         ],
 
+        'r2-private' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => 'auto',
+            'bucket' => env('R2_PRIVATE_BUCKET'),
+            'endpoint' => env('R2_ENDPOINT'),
+            'use_path_style_endpoint' => false,
+            'throw' => true,
+        ],
+
+    ],
+
+    'uploads' => [
+        'public_disk' => env('PUBLIC_MEDIA_DISK', 'public'),
+        'private_disk' => env('PRIVATE_DOCUMENT_DISK', 'local'),
+        'environment_prefix' => env('UPLOAD_ENV_PREFIX', env('APP_ENV', 'local')),
     ],
 
     /*

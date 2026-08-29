@@ -109,7 +109,7 @@ export default function Authenticated({ user, header, children }) {
     }, [mobileMenuOpen]);
 
     return (
-        <div className="grid min-h-screen bg-mist text-ink lg:grid-cols-[17rem_minmax(0,1fr)]">
+        <div className="member-portal grid min-h-screen bg-[#e8f0f4] text-ink lg:grid-cols-[17rem_minmax(0,1fr)]">
             <aside className="sticky top-0 hidden h-screen flex-col justify-between overflow-y-auto bg-navy-950 p-5 lg:flex">
                 <SidebarContent user={user} />
             </aside>

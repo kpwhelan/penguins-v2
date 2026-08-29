@@ -11,7 +11,7 @@ class SwimmerBioUploadRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return (bool) $this->user()?->is_admin;
     }
 
     /**
@@ -24,7 +24,7 @@ class SwimmerBioUploadRequest extends FormRequest
         return [
             'swimmer_name' => ['required', 'string'],
             'body' => ['required', 'string'],
-            'swimmer_image' => ['required', 'mimes:jpg,png,jpeg,heic', 'max:5120'],
+            'swimmer_image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ];
     }
 }

@@ -112,7 +112,7 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
             <Toaster toastOptions={{ duration: 8000, style: { marginTop: '10px' } }} />
 
             <div className="mb-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-                <div className="rounded-panel border border-navy-950/10 bg-white p-5 shadow-soft sm:p-6">
+                <div className="rounded-panel border border-navy-950/15 bg-white p-5 shadow-soft sm:p-6">
                     <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
                         <div><p className="eyebrow">How it works</p><p className="mt-2 text-sm leading-6 text-slate">Select any upcoming <span className="font-extrabold text-navy-950">Monday, Wednesday, or Friday</span> to volunteer.</p></div>
                         <div className="flex flex-wrap gap-4 text-xs font-bold text-slate">
@@ -123,7 +123,7 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
                 </div>
 
                 {!!auth.user.is_admin && (
-                    <div className="flex flex-wrap gap-3 rounded-panel border border-navy-950/10 bg-white p-3 shadow-soft">
+                    <div className="flex flex-wrap gap-3 rounded-panel border border-navy-950/15 bg-white p-3 shadow-soft">
                         <button
                             type="button"
                             onClick={toggleBulkMode}
@@ -140,7 +140,7 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
 
             {isViewingBulk && <div className="mb-5 rounded-2xl border border-penguins-500/30 bg-penguins-50 px-5 py-4 text-sm text-navy-950"><span className="font-extrabold">Bulk edit is active.</span> Select eligible dates, then assign them to a swimmer or clear their current assignments.</div>}
 
-            <section className="calendar-shell overflow-hidden rounded-panel border border-navy-950/10 bg-white p-3 shadow-elevated sm:p-6">
+            <section className="calendar-shell overflow-hidden rounded-panel border border-navy-950/15 bg-white p-3 shadow-elevated sm:p-6">
                 <FullCalendar
                     plugins={[dayGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"

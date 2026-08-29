@@ -21,7 +21,7 @@ export default function CreateNewUser({ auth }) {
                     </div>
                 </aside>
 
-                <CreateNewUserContainer className="overflow-hidden rounded-panel border border-navy-950/10 bg-white shadow-soft">
+                <CreateNewUserContainer className="overflow-hidden rounded-panel border border-navy-950/15 bg-white shadow-soft">
                     <CreateUserForm />
                 </CreateNewUserContainer>
             </div>

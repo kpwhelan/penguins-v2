@@ -11,7 +11,7 @@ class NewNewsItemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return (bool) $this->user()?->is_admin;
     }
 
     /**
@@ -24,7 +24,7 @@ class NewNewsItemRequest extends FormRequest
         return [
             'title' => ['string', 'required'],
             'body'  => ['required', 'string'],
-            'news_image' => ['nullable', 'mimes:jpg,png,jpeg,heic', 'max:5120'],
+            'news_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ];
     }
 }

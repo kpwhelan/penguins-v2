@@ -17,7 +17,10 @@ class DeckDutyReminderEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected string $name)
+    public function __construct(
+        protected string $name,
+        protected string $deckDutyDate,
+    )
     {
         //
     }
@@ -29,9 +32,9 @@ class DeckDutyReminderEmail extends Mailable
     {
         return new Envelope(
             from: new Address('deckduty@granitestatepenguins.com', 'Granite State Penguins'),
-            replyTo: [
-                new Address(config('mail.deck_duty_reply_to_address')),
-            ],
+            replyTo: config('mail.deck_duty_reply_to_address')
+                ? [new Address(config('mail.deck_duty_reply_to_address'))]
+                : [],
             subject: 'GSP - Deck Duty Reminder',
         );
     }
@@ -42,9 +45,10 @@ class DeckDutyReminderEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.deckdutyreminder',
+            view: 'mail.deckdutyreminder',
             with: [
                 'name' => $this->name,
+                'deckDutyDate' => $this->deckDutyDate,
             ]
         );
     }

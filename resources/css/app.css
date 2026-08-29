@@ -157,15 +157,15 @@
      */
 
     .surface-card {
-        @apply rounded-card border border-navy-950/10 bg-white shadow-soft transition duration-300;
+        @apply rounded-card border border-navy-950/15 bg-white shadow-soft transition duration-300;
     }
 
     .surface-card-interactive {
-        @apply rounded-card border border-navy-950/10 bg-white shadow-soft transition duration-300 hover:-translate-y-1 hover:border-penguins-500/40 hover:shadow-card;
+        @apply rounded-card border border-navy-950/15 bg-white shadow-soft transition duration-300 hover:-translate-y-1 hover:border-penguins-500/40 hover:shadow-card;
     }
 
     .surface-panel {
-        @apply rounded-panel border border-navy-950/10 bg-white shadow-card;
+        @apply rounded-panel border border-navy-950/15 bg-white shadow-card;
     }
 
     .glass-panel {

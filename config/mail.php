@@ -20,6 +20,8 @@ return [
 
     'deck_duty_reply_to_address' => env('DECK_DUTY_REPLY_TO_ADDRESS'),
 
+    'deck_duty_reminder_override_address' => env('DECK_DUTY_REMINDER_OVERRIDE_ADDRESS'),
+
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations

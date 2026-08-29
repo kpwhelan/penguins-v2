@@ -16,6 +16,7 @@
         "fakerphp/faker": "^1.23",
         "fruitcake/laravel-debugbar": "^4.4",
         "laravel/breeze": "^2.4",
+        "laravel/pail": "^1.2",
         "laravel/pint": "^1.30",
         "laravel/sail": "^1.64",
         "mockery/mockery": "^1.6",
@@ -36,6 +37,11 @@
         }
     },
     "scripts": {
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "docker compose -f docker-compose.database.yml up -d --wait",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fcd34d,#86efac\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" \"php artisan schedule:work\" --names=server,queue,logs,vite,scheduler --kill-others"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

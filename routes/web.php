@@ -106,6 +106,7 @@ Route::middleware('auth')->prefix('calendar')->group(function () {
 Route::middleware('auth')->prefix('workouts')->group(function () {
     Route::get('/', [WorkoutsController::class, 'index'])->name('workouts');
     Route::post('/', [WorkoutsController::class, 'store'])->name('workouts.store');
+    Route::get('/{workout}/download', [WorkoutsController::class, 'download'])->name('workouts.download');
 });
 
 Route::middleware('auth')->prefix('news')->group(function () {
@@ -126,5 +127,18 @@ Route::middleware('auth')->prefix('registration-token')->group(function () {
 });
 
 Route::post('/contact', [ContactController::class, 'sendNewContactEmail'])->name('contact.send');
+
+if (app()->environment('local')) {
+    Route::get('/dev/emails/deck-duty-reminder', function () {
+        if (app()->bound('debugbar')) {
+            app('debugbar')->disable();
+        }
+
+        return new App\Mail\DeckDutyReminderEmail(
+            'Kevin',
+            now('America/New_York')->addDay()->format('l, F j, Y'),
+        );
+    });
+}
 
 require __DIR__.'/auth.php';

@@ -4,54 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SwimmerBioUploadRequest;
 use App\Models\SwimmerBio;
-use App\Traits\FileUploadTrait;
+use App\Services\AssetStorageService;
 use App\Traits\JsonResponseTrait;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
-class SwimmerBioController extends Controller {
-    use FileUploadTrait, JsonResponseTrait;
+class SwimmerBioController extends Controller
+{
+    use JsonResponseTrait;
 
-    private $image_upload_results;
-    private $swimmer_bio_model_saved_successfully;
+    public function __construct(private readonly AssetStorageService $assets) {}
 
-    public function store(SwimmerBioUploadRequest $request) {
-        $swimmer_image = $request->file('swimmer_image');
-
-        $this->image_upload_results = $this->uploadfileDigitalOcean($swimmer_image, 'swimmer-bios/');
-
-        if (!$this->image_upload_results['success']) return $this->errorResponse('Uh oh, something went wrong uploading that image. Try again or contact support.', 500);
-
-        $path = $this->image_upload_results['path'];
-
-        $swimmer_bio = new SwimmerBio();
-        $swimmer_bio->swimmer_name = $request->swimmer_name;
-        $swimmer_bio->body = $request->body;
-        $swimmer_bio->image_cdn = config('filesystems.disks.digital-ocean.swimmer_bio_image_cdn') . '/' . $swimmer_image->getClientOriginalName();
+    public function store(SwimmerBioUploadRequest $request): JsonResponse
+    {
+        $upload = null;
 
         try {
-            $this->swimmer_bio_model_saved_successfully = $swimmer_bio->save();
-        } catch(Exception $e) {
-            $user = Auth::user();
-            $this->swimmer_bio_model_saved_successfully = false;
+            $upload = $this->assets->storePublicImage($request->file('swimmer_image'), 'swimmer-bios');
 
-            Log::error($e, [
-                'user_id' => $user->id,
-                'user_name' => "{$user->first_name} {$user->last_name}",
-                'message' => "User was attempting to upload a new swimmer bio"
+            SwimmerBio::create([
+                'swimmer_name' => $request->string('swimmer_name'),
+                'body' => $request->string('body'),
+                'image_disk' => $upload['disk'],
+                'image_path' => $upload['path'],
+                'image_original_name' => $upload['original_name'],
+                'image_mime_type' => $upload['mime_type'],
+                'image_size' => $upload['size'],
+                'image_cdn' => null,
             ]);
+        } catch (Exception $exception) {
+            if ($upload) {
+                $this->assets->delete($upload['disk'], $upload['path']);
+            }
+
+            Log::error('Swimmer bio upload failed.', ['exception' => $exception, 'user_id' => $request->user()->id]);
+
+            return $this->errorResponse('The swimmer profile could not be published. Please try again or contact support.', 500);
         }
 
-        if (!$this->swimmer_bio_model_saved_successfully) {
-            $this->deleteFileDigitalOcean($path);
-
-            return $this->errorResponse('Uh oh, something went wrong uploading the bio. Try again or contact support.', 500);
-        }
-
-
-        return $this->successResponse('Uploaded Successfully!', [], 201);
+        return $this->successResponse('Swimmer profile published successfully.', [], 201);
     }
 }
