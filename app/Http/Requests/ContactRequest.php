@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ContactRequest extends FormRequest
@@ -25,6 +26,18 @@ class ContactRequest extends FormRequest
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', 'max:254'],
             'message' => ['required', 'string', 'max:5000'],
+            'website' => ['nullable', 'string', 'max:0'],
+            'submitted_at' => [
+                'required',
+                'integer',
+                function (string $attribute, mixed $value, Closure $fail): void {
+                    $age = now()->timestamp - (int) $value;
+
+                    if ($age < 2 || $age > 7200) {
+                        $fail('Please refresh the page and try again.');
+                    }
+                },
+            ],
         ];
     }
 }

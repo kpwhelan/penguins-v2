@@ -12,7 +12,8 @@ export default function HeroSection() {
                     muted
                     loop
                     playsInline
-                    poster="/assets/swim-background.jpg"
+                    preload="metadata"
+                    poster="/assets/swim-background.webp"
                     aria-hidden="true"
                 >
                     <source

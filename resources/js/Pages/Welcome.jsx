@@ -11,7 +11,7 @@ import { Footer } from '@/Components/Footer';
 export default function Welcome({ newsItems, swimmerBios }) {
     return (
         <>
-            <Head title="Granite State Penguins" />
+            <Head title="Granite State Penguins | Masters Swimming in Nashua, NH" />
 
             <WelcomePageNav />
 

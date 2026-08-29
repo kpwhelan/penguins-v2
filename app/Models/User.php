@@ -12,6 +12,18 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public const DIRECTORY_FIELDS = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone_number',
+        'street_address',
+        'city',
+        'state',
+        'zipcode',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

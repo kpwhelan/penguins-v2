@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function ContactForm() {
+    const [formStartedAt, setFormStartedAt] = useState(() => Math.floor(Date.now() / 1000));
     const [isProcessing, setIsProcessing] = useState(false);
     const [messageSentAndSuccessful, setMessageSentAndSuccessful] =
         useState(false);
@@ -21,6 +22,7 @@ export default function ContactForm() {
         name: '',
         email: '',
         message: '',
+        website: '',
     });
 
     const submit = async (event) => {
@@ -35,10 +37,13 @@ export default function ContactForm() {
                 name: data.name,
                 email: data.email,
                 message: data.message,
+                website: data.website,
+                submitted_at: formStartedAt,
             });
 
             if (response.data.success) {
                 reset();
+                setFormStartedAt(Math.floor(Date.now() / 1000));
                 setMessageSentAndSuccessful(true);
             }
         } catch (error) {
@@ -106,6 +111,19 @@ export default function ContactForm() {
                 className="space-y-6"
                 noValidate
             >
+                <div className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                    <label htmlFor="website">Website</label>
+                    <input
+                        id="website"
+                        type="text"
+                        name="website"
+                        value={data.website}
+                        onChange={(event) => setData('website', event.target.value)}
+                        tabIndex={-1}
+                        autoComplete="off"
+                    />
+                </div>
+
                 <FormField
                     id="name"
                     label="Your Name"

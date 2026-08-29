@@ -6,10 +6,13 @@ export default function AboutHero() {
         <section className="relative isolate overflow-hidden bg-navy-950 pt-20 text-white lg:pt-24">
             <div className="relative min-h-[36rem] sm:min-h-[40rem] lg:min-h-[44rem]">
                 <img
-                    src="/assets/about-hero.png"
+                    src="/assets/about-hero.webp"
+                    srcSet="/assets/about-hero-960.webp 960w, /assets/about-hero.webp 1672w"
+                    sizes="100vw"
                     alt=""
                     aria-hidden="true"
                     className="absolute inset-0 -z-30 h-full w-full object-cover object-center"
+                    fetchPriority="high"
                 />
 
                 {/* Dark overlay */}

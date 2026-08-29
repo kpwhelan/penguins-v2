@@ -55,6 +55,43 @@ class ContactFormTest extends TestCase
             'name' => 'Test Swimmer',
             'email' => 'swimmer@example.com',
             'message' => 'I would like to learn more about joining practice.',
+            'website' => '',
+            'submitted_at' => now()->subSeconds(3)->timestamp,
         ];
+    }
+
+    public function test_honeypot_rejects_bot_submissions(): void
+    {
+        Mail::fake();
+        config()->set('mail.contact_form_recipient_address', 'team@example.com');
+
+        $message = $this->validMessage();
+        $message['website'] = 'https://spam.example';
+
+        $this->postJson(route('contact.send'), $message)->assertUnprocessable();
+        Mail::assertNothingSent();
+    }
+
+    public function test_submissions_completed_too_quickly_are_rejected(): void
+    {
+        Mail::fake();
+
+        $message = $this->validMessage();
+        $message['submitted_at'] = now()->timestamp;
+
+        $this->postJson(route('contact.send'), $message)->assertUnprocessable();
+        Mail::assertNothingSent();
+    }
+
+    public function test_excessive_contact_submissions_are_rate_limited(): void
+    {
+        Mail::fake();
+        config()->set('mail.contact_form_recipient_address', 'team@example.com');
+
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->postJson(route('contact.send'), $this->validMessage())->assertOk();
+        }
+
+        $this->postJson(route('contact.send'), $this->validMessage())->assertTooManyRequests();
     }
 }

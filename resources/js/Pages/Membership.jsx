@@ -13,7 +13,7 @@ import AlternateLocationsSection from '@/Components/Membership/AlternateLocation
 export default function Membership() {
     return (
         <>
-            <Head title="Membership" />
+            <Head title="Membership | Granite State Penguins Masters Swimming" />
 
             <WelcomePageNav />
 

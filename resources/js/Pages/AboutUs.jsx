@@ -10,7 +10,7 @@ import { Head } from '@inertiajs/react';
 export default function AboutUs() {
     return (
         <>
-            <Head title="About Us" />
+            <Head title="About the Team | Granite State Penguins" />
 
             <WelcomePageNav />
 

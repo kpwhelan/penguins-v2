@@ -19,34 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Route::get('/test', function () {
-//     $token = RegistrationToken::first();
-//     $user = User::find(1);
-    // $markdown = new Markdown(view());
-    // return $markdown->render('mail.token', [
-    //     'token' => $token->registration_token,
-    //     'user'  => $user
-    // ]);
-
-    // return (new App\Mail\NewUserRegistraitonEmail($token->registration_token, $user))->render();
-    // return $t('mail.token', [
-    //     'token' => $token->registration_token,
-    //     'user'  => $user
-    // ]);
-// });
-
-// Route::get('/', function () {
-//     $news_items = NewsItem::all();
-//     $swimmer_bios = SwimmerBio::all();
-
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'newsItems' => $news_items,
-//         'swimmerBios' => $swimmer_bios,
-//     ]);
-// });
-
 Route::get('/', HomeController::class)
     ->name('home');
 
@@ -57,6 +29,18 @@ Route::get('/membership', function () {
 Route::get('/about-us', function () {
     return Inertia::render('AboutUs');
 })->name('about-us');
+
+Route::get('/sitemap.xml', function () {
+    return response()
+        ->view('sitemap', [
+            'urls' => [
+                ['location' => route('home'), 'priority' => '1.0'],
+                ['location' => route('membership'), 'priority' => '0.9'],
+                ['location' => route('about-us'), 'priority' => '0.8'],
+            ],
+        ])
+        ->header('Content-Type', 'application/xml; charset=UTF-8');
+})->name('sitemap');
 
 Route::get('/dashboard', function () {
     $user_id = Auth::user()->id;
@@ -78,7 +62,11 @@ Route::get('/create-new-user', function () {
 })->middleware(['auth', 'admin'])->name('create-new-user');
 
 Route::get('/directory', function () {
-    $users = User::where('is_sharing_info', '1')->get();
+    $users = User::query()
+        ->where('is_sharing_info', true)
+        ->orderBy('last_name')
+        ->orderBy('first_name')
+        ->get(User::DIRECTORY_FIELDS);
 
     return Inertia::render('Directory', ['users' => $users]);
 })->middleware('auth')->name('directory');
@@ -125,7 +113,9 @@ Route::middleware(['auth', 'admin'])->prefix('registration-token')->group(functi
     Route::post('/', [RegistrationTokenController::class, 'store'])->name('registration-token.store');
 });
 
-Route::post('/contact', [ContactController::class, 'sendNewContactEmail'])->name('contact.send');
+Route::post('/contact', [ContactController::class, 'sendNewContactEmail'])
+    ->middleware('throttle:contact-form')
+    ->name('contact.send');
 
 if (app()->environment('local')) {
     Route::get('/dev/emails/deck-duty-reminder', function () {

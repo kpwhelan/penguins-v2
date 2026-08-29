@@ -21,7 +21,6 @@ export default function UpdateEmergencyContactForm({ className }) {
 
         patch(route('profile.update'), {
             onSuccess: () => notifySuccess('Information Updated Successfully!'),
-            onError: (errors) => console.log(errors)
         });
     };
 

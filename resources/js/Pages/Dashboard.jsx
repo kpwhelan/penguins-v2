@@ -84,7 +84,7 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
                             <Link href={route('directory')} className="button-outline-light">Team directory</Link>
                         </div>
                     </div>
-                    <img src="/assets/underwater.jpg" alt="Swimmer training underwater" className="h-full min-h-72 w-full object-cover" />
+                    <img src="/assets/underwater.webp" alt="Swimmer training underwater" loading="lazy" className="h-full min-h-72 w-full object-cover" />
                 </div>
             </section>
 

@@ -25,7 +25,6 @@ export default function RegistrationStatus({ auth, registration_tokens }) {
             'email': email
         })
         .then(res => {
-            console.log(res)
             setIsProcessing(false);
 
             if (res.data.success) {

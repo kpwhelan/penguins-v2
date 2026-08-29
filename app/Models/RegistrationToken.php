@@ -15,13 +15,11 @@ class RegistrationToken extends Model
     protected $fillable = [
         'email',
         'invited_by',
-        'registration_token',
         'token_hash',
         'expires_at',
         'completed_at',
         'is_expired',
         'successfully_registered',
-        'has_been_resent'
     ];
 
     protected function casts(): array
@@ -45,7 +43,6 @@ class RegistrationToken extends Model
         $invitation = static::create([
             'email' => $user->email,
             'invited_by' => $inviter->id,
-            'registration_token' => '',
             'token_hash' => hash('sha256', $plainToken),
             'expires_at' => now()->addHours(48),
         ]);

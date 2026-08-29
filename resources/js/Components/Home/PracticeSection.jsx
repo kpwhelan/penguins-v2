@@ -73,8 +73,11 @@ export default function PracticeSection() {
 
                         <div className="relative overflow-hidden rounded-panel shadow-elevated">
                             <img
-                                src="/assets/penguins-practice.jpg"
+                                src="/assets/penguins-practice.webp"
+                                srcSet="/assets/penguins-practice-960.webp 960w, /assets/penguins-practice.webp 1920w"
+                                sizes="(min-width: 1024px) 50vw, 100vw"
                                 alt="Granite State Penguins swimmers practicing in the pool"
+                                loading="lazy"
                                 className="aspect-[4/3] w-full object-cover lg:aspect-[5/4]"
                             />
 

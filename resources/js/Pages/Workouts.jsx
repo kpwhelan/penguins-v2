@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const months = { '01': 'January', '02': 'February', '03': 'March', '04': 'April', '05': 'May', '06': 'June', '07': 'July', '08': 'August', '09': 'September', '10': 'October', '11': 'November', '12': 'December' };
 
 export default function Workouts({ auth, workouts }) {
+    const isAdmin = Boolean(auth.user.is_admin);
     const [stateWorkouts, setStateWorkouts] = useState({});
     const [fileData, setFileData] = useState(null);
     const [date, setDate] = useState(new Date());
@@ -32,21 +33,23 @@ export default function Workouts({ auth, workouts }) {
     };
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<div><p className="text-sm font-extrabold uppercase tracking-[0.18em] text-penguins-300">Training Library</p><h1 className="mt-2 text-4xl font-extrabold tracking-[-0.035em] sm:text-5xl">Workouts</h1><p className="mt-3 text-white/60">Find a recent set or add a workout to the team archive.</p></div>}>
+        <AuthenticatedLayout user={auth.user} header={<div><p className="text-sm font-extrabold uppercase tracking-[0.18em] text-penguins-300">Training Library</p><h1 className="mt-2 text-4xl font-extrabold tracking-[-0.035em] sm:text-5xl">Workouts</h1><p className="mt-3 text-white/60">{isAdmin ? 'Find a recent set or add a workout to the team archive.' : 'Find and download recent sets from the team archive.'}</p></div>}>
             <Head title="Workouts" />
             <Toaster toastOptions={{ duration: 8000 }} />
 
-            <div className="grid items-start gap-7 xl:grid-cols-[22rem_minmax(0,1fr)]">
-                <form id="workout-form" onSubmit={submit} className="surface-card p-6">
-                    <p className="eyebrow">Add to the Library</p>
-                    <h2 className="mt-3 text-2xl font-extrabold text-navy-950">Upload a workout</h2>
-                    <p className="mt-2 text-sm leading-6 text-slate">Choose a PDF and the practice date it belongs to.</p>
-                    <label htmlFor="workout-file" className="mt-6 block text-sm font-extrabold text-navy-950">Workout file</label>
-                    <input id="workout-file" type="file" accept="application/pdf,.pdf" onChange={(event) => setFileData(event.target.files[0])} className="mt-2 block w-full cursor-pointer rounded-xl border border-navy-950/10 bg-mist p-3 text-sm text-slate file:mr-3 file:rounded-lg file:border-0 file:bg-penguins-100 file:px-3 file:py-2 file:font-bold file:text-penguins-800" />
-                    <label htmlFor="workout-date" className="mt-5 block text-sm font-extrabold text-navy-950">Workout date</label>
-                    <input id="workout-date" type="date" onChange={(event) => setDate(new Date(event.target.value))} className="mt-2 min-h-12 w-full rounded-xl border border-navy-950/10 bg-white px-4 text-navy-950 focus:border-penguins-500 focus:ring-penguins-500" />
-                    <button type="submit" className="button-primary mt-6 w-full" disabled={!fileData}>Upload workout</button>
-                </form>
+            <div className={isAdmin ? 'grid items-start gap-7 xl:grid-cols-[22rem_minmax(0,1fr)]' : ''}>
+                {isAdmin && (
+                    <form id="workout-form" onSubmit={submit} className="surface-card p-6">
+                        <p className="eyebrow">Add to the Library</p>
+                        <h2 className="mt-3 text-2xl font-extrabold text-navy-950">Upload a workout</h2>
+                        <p className="mt-2 text-sm leading-6 text-slate">Choose a PDF and the practice date it belongs to.</p>
+                        <label htmlFor="workout-file" className="mt-6 block text-sm font-extrabold text-navy-950">Workout file</label>
+                        <input id="workout-file" type="file" accept="application/pdf,.pdf" onChange={(event) => setFileData(event.target.files[0])} className="mt-2 block w-full cursor-pointer rounded-xl border border-navy-950/10 bg-mist p-3 text-sm text-slate file:mr-3 file:rounded-lg file:border-0 file:bg-penguins-100 file:px-3 file:py-2 file:font-bold file:text-penguins-800" />
+                        <label htmlFor="workout-date" className="mt-5 block text-sm font-extrabold text-navy-950">Workout date</label>
+                        <input id="workout-date" type="date" onChange={(event) => setDate(new Date(event.target.value))} className="mt-2 min-h-12 w-full rounded-xl border border-navy-950/10 bg-white px-4 text-navy-950 focus:border-penguins-500 focus:ring-penguins-500" />
+                        <button type="submit" className="button-primary mt-6 w-full" disabled={!fileData}>Upload workout</button>
+                    </form>
+                )}
 
                 <section>
                     <div className="flex items-end justify-between gap-5"><div><p className="eyebrow">Workout Archive</p><h2 className="mt-3 text-3xl font-extrabold tracking-tight text-navy-950">Past team workouts</h2></div></div>
