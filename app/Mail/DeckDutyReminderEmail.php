@@ -31,7 +31,7 @@ class DeckDutyReminderEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('deckduty@granitestatepenguins.com', 'Granite State Penguins'),
+            from: new Address(config('mail.deck_duty_from_address'), 'Granite State Penguins'),
             replyTo: config('mail.deck_duty_reply_to_address')
                 ? [new Address(config('mail.deck_duty_reply_to_address'))]
                 : [],

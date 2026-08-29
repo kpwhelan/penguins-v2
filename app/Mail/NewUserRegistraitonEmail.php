@@ -27,11 +27,11 @@ class NewUserRegistraitonEmail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $replyToAddress = config('mail.registration_reply_to_address');
+
         return new Envelope(
-            from: new Address('contact@granitestatepenguins.com', 'Granite State Penguins'),
-            replyTo: [
-                new Address(config('mail.contact_reply_to_address')),
-            ],
+            from: new Address(config('mail.registration_from_address'), 'Granite State Penguins'),
+            replyTo: $replyToAddress ? [new Address($replyToAddress)] : [],
             subject: 'Granite State Penguins Website Registration',
         );
     }

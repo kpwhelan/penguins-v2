@@ -19,11 +19,12 @@ class ContactRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array {
+    public function rules(): array
+    {
         return [
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'message' => 'required|string',
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email', 'max:254'],
+            'message' => ['required', 'string', 'max:5000'],
         ];
     }
 }

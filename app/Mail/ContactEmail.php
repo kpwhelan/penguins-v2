@@ -17,7 +17,11 @@ class ContactEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected string $name, protected string $email, protected string $message) {
+    public function __construct(
+        protected string $name,
+        protected string $email,
+        protected string $message,
+    ) {
         //
     }
 
@@ -27,11 +31,11 @@ class ContactEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address($this->email, $this->name),
+            from: new Address(config('mail.contact_form_from_address'), 'Granite State Penguins Website'),
             replyTo: [
                 new Address($this->email, $this->name),
             ],
-            subject: 'New Penguins Inquiry!',
+            subject: 'New Granite State Penguins inquiry',
         );
     }
 
@@ -41,9 +45,11 @@ class ContactEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.contact',
+            view: 'mail.contact-email',
             with: [
-                'theMessage' => $this->message
+                'name' => $this->name,
+                'email' => $this->email,
+                'theMessage' => $this->message,
             ]
         );
     }

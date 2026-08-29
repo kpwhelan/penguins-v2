@@ -16,9 +16,19 @@ return [
 
     'default' => env('MAIL_MAILER', 'log'),
 
-    'contact_reply_to_address' => env('CONTACT_EMAIL_ADDRESS_' . strtoupper(env('APP_ENV'))),
+    'contact_form_recipient_address' => env('CONTACT_FORM_RECIPIENT_ADDRESS'),
+
+    'contact_form_override_address' => env('CONTACT_FORM_OVERRIDE_ADDRESS'),
+
+    'contact_form_from_address' => env('CONTACT_FORM_FROM_ADDRESS', 'website@granitestatepenguins.com'),
+
+    'registration_reply_to_address' => env('REGISTRATION_REPLY_TO_ADDRESS'),
+
+    'registration_from_address' => env('REGISTRATION_FROM_ADDRESS', 'registration@granitestatepenguins.com'),
 
     'deck_duty_reply_to_address' => env('DECK_DUTY_REPLY_TO_ADDRESS'),
+
+    'deck_duty_from_address' => env('DECK_DUTY_FROM_ADDRESS', 'deckduty@granitestatepenguins.com'),
 
     'deck_duty_reminder_override_address' => env('DECK_DUTY_REMINDER_OVERRIDE_ADDRESS'),
 

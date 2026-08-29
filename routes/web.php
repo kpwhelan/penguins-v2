@@ -139,6 +139,18 @@ if (app()->environment('local')) {
             now('America/New_York')->addDay()->format('l, F j, Y'),
         );
     });
+
+    Route::get('/dev/emails/contact', function () {
+        if (app()->bound('debugbar')) {
+            app('debugbar')->disable();
+        }
+
+        return new App\Mail\ContactEmail(
+            'Taylor Morgan',
+            'taylor@example.com',
+            "Hi! I recently moved to the area and I’m interested in joining a Masters practice. Could you tell me a little more about the group and what I should bring for my first swim?",
+        );
+    });
 }
 
 require __DIR__.'/auth.php';
