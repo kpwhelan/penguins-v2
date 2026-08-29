@@ -3,7 +3,6 @@ import Container from '@/Components/UI/Container';
 const practiceDays = [
     'Monday',
     'Wednesday',
-    'Thursday',
     'Friday',
 ];
 

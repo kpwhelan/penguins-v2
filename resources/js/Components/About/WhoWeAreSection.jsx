@@ -3,9 +3,9 @@ import Container from '@/Components/UI/Container';
 
 const quickFacts = [
     {
-        value: '4',
+        value: '3',
         label: 'Practices Each Week',
-        detail: 'Monday, Wednesday, Thursday & Friday',
+        detail: 'Monday, Wednesday & Friday',
     },
     {
         value: '6:30',
@@ -13,7 +13,7 @@ const quickFacts = [
         detail: 'Practices run until 8:00 AM',
     },
     {
-        value: '20+',
+        value: '18+',
         label: 'Adult Swimmers',
         detail: 'A wide range of abilities and experience',
     },

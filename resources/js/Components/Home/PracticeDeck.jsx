@@ -1,4 +1,4 @@
-const practiceDays = ['Mon', 'Wed', 'Thu', 'Fri'];
+const practiceDays = ['Mon', 'Wed', 'Fri'];
 
 export default function PracticeDeck() {
     return (
@@ -57,7 +57,7 @@ export default function PracticeDeck() {
                         </p>
 
                         <p className="mt-2 text-xl font-extrabold text-white">
-                            Adults 20+
+                            Adults 18+
                         </p>
 
                         <p className="mt-2 text-sm leading-6 text-white/60">

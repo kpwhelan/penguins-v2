@@ -1,7 +1,7 @@
 import ButtonLink from '@/Components/UI/ButtonLink';
 import Container from '@/Components/UI/Container';
 
-const practiceDays = ['Mon', 'Wed', 'Thu', 'Fri'];
+const practiceDays = ['Mon', 'Wed', 'Fri'];
 
 export default function PracticeSection() {
     return (
@@ -114,7 +114,7 @@ export default function PracticeSection() {
                         </p>
 
                         <h2 className="section-title mt-5">
-                            Four mornings.
+                            Three mornings.
 
                             <span className="block text-penguins-600">
                                 One great way to start your day.
@@ -184,7 +184,7 @@ export default function PracticeSection() {
                                     </p>
 
                                     <p className="mt-2 font-bold text-navy-950">
-                                        Adults 20+
+                                        Adults 18+
                                     </p>
                                 </div>
                             </div>

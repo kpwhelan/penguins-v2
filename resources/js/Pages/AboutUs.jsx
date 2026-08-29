@@ -1,4 +1,7 @@
 import AboutHero from '@/Components/About/AboutHero';
+import AboutCta from '@/Components/About/AboutCta';
+import TeamCultureSection from '@/Components/About/TeamCultureSection';
+import TrainingSection from '@/Components/About/TrainingSection';
 import WhoWeAreSection from '@/Components/About/WhoWeAreSection';
 import WelcomePageNav from '@/Components/WelcomePageNav';
 import { Footer } from '@/Components/Footer';
@@ -15,6 +18,12 @@ export default function AboutUs() {
                 <AboutHero />
 
                 <WhoWeAreSection />
+
+                <TrainingSection />
+
+                <TeamCultureSection />
+
+                <AboutCta />
             </main>
 
             <Footer />
