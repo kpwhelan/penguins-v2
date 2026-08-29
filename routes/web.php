@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MembershipApplicationController;
 use App\Http\Controllers\NewsItemsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationTokenController;
@@ -25,6 +26,13 @@ Route::get('/', HomeController::class)
 Route::get('/membership', function () {
     return Inertia::render('Membership');
 })->name('membership');
+
+Route::get('/membership/application', [MembershipApplicationController::class, 'show'])
+    ->name('membership.application');
+
+Route::post('/membership/application', [MembershipApplicationController::class, 'store'])
+    ->middleware(['auth', 'admin'])
+    ->name('membership.application.store');
 
 Route::get('/about-us', function () {
     return Inertia::render('AboutUs');

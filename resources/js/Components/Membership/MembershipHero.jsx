@@ -75,7 +75,7 @@ export default function MembershipHero() {
                             </ButtonLink>
 
                             <ButtonLink
-                                href="https://penguins.nyc3.cdn.digitaloceanspaces.com/GSP-Application.pdf"
+                                href={route('membership.application')}
                                 variant="outlineLight"
                                 external
                                 target="_blank"

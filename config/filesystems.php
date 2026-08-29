@@ -84,6 +84,7 @@ return [
         'public_disk' => env('PUBLIC_MEDIA_DISK', 'public'),
         'private_disk' => env('PRIVATE_DOCUMENT_DISK', 'local'),
         'environment_prefix' => env('UPLOAD_ENV_PREFIX', env('APP_ENV', 'local')),
+        'membership_application_path' => env('MEMBERSHIP_APPLICATION_PATH', 'documents/membership/GSP-Application.pdf'),
     ],
 
     /*

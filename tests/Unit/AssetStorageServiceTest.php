@@ -40,6 +40,21 @@ class AssetStorageServiceTest extends TestCase
         Storage::disk('local')->assertExists($stored['path']);
     }
 
+    public function test_it_replaces_the_public_membership_application_at_a_stable_path(): void
+    {
+        Storage::fake('public');
+        config()->set('filesystems.uploads.public_disk', 'public');
+        $file = UploadedFile::fake()->create('updated-application.pdf', 250, 'application/pdf');
+
+        $path = app(AssetStorageService::class)->replacePublicDocument(
+            $file,
+            'documents/membership/GSP-Application.pdf',
+        );
+
+        $this->assertSame('documents/membership/GSP-Application.pdf', $path);
+        Storage::disk('public')->assertExists($path);
+    }
+
     public function test_it_preserves_legacy_urls_when_no_managed_file_exists(): void
     {
         $url = app(AssetStorageService::class)->publicUrl(null, null, 'https://legacy.example/image.jpg');

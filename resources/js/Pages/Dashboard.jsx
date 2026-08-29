@@ -1,4 +1,5 @@
 import NewsUploadForm from '@/Components/NewsUploadForm';
+import MembershipApplicationUploadForm from '@/Components/MembershipApplicationUploadForm';
 import SwimmerBioUploadForm from '@/Components/SwimmerBioUploadForm';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
@@ -98,6 +99,7 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
                     <div className="mt-6 grid gap-6 xl:grid-cols-2">
                         <NewsUploadForm className="min-w-0" />
                         <SwimmerBioUploadForm className="min-w-0" />
+                        <MembershipApplicationUploadForm className="min-w-0 xl:col-span-2" />
                     </div>
                 </section>
             )}

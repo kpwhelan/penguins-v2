@@ -19,6 +19,21 @@ class AssetStorageService
         return $this->store($file, config('filesystems.uploads.private_disk'), $directory);
     }
 
+    public function replacePublicDocument(UploadedFile $file, string $path): string
+    {
+        $disk = config('filesystems.uploads.public_disk');
+        $path = trim($path, '/');
+        $directory = dirname($path);
+        $filename = basename($path);
+        $storedPath = Storage::disk($disk)->putFileAs($directory, $file, $filename);
+
+        if (!$storedPath) {
+            throw new RuntimeException('The uploaded document could not be stored.');
+        }
+
+        return $storedPath;
+    }
+
     public function publicUrl(?string $disk, ?string $path, ?string $legacyUrl = null): ?string
     {
         if ($disk && $path) {

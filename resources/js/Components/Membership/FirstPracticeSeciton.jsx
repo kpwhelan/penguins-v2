@@ -96,7 +96,7 @@ export default function FirstPracticeSection() {
 
                         <div className="mt-8">
                             <ButtonLink
-                                href="https://penguins.nyc3.cdn.digitaloceanspaces.com/GSP-Application.pdf"
+                                href={route('membership.application')}
                                 external
                                 target="_blank"
                                 rel="noopener noreferrer"
