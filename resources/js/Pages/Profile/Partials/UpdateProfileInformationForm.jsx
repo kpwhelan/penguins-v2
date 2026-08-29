@@ -37,16 +37,17 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
+                <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-penguins-700">Member details</p>
+                <h2 className="mt-2 text-2xl font-extrabold text-navy-950">Profile information</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Update your all your information here!
+                    Keep your contact and emergency information current for the club.
                 </p>
             </header>
 
             <Toaster toastOptions={{duration: 8000, style: {marginTop: '10px'}}} />
 
-            <form onSubmit={submit} className="mt-6 space-y-6 text-black">
+            <form onSubmit={submit} className="mt-7 grid gap-5 text-black sm:grid-cols-2">
                 <div>
                     <InputLabel htmlFor="first_name" value="First Name" />
 
@@ -77,7 +78,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.last_name} />
                 </div>
 
-                <div>
+                <div className="sm:col-span-2">
                     <InputLabel htmlFor="email" value="Email" />
 
                     <TextInput
@@ -197,31 +198,17 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.emergency_contact_phone} />
                 </div>
 
-                <div>
-                    {/* <InputLabel htmlFor="is_sharing_info" value="Share Info?" /> */}
-
-                    {/* <TextInput
-                        id="zipcode"
-                        className="mt-1 block w-full"
-                        value={data.zipcode}
-                        onChange={(e) => setData('zipcode', e.target.value)}
-                        isFocused
-                        autoComplete="zipcode"
-                    /> */}
-
-                    <span className="mr-2 text-md">Share Info?</span>
-
-                    <Checkbox
-                        name="is_sharing_info"
-                        checked={data.is_sharing_info}
-                        onChange={(e) => setData('is_sharing_info', e.target.checked)}
-                    />
+                <div className="sm:col-span-2">
+                    <label className="flex cursor-pointer items-start gap-4 rounded-2xl border border-navy-950/10 bg-mist p-5">
+                        <Checkbox className="mt-1" name="is_sharing_info" checked={data.is_sharing_info} onChange={(e) => setData('is_sharing_info', e.target.checked)} />
+                        <span><span className="block font-extrabold text-navy-950">Include me in the member directory</span><span className="mt-1 block text-sm leading-6 text-slate">Share my contact information with other signed-in Penguins members.</span></span>
+                    </label>
 
                     <InputError className="mt-2" message={errors.is_sharing_info} />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
-                    <div>
+                    <div className="sm:col-span-2">
                         <p className="text-sm mt-2 text-gray-800">
                             Your email address is unverified.
                             <Link
@@ -242,7 +229,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     </div>
                 )}
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 sm:col-span-2">
                     <PrimaryButton disabled={processing}>Save</PrimaryButton>
 
                     <Transition

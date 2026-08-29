@@ -129,23 +129,34 @@ export default function Calendar({ deckDutyEvents, auth }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
+            header={
+                <div>
+                    <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-penguins-300">Team Schedule</p>
+                    <h1 className="mt-2 text-4xl font-extrabold tracking-[-0.035em] sm:text-5xl">Deck Duty</h1>
+                    <p className="mt-3 text-white/60">Choose an available practice date and help keep the team moving.</p>
+                </div>
+            }
         >
             <Head title="Deck Duty Calendar" />
 
-            <div className='w-[75%] mx-auto mt-8 mb-4'>
-                <h1 className='text-3xl'>Deck Duty</h1>
+            <div className="mb-6 flex flex-col justify-between gap-5 rounded-panel border border-navy-950/10 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:p-6">
+                <div>
+                    <p className="eyebrow">Calendar View</p>
                 {!!auth.user.is_admin &&
                     <>
-                        <p>Currently Viewing: <span className='text-xl font-semibold'>{isViewingBulk ? 'Bulk Edit Calendar' : 'Standard Calendar'}</span></p>
-                        <div className='flex justify-between mt-1 w-[40%]'>
+                        <p className="mt-2 text-sm text-slate">Currently viewing: <span className="font-extrabold text-navy-950">{isViewingBulk ? 'Bulk edit calendar' : 'Standard calendar'}</span></p>
+                    </>
+                }
+                </div>
+                {!!auth.user.is_admin &&
+                        <div className="flex flex-wrap gap-3">
                             <PrimaryButton onClick={toggleIsViewingBulk}>{isViewingBulk ? 'Switch To Regular Calendar' : 'Switch To Bulk Edit'}</PrimaryButton>
-                            <div className='ml-2'>
+                            <div>
                                 {(!!auth.user.is_admin && bulkEditSelectedDays.length > 0 && isViewingBulk) &&
                                     <PrimaryButton onClick={toggleSetDisplayBulkSignUpModal}>Select Swimmer</PrimaryButton>
                                 }
                             </div>
                         </div>
-                    </>
                 }
             </div>
 
@@ -174,7 +185,7 @@ export default function Calendar({ deckDutyEvents, auth }) {
 
             {isViewingBulk ?
                 <FullCalendar
-                    viewClassNames={'text-white w-[75%] mx-auto'}
+                    viewClassNames={'text-white rounded-panel overflow-hidden shadow-elevated'}
                     plugins={[dayGridPlugin, interactionPlugin]}
                     initialView='dayGridMonth'
                     editable={true}
@@ -184,7 +195,7 @@ export default function Calendar({ deckDutyEvents, auth }) {
                  />
                 :
                 <FullCalendar
-                    viewClassNames={'text-white w-[75%] mx-auto'}
+                    viewClassNames={'text-white rounded-panel overflow-hidden shadow-elevated'}
                     plugins={[dayGridPlugin, interactionPlugin]}
                     initialView='dayGridMonth'
                     editable={true}

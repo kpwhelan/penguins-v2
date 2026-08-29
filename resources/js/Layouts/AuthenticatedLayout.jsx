@@ -1,154 +1,152 @@
-import { useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 
-export default function Authenticated({ user, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+const memberLinks = [
+    { label: 'Dashboard', routeName: 'dashboard', icon: 'home' },
+    { label: 'Deck Duty', routeName: 'calendar', icon: 'calendar' },
+    { label: 'Workouts', routeName: 'workouts', icon: 'workout' },
+    { label: 'Directory', routeName: 'directory', icon: 'people' },
+];
+
+const adminLinks = [
+    { label: 'Create Member', routeName: 'create-new-user', icon: 'addUser' },
+    { label: 'Invitations', routeName: 'registration-status', icon: 'mail' },
+];
+
+function NavIcon({ name }) {
+    const paths = {
+        home: <><path d="M4 11.5 12 5l8 6.5" /><path d="M6.5 10v9h11v-9M10 19v-5h4v5" /></>,
+        calendar: <><rect x="4" y="5.5" width="16" height="14" rx="2" /><path d="M8 3v5M16 3v5M4 10h16" /></>,
+        workout: <><path d="M5 8v8M19 8v8M2.5 10v4M21.5 10v4M5 12h14" /></>,
+        people: <><circle cx="9" cy="8" r="3" /><path d="M3.5 19c.4-3.2 2.2-5 5.5-5s5.1 1.8 5.5 5" /><path d="M15 5.5a3 3 0 0 1 0 5.8M16 14c2.8.2 4.2 1.9 4.5 4.5" /></>,
+        addUser: <><circle cx="9" cy="8" r="3" /><path d="M3.5 19c.4-3.2 2.2-5 5.5-5s5.1 1.8 5.5 5M18 8v6M15 11h6" /></>,
+        mail: <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></>,
+        profile: <><circle cx="12" cy="8" r="3" /><path d="M5.5 20c.4-4 2.5-6 6.5-6s6.1 2 6.5 6" /></>,
+        logout: <><path d="M10 5H5v14h5M14 8l4 4-4 4M18 12H9" /></>,
+    };
 
     return (
-        <div className="min-h-screen pb-10">
-            <nav className='pt-1 mb-10'>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-16 w-auto fill-current text-gray-800" />
-                                </Link>
-                            </div>
+        <svg aria-hidden="true" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            {paths[name]}
+        </svg>
+    );
+}
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('calendar')} active={route().current('calendar')}>
-                                    Deck Duty Calendar
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('workouts')} active={route().current('workouts')}>
-                                    Workouts
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('directory')} active={route().current('directory')}>
-                                    Directory
-                                </NavLink>
-                            </div>
-                            {!!user.is_admin &&
-                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                    <NavLink href={route('create-new-user')} active={route().current('create-new-user')}>
-                                        Create New User
-                                    </NavLink>
-                                </div>
-                            }
-                            {!!user.is_admin &&
-                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                    <NavLink href={route('registration-status')} active={route().current('registration-status')}>
-                                        Registration Status
-                                    </NavLink>
-                                </div>
-                            }
-                        </div>
+function PortalLink({ item, onClick }) {
+    const active = route().current(item.routeName);
 
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
-                            <div className="ms-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md bg-penguinsBlue text-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {user.first_name}
+    return (
+        <Link
+            href={route(item.routeName)}
+            onClick={onClick}
+            className={[
+                'flex min-h-12 items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold transition',
+                active
+                    ? 'bg-penguins-500 text-navy-950 shadow-soft'
+                    : 'text-white/65 hover:bg-white/[0.07] hover:text-white',
+            ].join(' ')}
+        >
+            <NavIcon name={item.icon} />
+            {item.label}
+        </Link>
+    );
+}
 
-                                                <svg
-                                                    className="ms-2 -me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
+function SidebarContent({ user, onNavigate }) {
+    return (
+        <>
+            <div>
+                <Link href={route('home')} onClick={onNavigate} className="inline-flex rounded-xl bg-white p-2 shadow-soft" aria-label="Granite State Penguins homepage">
+                    <ApplicationLogo className="h-auto w-44" />
+                </Link>
 
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Update Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
+                <p className="mt-8 px-3 text-xs font-extrabold uppercase tracking-[0.18em] text-white/35">Member Portal</p>
+                <nav className="mt-3 space-y-1" aria-label="Member navigation">
+                    {memberLinks.map((item) => <PortalLink key={item.routeName} item={item} onClick={onNavigate} />)}
+                </nav>
 
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                            >
-                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
+                {!!user.is_admin && (
+                    <>
+                        <p className="mt-8 px-3 text-xs font-extrabold uppercase tracking-[0.18em] text-white/35">Administration</p>
+                        <nav className="mt-3 space-y-1" aria-label="Administration navigation">
+                            {adminLinks.map((item) => <PortalLink key={item.routeName} item={item} onClick={onNavigate} />)}
+                        </nav>
+                    </>
+                )}
+            </div>
+
+            <div className="border-t border-white/10 pt-5">
+                <div className="mb-4 flex items-center gap-3 px-3">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-penguins-500 text-sm font-extrabold text-navy-950">
+                        {(user.first_name?.[0] ?? 'P').toUpperCase()}{(user.last_name?.[0] ?? '').toUpperCase()}
+                    </span>
+                    <div className="min-w-0">
+                        <p className="truncate text-sm font-extrabold text-white">{user.first_name} {user.last_name}</p>
+                        <p className="truncate text-xs text-white/45">{user.email}</p>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                    <Link href={route('profile.edit')} onClick={onNavigate} className="flex items-center justify-center gap-2 rounded-xl bg-white/[0.06] px-3 py-3 text-xs font-bold text-white/70 transition hover:bg-white/10 hover:text-white">
+                        <NavIcon name="profile" /> Profile
+                    </Link>
+                    <Link href={route('logout')} method="post" as="button" className="flex items-center justify-center gap-2 rounded-xl bg-white/[0.06] px-3 py-3 text-xs font-bold text-white/70 transition hover:bg-white/10 hover:text-white">
+                        <NavIcon name="logout" /> Log out
+                    </Link>
+                </div>
+            </div>
+        </>
+    );
+}
+
+export default function Authenticated({ user, header, children }) {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    useEffect(() => {
+        document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
+    }, [mobileMenuOpen]);
+
+    return (
+        <div className="grid min-h-screen bg-mist text-ink lg:grid-cols-[17rem_minmax(0,1fr)]">
+            <aside className="sticky top-0 hidden h-screen flex-col justify-between overflow-y-auto bg-navy-950 p-5 lg:flex">
+                <SidebarContent user={user} />
+            </aside>
+
+            <div className="min-w-0">
+                <header className="sticky top-0 z-40 flex min-h-18 items-center justify-between border-b border-navy-950/10 bg-white/95 px-5 backdrop-blur lg:hidden">
+                    <Link href={route('home')} aria-label="Granite State Penguins homepage">
+                        <ApplicationLogo className="h-auto w-40" />
+                    </Link>
+                    <button type="button" onClick={() => setMobileMenuOpen(true)} className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-950/10 text-navy-950" aria-label="Open member navigation" aria-expanded={mobileMenuOpen}>
+                        <svg aria-hidden="true" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+                    </button>
+                </header>
+
+                {header && (
+                    <header className="relative overflow-hidden bg-navy-950 px-5 py-8 text-white sm:px-8 lg:px-10 lg:py-10">
+                        <div aria-hidden="true" className="absolute -right-20 -top-28 h-72 w-72 rounded-full bg-penguins-500/15 blur-3xl" />
+                        <div className="relative [&_h1]:text-white [&_h2]:text-white">{header}</div>
+                    </header>
+                )}
+
+                <main className="px-5 py-8 sm:px-8 lg:px-10 lg:py-10">{children}</main>
+            </div>
+
+            {mobileMenuOpen && (
+                <div className="fixed inset-0 z-50 lg:hidden">
+                    <button className="absolute inset-0 bg-navy-950/70 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} aria-label="Close member navigation" />
+                    <aside className="absolute inset-y-0 right-0 flex w-[min(22rem,88vw)] flex-col justify-between overflow-y-auto bg-navy-950 p-5 shadow-elevated">
+                        <div className="mb-5 flex justify-end">
+                            <button type="button" onClick={() => setMobileMenuOpen(false)} className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white" aria-label="Close member navigation">
+                                <svg aria-hidden="true" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="m6 6 12 12M18 6 6 18" /></svg>
                             </button>
                         </div>
-                    </div>
+                        <SidebarContent user={user} onNavigate={() => setMobileMenuOpen(false)} />
+                    </aside>
                 </div>
-
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">{user.name}</div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Update Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            {header && (
-                <header className="bg-[#333333] shadow mt-2">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
             )}
-
-            <main>{children}</main>
         </div>
     );
 }

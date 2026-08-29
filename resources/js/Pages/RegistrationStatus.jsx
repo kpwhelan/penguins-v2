@@ -1,6 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import { Card, CardBody, CardFooter, CardHeader, Typography } from '@material-tailwind/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -47,33 +46,33 @@ export default function RegistrationStatus({ auth, registration_tokens }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-4xl text-white leading-tight">Registration Token Status</h2>}
+            header={<div><p className="text-sm font-extrabold uppercase tracking-[0.18em] text-penguins-300">Administration</p><h1 className="mt-2 text-4xl font-extrabold tracking-[-0.035em] sm:text-5xl">Member Invitations</h1><p className="mt-3 text-white/60">Review outstanding registration links and resend them when needed.</p></div>}
         >
             <Head title="Registration Status" />
 
             <main>
                 <Toaster toastOptions={{duration: 8000, style: {marginTop: '10px'}}} />
 
-                <div className='w-[80%] mx-auto flex flex-wrap justify-around'>
+                <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                     {tokens.map(token => {
-                        return <Card key={token} className="mt-6 w-96">
-                        <CardBody>
-                          <Typography variant="h5" color="blue-gray" className="mb-2">
+                        return <article key={token.id ?? token.email} className="w-full rounded-panel border border-navy-950/10 bg-white p-6 shadow-soft">
+                        <div>
+                          <h2 className="mb-4 break-all text-xl font-extrabold text-navy-950">
                             {token.email}
-                          </Typography>
-                          <Typography color='blue-gray'>
+                          </h2>
+                          <p className="text-sm text-slate">
                             Email Sent: <FontAwesomeIcon icon={token.email_successfully_sent ? faCheck : faX} />
-                          </Typography>
-                          <Typography color='blue-gray'>
+                          </p>
+                          <p className="mt-2 text-sm text-slate">
                             Expired: <FontAwesomeIcon icon={token.is_expired ? faCheck : faX} />
-                          </Typography>
-                        </CardBody>
-                        <CardFooter>
+                          </p>
+                        </div>
+                        <div className="mt-6 border-t border-navy-950/10 pt-5">
                             <PrimaryButton onClick={() => generateNewToken(token.email)} disabled={(token.is_expired || isProcessing) ? false : true}>
                                 Resend Token
                             </PrimaryButton>
-                        </CardFooter>
-                      </Card>
+                        </div>
+                      </article>
                     })}
                 </div>
             </main>

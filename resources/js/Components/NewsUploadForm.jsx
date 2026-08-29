@@ -1,4 +1,3 @@
-import { Card, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import InputLabel from "./InputLabel";
 import PrimaryButton from "./PrimaryButton";
 import TextInput from "./TextInput";
@@ -53,11 +52,11 @@ export default function NewsUploadForm({ className }) {
             <Toaster toastOptions={{duration: 8000, style: {marginTop: '10px'}}} />
 
             <form onSubmit={submit} id="newsupload-form">
-                <Card className="mt-6 w-full bg-[#000000] text-white">
-                    <CardBody>
-                        <Typography variant="h5" color="white" className="mb-2">
+                <section className="mt-6 w-full rounded-panel bg-navy-950 text-white shadow-elevated">
+                    <div className="p-6 sm:p-8">
+                        <h3 className="mb-5 text-2xl font-extrabold text-white">
                             Upload a News Item
-                        </Typography>
+                        </h3>
 
                         <InputLabel className='text-white text-xl'>Image <span className="text-sm">(optional)</span></InputLabel>
                         <input
@@ -103,11 +102,11 @@ export default function NewsUploadForm({ className }) {
                         </div>
 
 
-                    </CardBody>
-                    <CardFooter className="pt-0">
+                    </div>
+                    <div className="px-6 pb-6 sm:px-8 sm:pb-8">
                         <PrimaryButton>Submit</PrimaryButton>
-                    </CardFooter>
-                </Card>
+                    </div>
+                </section>
             </form>
         </div>
     );
