@@ -137,7 +137,7 @@
     }
 
     .button-secondary {
-        @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-navy-950/15 bg-white px-6 py-3 text-sm font-bold text-navy-950 transition duration-300 hover:-translate-y-0.5 hover:border-penguins-500 hover:bg-penguins-50;
+        @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-navy-950/25 bg-navy-50 px-6 py-3 text-sm font-bold text-navy-950 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-navy-950/40 hover:bg-navy-100;
     }
 
     .button-dark {
@@ -197,38 +197,155 @@
     }
 }
 
-/*
- * FullCalendar
- *
- * Preserved from the existing application, with the colors adjusted to
- * use the new Penguins palette.
- */
+/* FullCalendar v6 presentation */
 
-.fc-daygrid-day.fc-day-mon,
-.fc-daygrid-day.fc-day-wed,
-.fc-daygrid-day.fc-day-fri {
-    background-color: #071b2d;
+.calendar-shell {
+    --fc-border-color: rgb(7 27 45 / 10%);
+    --fc-button-bg-color: #071b2d;
+    --fc-button-border-color: #071b2d;
+    --fc-button-hover-bg-color: #0f344e;
+    --fc-button-hover-border-color: #0f344e;
+    --fc-button-active-bg-color: #0ab9e6;
+    --fc-button-active-border-color: #0ab9e6;
+    --fc-today-bg-color: rgb(10 185 230 / 8%);
+    color: #071b2d;
+}
+
+.calendar-shell .fc-header-toolbar {
+    margin-bottom: 1.5rem;
+}
+
+.calendar-shell .fc-toolbar-title {
+    color: #071b2d;
+    font-size: clamp(1.25rem, 2.4vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.calendar-shell .fc-button {
+    border-radius: 0.75rem;
+    box-shadow: none;
+    font-size: 0.8rem;
+    font-weight: 800;
+    min-height: 2.65rem;
+    padding: 0.55rem 0.85rem;
+    text-transform: capitalize;
+}
+
+.calendar-shell .fc-col-header-cell {
+    background: #071b2d;
+    color: white;
+}
+
+.calendar-shell .fc-col-header-cell-cushion {
+    padding: 0.85rem 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.calendar-shell .fc-daygrid-day {
+    background: #f8fbfc;
+    transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.calendar-shell .fc-daygrid-day.deck-duty-available {
+    background: white;
+    box-shadow: inset 0 0 0 1px rgb(7 27 45 / 14%);
     cursor: pointer;
 }
 
-.fc-daygrid-day.fc-day-sun,
-.fc-daygrid-day.fc-day-tue,
-.fc-daygrid-day.fc-day-thu,
-.fc-daygrid-day.fc-day-sat {
-    background-color: #294252;
+.calendar-shell .fc-daygrid-day.deck-duty-available:hover {
+    background: rgb(10 185 230 / 8%);
+    box-shadow: inset 0 0 0 2px rgb(10 185 230 / 35%);
 }
 
-.fc-header-toolbar {
-    width: min(75%, 80rem);
-    margin-right: auto;
-    margin-left: auto;
+.calendar-shell .fc-daygrid-day.deck-duty-selected {
+    background: rgb(10 185 230 / 16%);
+    box-shadow: inset 0 0 0 2px #0ab9e6;
+}
+
+.calendar-shell .fc-daygrid-day.deck-duty-unavailable {
+    background: #e3e9ec;
+    color: #8b9aa3;
+    cursor: default;
+}
+
+.calendar-shell .fc-daygrid-day.deck-duty-unavailable .fc-daygrid-day-number {
+    color: #8797a0;
+    font-weight: 700;
+    opacity: 0.72;
+}
+
+.calendar-shell .fc-day-other.deck-duty-unavailable {
+    background: #edf1f3;
+}
+
+.calendar-shell .fc-day-other.deck-duty-unavailable .fc-daygrid-day-number {
+    opacity: 0.42;
+}
+
+.calendar-shell .fc-daygrid-day-number {
+    padding: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.calendar-shell .fc-daygrid-event {
+    border: 0;
+    border-radius: 0.55rem;
+    margin: 2px 5px;
+    padding: 0.3rem 0.45rem;
+}
+
+.calendar-shell .deck-duty-event-mine {
+    background: #0ab9e6;
+    color: #071b2d;
+}
+
+.calendar-shell .deck-duty-event-assigned {
+    background: #294252;
+    color: white;
+}
+
+.deck-duty-event-name {
+    display: block;
+    overflow: hidden;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 @media (max-width: 767px) {
-    .fc-header-toolbar {
-        width: 100%;
-        align-items: flex-start;
-        gap: 1rem;
+    .calendar-shell .fc-header-toolbar {
+        align-items: stretch;
+        flex-direction: column-reverse;
+        gap: 0.85rem;
+    }
+
+    .calendar-shell .fc-toolbar-chunk:first-child {
+        display: flex;
+    }
+
+    .calendar-shell .fc-toolbar-title {
+        font-size: 1.45rem;
+    }
+
+    .calendar-shell .fc-daygrid-day-frame {
+        min-height: 4.5rem;
+    }
+
+    .calendar-shell .fc-daygrid-event {
+        margin-right: 2px;
+        margin-left: 2px;
+        padding: 0.2rem;
+    }
+
+    .deck-duty-event-name {
+        font-size: 0.62rem;
     }
 }
 

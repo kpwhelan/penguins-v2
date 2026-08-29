@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkEventRequest;
 use App\Http\Requests\EventRequest;
 use App\Models\DeckDutyEvent;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class CalendarController extends Controller {
     public function index() {
-        return Inertia::render('Calendar', ['deckDutyEvents' => DeckDutyEvent::all()]);
+        $user = Auth::user();
+
+        return Inertia::render('Calendar', [
+            'deckDutyEvents' => $this->calendarEvents(),
+            'members' => $user->is_admin
+                ? User::query()->orderBy('last_name')->orderBy('first_name')->get(['id', 'first_name', 'last_name'])
+                : [],
+        ]);
     }
 
     public function signUp(EventRequest $request): JsonResponse {
@@ -23,6 +30,15 @@ class CalendarController extends Controller {
         $user = Auth::user();
 
         $event = DeckDutyEvent::firstOrNew(['date' => $date]);
+
+        if ($event->exists && $event->user_id !== $user->id && !$request->boolean('confirm_override')) {
+            return response()->json([
+                'message' => 'Someone is already assigned to this date. Please confirm before replacing them.',
+                'success' => false,
+                'requires_confirmation' => true,
+            ], 409);
+        }
+
         $event->user_name = "{$user->first_name} {$user->last_name}";
         $event->user_id = $user->id;
 
@@ -36,67 +52,51 @@ class CalendarController extends Controller {
         return response()->json([
             'message' => "You're signed up for deck duty!",
             'success' => true,
-            'deckDutyEvents' => DeckDutyEvent::all(),
+            'deckDutyEvents' => $this->calendarEvents(),
         ], 201);
     }
 
-    public function bulkSignUp(Request $request) {
-        $dates = $request->input('dates');
-        $user = $request->input('user_id') === 'clear' ? $request->input('user_id') : User::find($request->input('user_id'));
+    public function bulkSignUp(BulkEventRequest $request): JsonResponse {
+        $validated = $request->validated();
+        $dates = $validated['dates'];
+        $isClearing = $validated['user_id'] === 'clear';
+        $user = $isClearing ? null : User::findOrFail($validated['user_id']);
 
-        if (!$user === 'clear') {
-            DB::beginTransaction();
-            foreach($dates as $date) {
-                $event = DeckDutyEvent::firstOrNew(['date' => $date]);
-                $event->user_name = "{$user->first_name} {$user->last_name}";
-                $event->user_id = $user->id;
-
-                if (!$event->save()) {
-                    DB::rollBack();
-                    return response()->json([
-                        'message' => "Something went wrong, try again or contact support",
-                        'success' => false,
-                    ], 500);
+        try {
+            DB::transaction(function () use ($dates, $isClearing, $user): void {
+                if ($isClearing) {
+                    DeckDutyEvent::whereIn('date', $dates)->delete();
+                    return;
                 }
-            }
 
-            DB::commit();
+                foreach ($dates as $date) {
+                    DeckDutyEvent::updateOrCreate(
+                        ['date' => $date],
+                        ['user_name' => "{$user->first_name} {$user->last_name}", 'user_id' => $user->id],
+                    );
+                }
+            });
+        } catch (Exception $exception) {
+            Log::error($exception);
 
             return response()->json([
-                'message' => "{$user->first_name} {$user->last_name} has been signed up for the selected dates!",
-                'success' => true,
-                'deckDutyEvents'   => DeckDutyEvent::all(),
-            ], 201);
+                'message' => 'Something went wrong. Please try again or contact support.',
+                'success' => false,
+            ], 500);
         }
 
-        if ($user === 'clear') {
-            DB::beginTransaction();
+        return response()->json([
+            'message' => $isClearing
+                ? 'The selected dates have been cleared.'
+                : "{$user->first_name} {$user->last_name} has been assigned to the selected dates.",
+            'success' => true,
+            'deckDutyEvents' => $this->calendarEvents(),
+        ], $isClearing ? 200 : 201);
+    }
 
-            try {
-                foreach($dates as $date) {
-                    $date_exists = DeckDutyEvent::where('date', '=', $date)->exists();
-
-                    if ($date_exists) {
-                        $event = DeckDutyEvent::where('date', '=', $date)->delete();
-                    }
-                }
-            } catch(Exception $e) {
-                Log::error($e);
-                DB::rollBack();
-
-                return response()->json([
-                    'message' => "Something went wrong, try again or contact support",
-                    'success' => false,
-                ], 500);
-            }
-
-            DB::commit();
-
-            return response()->json([
-                'message' => "The selected dates have been cleared!",
-                'success' => true,
-                'deckDutyEvents'   => DeckDutyEvent::all(),
-            ], 200);
-        }
+    private function calendarEvents() {
+        return DeckDutyEvent::query()
+            ->orderBy('date')
+            ->get(['id', 'date', 'user_name', 'user_id']);
     }
 }

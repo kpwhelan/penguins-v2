@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventRequest extends FormRequest
@@ -22,7 +23,20 @@ class EventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => 'required|string'
+            'date' => [
+                'bail',
+                'required',
+                'date_format:Y-m-d',
+                'after_or_equal:today',
+                function (string $attribute, mixed $value, Closure $fail): void {
+                    $weekday = (int) date('N', strtotime($value));
+
+                    if (!in_array($weekday, [1, 3, 5], true)) {
+                        $fail('Deck duty is only available on Monday, Wednesday, or Friday.');
+                    }
+                },
+            ],
+            'confirm_override' => ['sometimes', 'boolean'],
         ];
     }
 }
