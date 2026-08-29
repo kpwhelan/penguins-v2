@@ -17,7 +17,7 @@ class NewUserRegistraitonEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected string $token, protected User $user)
+    public function __construct(protected string $registrationUrl, protected User $user)
     {
         //
     }
@@ -42,9 +42,9 @@ class NewUserRegistraitonEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.token',
+            view: 'mail.token',
             with: [
-                'token' => $this->token,
+                'registrationUrl' => $this->registrationUrl,
                 'user' => $this->user
             ]
         );

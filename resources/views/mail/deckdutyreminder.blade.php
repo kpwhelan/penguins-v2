@@ -17,7 +17,7 @@
                     <tr><td style="height:8px; background:#2ac2f2; font-size:0; line-height:0;">&nbsp;</td></tr>
                     <tr>
                         <td align="center" style="padding:28px 32px 24px; background:#071b2d;">
-                            <img src="{{ asset('assets/gsp-logo-navbar-480w@2x.png') }}" width="220" alt="Granite State Penguins" style="display:block; width:220px; max-width:100%; height:auto; border:0;">
+                            <img src="{{ $message->embed(public_path('assets/gsp-logo-navbar-480w@2x.png')) }}" width="220" alt="Granite State Penguins" style="display:block; width:220px; max-width:100%; height:auto; border:0;">
                         </td>
                     </tr>
                     <tr>

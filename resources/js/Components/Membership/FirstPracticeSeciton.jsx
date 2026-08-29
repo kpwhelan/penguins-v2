@@ -8,15 +8,15 @@ export default function FirstPracticeSection() {
             {/* Background accents */}
             <div
                 aria-hidden="true"
-                className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-penguins-400/10 blur-3xl"
+                className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-penguins-400/10 blur-3xl"
             />
 
             <div
                 aria-hidden="true"
-                className="absolute -right-40 bottom-0 h-[30rem] w-[30rem] rounded-full bg-penguins-300/10 blur-3xl"
+                className="pointer-events-none absolute -right-40 bottom-0 h-[30rem] w-[30rem] rounded-full bg-penguins-300/10 blur-3xl"
             />
 
-            <Container>
+            <Container className="relative z-10">
                 {/* Section heading */}
                 <div className="grid items-end gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
                     <div>

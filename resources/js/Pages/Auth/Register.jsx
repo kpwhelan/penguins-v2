@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -6,167 +5,68 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
+import { useState } from 'react';
 
-export default function Register() {
+export default function Register({ member, submitUrl }) {
+    const [complete, setComplete] = useState(false);
     const [processing, setProcessing] = useState(false);
-    const [displayForm, setDisplayForm] = useState(true);
-    const { data, setData, post, errors, setError, reset } = useForm({
-        email: '',
+    const { data, setData, errors, setError, reset } = useForm({
         password: '',
         password_confirmation: '',
-        token: ''
     });
 
-    const notifySuccess = (message) => toast.success(message);
-    const notifyError = (message) => toast.error(message);
-
-    useEffect(() => {
-        return () => {
-            reset('password', 'password_confirmation');
-        };
-    }, []);
-
-    const submit = (e) => {
-        e.preventDefault();
-
+    const submit = (event) => {
+        event.preventDefault();
         setProcessing(true);
 
-        axios.post(route('token-register'), data)
-        .then(res => {
-            setProcessing(false);
-            setError({});
-
-            let form = document.querySelector('#user-upload-form');
-            reset();
-            form.reset();
-
-            setDisplayForm(false);
-
-            if (res.data.success) {
-                notifySuccess(response.data.message)
-            }
-        })
-        .catch(error => {
-            setProcessing(false);
-            // setDisplayForm(true);
-
-            if (error.response.status === 500 && !error.response.data.success) {
-                notifyError(error.response.data.message);
-            }
-
-            if (error.response.status === 422 && error.response.data.errors) {
-                let responseErrors = {};
-
-                for (const [key, value] of Object.entries(error.response.data.errors)) {
-                    responseErrors[key] = value;
-                }
-
-                setError(responseErrors)
-            }
-        })
+        axios.post(submitUrl, data)
+            .then(() => {
+                reset('password', 'password_confirmation');
+                setComplete(true);
+            })
+            .catch((error) => {
+                if (error.response?.status === 422) setError(error.response.data.errors ?? {});
+                else setError('password', 'This invitation is no longer valid. Ask Chris for a new link.');
+            })
+            .finally(() => setProcessing(false));
     };
 
     return (
         <GuestLayout>
-            <Head title="Register" />
+            <Head title="Finish registration" />
 
-            <Toaster toastOptions={{duration: 8000, style: {marginTop: '10px'}}} />
+            <div className="mb-8 text-center">
+                <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-penguins-500">Private invitation</p>
+                <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-navy-950">
+                    {complete ? 'Your account is ready' : `Welcome, ${member.first_name}`}
+                </h1>
+                <p className="mt-3 text-sm leading-6 text-slate">
+                    {complete ? 'Your password has been saved and your invitation is now closed.' : `Create a password for ${member.email}.`}
+                </p>
+            </div>
 
-            {displayForm &&
-                <form onSubmit={submit} id='user-upload-form'>
-                    <div className="mt-4">
-                        <InputLabel htmlFor="email" value="Email" />
-
-                        <TextInput
-                            id="email"
-                            type="email"
-                            name="email"
-                            value={data.email}
-                            className="mt-1 block w-full"
-                            autoComplete="username"
-                            onChange={(e) => setData('email', e.target.value)}
-                            // required
-                        />
-
-                        <InputError message={errors.email} className="mt-2" />
-                    </div>
-
-                    <div className="mt-4">
-                        <InputLabel htmlFor="password" value="Password - Create a new password" />
-
-                        <TextInput
-                            id="password"
-                            type="password"
-                            name="password"
-                            value={data.password}
-                            className="mt-1 block w-full"
-                            autoComplete="new-password"
-                            onChange={(e) => setData('password', e.target.value)}
-                            // required
-                        />
-
+            {!complete ? (
+                <form onSubmit={submit} className="space-y-5">
+                    <div>
+                        <InputLabel htmlFor="password" value="Create a password" />
+                        <TextInput id="password" type="password" value={data.password} className="mt-2 block w-full" autoComplete="new-password" autoFocus required onChange={(event) => setData('password', event.target.value)} />
                         <InputError message={errors.password} className="mt-2" />
                     </div>
-
-                    <div className="mt-4">
-                        <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
-
-                        <TextInput
-                            id="password_confirmation"
-                            type="password"
-                            name="password_confirmation"
-                            value={data.password_confirmation}
-                            className="mt-1 block w-full"
-                            autoComplete="new-password"
-                            onChange={(e) => setData('password_confirmation', e.target.value)}
-                            // required
-                        />
-
+                    <div>
+                        <InputLabel htmlFor="password_confirmation" value="Confirm password" />
+                        <TextInput id="password_confirmation" type="password" value={data.password_confirmation} className="mt-2 block w-full" autoComplete="new-password" required onChange={(event) => setData('password_confirmation', event.target.value)} />
                         <InputError message={errors.password_confirmation} className="mt-2" />
                     </div>
-
-                    <div className="mt-4">
-                        <InputLabel htmlFor="token" value="Token" />
-
-                        <TextInput
-                            id="token"
-                            name="token"
-                            value={data.token}
-                            className="mt-1 block w-full"
-                            onChange={(e) => setData('token', e.target.value)}
-                            // required
-                        />
-
-                        <InputError message={errors.token} className="mt-2" />
-                    </div>
-
-                    <div className="flex items-center justify-end mt-4">
-                        {/* <Link
-                            href={route('login')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Already registered?
-                        </Link> */}
-
-                        <PrimaryButton className="ms-4" disabled={processing}>
-                            Register
-                        </PrimaryButton>
-                    </div>
+                    <PrimaryButton className="w-full justify-center" disabled={processing}>
+                        {processing ? 'Finishing setup…' : 'Finish registration'}
+                    </PrimaryButton>
+                    <p className="text-center text-xs leading-5 text-slate">This link expires 48 hours after it was sent and works only once.</p>
                 </form>
-            }
-
-            {!displayForm &&
-                <div className="w-[60%] mx-auto text-center">
-                    <p className='mb-4 text-lg'>Registration Successul!</p>
-
-                    <a href={route('login')}>
-                        <PrimaryButton>
-                            Login
-                        </PrimaryButton>
-                    </a>
-                </div>
-            }
+            ) : (
+                <Link href={route('login')} className="block">
+                    <PrimaryButton className="w-full justify-center">Sign in</PrimaryButton>
+                </Link>
+            )}
         </GuestLayout>
     );
 }

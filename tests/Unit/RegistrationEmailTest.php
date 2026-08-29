@@ -13,11 +13,15 @@ class RegistrationEmailTest extends TestCase
         config()->set('mail.registration_from_address', 'registration@granitestatepenguins.com');
         config()->set('mail.registration_reply_to_address', 'chris@example.com');
 
-        $user = new User(['first_name' => 'New', 'last_name' => 'Swimmer']);
-        $envelope = (new NewUserRegistraitonEmail('test-token', $user))->envelope();
+        $user = new User(['first_name' => 'New', 'last_name' => 'Swimmer', 'email' => 'new@example.com']);
+        $email = new NewUserRegistraitonEmail('https://example.com/private-invitation', $user);
+        $envelope = $email->envelope();
 
         $this->assertSame('registration@granitestatepenguins.com', $envelope->from->address);
         $this->assertSame('Granite State Penguins', $envelope->from->name);
         $this->assertSame('chris@example.com', $envelope->replyTo[0]->address);
+        $email->assertSeeInHtml('Welcome to the Penguins.');
+        $email->assertSeeInHtml('https://example.com/private-invitation');
+        $email->assertSeeInHtml('new@example.com');
     }
 }

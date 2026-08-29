@@ -46,4 +46,12 @@ class AssetStorageServiceTest extends TestCase
 
         $this->assertSame('https://legacy.example/image.jpg', $url);
     }
+
+    public function test_it_ignores_known_dead_legacy_image_hosts(): void
+    {
+        $service = app(AssetStorageService::class);
+
+        $this->assertNull($service->publicUrl(null, null, 'https://via.placeholder.com/600x400.png'));
+        $this->assertNull($service->publicUrl(null, null, 'https://penguins.nyc3.cdn.digitaloceanspaces.com/team.png'));
+    }
 }

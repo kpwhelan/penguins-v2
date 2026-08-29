@@ -50,7 +50,7 @@ export default function CreateUserForm({ className = '' }) {
         event.preventDefault();
         setProcessing(true);
 
-        axios.post(route('register'), data)
+        axios.post(route('users.store'), data)
             .then((response) => {
                 setProcessing(false);
                 reset();

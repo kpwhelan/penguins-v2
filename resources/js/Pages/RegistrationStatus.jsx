@@ -64,12 +64,12 @@ export default function RegistrationStatus({ auth, registration_tokens }) {
                             Email Sent: <FontAwesomeIcon icon={token.email_successfully_sent ? faCheck : faX} />
                           </p>
                           <p className="mt-2 text-sm text-slate">
-                            Expired: <FontAwesomeIcon icon={token.is_expired ? faCheck : faX} />
+                            Expired: <FontAwesomeIcon icon={(token.is_expired || (token.expires_at && new Date(token.expires_at) < new Date())) ? faCheck : faX} />
                           </p>
                         </div>
                         <div className="mt-6 border-t border-navy-950/10 pt-5">
-                            <PrimaryButton onClick={() => generateNewToken(token.email)} disabled={(token.is_expired || isProcessing) ? false : true}>
-                                Resend Token
+                            <PrimaryButton onClick={() => generateNewToken(token.email)} disabled={isProcessing}>
+                                Send new invitation
                             </PrimaryButton>
                         </div>
                       </article>

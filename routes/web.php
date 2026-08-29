@@ -50,8 +50,6 @@ use Inertia\Inertia;
 Route::get('/', HomeController::class)
     ->name('home');
 
-Route::post('register', [RegisteredUserController::class, 'store']) ->name('register');
-
 Route::get('/membership', function () {
     return Inertia::render('Membership');
 })->name('membership');
@@ -77,7 +75,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/create-new-user', function () {
     return Inertia::render('CreateNewUser');
-})->middleware('auth')->name('create-new-user');
+})->middleware(['auth', 'admin'])->name('create-new-user');
 
 Route::get('/directory', function () {
     $users = User::where('is_sharing_info', '1')->get();
@@ -89,7 +87,7 @@ Route::get('/registration-status', function () {
     $registration_tokens = RegistrationToken::where('successfully_registered', '=', 'false')->get();
 
     return Inertia::render('RegistrationStatus', ['registration_tokens' => $registration_tokens]);
-})->middleware('auth')->name('registration-status');
+})->middleware(['auth', 'admin'])->name('registration-status');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -118,18 +116,21 @@ Route::middleware('auth')->prefix('swimmer-bios')->group(function () {
     Route::post('/', [SwimmerBioController::class, 'store'])->name('swimmer-bios.store');
 });
 
-Route::middleware('auth')->prefix('user')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('user')->group(function () {
     Route::get('/', [RegisteredUserController::class, 'index'])->name('users');
+    Route::post('/', [RegisteredUserController::class, 'store'])->name('users.store');
 });
 
-Route::middleware('auth')->prefix('registration-token')->group(function () {
-    Route::post('/', [RegistrationTokenController::class, 'generateRegistrationToken'])->name('registration-token.store');
+Route::middleware(['auth', 'admin'])->prefix('registration-token')->group(function () {
+    Route::post('/', [RegistrationTokenController::class, 'store'])->name('registration-token.store');
 });
 
 Route::post('/contact', [ContactController::class, 'sendNewContactEmail'])->name('contact.send');
 
 if (app()->environment('local')) {
     Route::get('/dev/emails/deck-duty-reminder', function () {
+        config(['mail.default' => 'array']);
+
         if (app()->bound('debugbar')) {
             app('debugbar')->disable();
         }
@@ -141,6 +142,8 @@ if (app()->environment('local')) {
     });
 
     Route::get('/dev/emails/contact', function () {
+        config(['mail.default' => 'array']);
+
         if (app()->bound('debugbar')) {
             app('debugbar')->disable();
         }
@@ -149,6 +152,25 @@ if (app()->environment('local')) {
             'Taylor Morgan',
             'taylor@example.com',
             "Hi! I recently moved to the area and I’m interested in joining a Masters practice. Could you tell me a little more about the group and what I should bring for my first swim?",
+        );
+    });
+
+    Route::get('/dev/emails/registration-invitation', function () {
+        config(['mail.default' => 'array']);
+
+        if (app()->bound('debugbar')) {
+            app('debugbar')->disable();
+        }
+
+        $user = new User([
+            'first_name' => 'Taylor',
+            'last_name' => 'Morgan',
+            'email' => 'taylor@example.com',
+        ]);
+
+        return new App\Mail\NewUserRegistraitonEmail(
+            route('invitation.show', ['invitation' => 1, 'token' => 'preview-token']),
+            $user,
         );
     });
 }

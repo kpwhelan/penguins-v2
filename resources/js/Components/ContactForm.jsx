@@ -8,6 +8,7 @@ export default function ContactForm() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [messageSentAndSuccessful, setMessageSentAndSuccessful] =
         useState(false);
+    const [submissionError, setSubmissionError] = useState('');
 
     const {
         data,
@@ -26,6 +27,7 @@ export default function ContactForm() {
         event.preventDefault();
 
         setIsProcessing(true);
+        setSubmissionError('');
         clearErrors();
 
         try {
@@ -46,10 +48,11 @@ export default function ContactForm() {
             if (status === 422 && responseData?.errors) {
                 setError(responseData.errors);
             } else {
-                toast.error(
-                    responseData?.message ??
-                        'Something went wrong while sending your message. Please try again.',
-                );
+                const message = responseData?.message ??
+                    'Something went wrong while sending your message. Please try again.';
+
+                setSubmissionError(message);
+                toast.error(message);
             }
         } finally {
             setIsProcessing(false);
@@ -162,10 +165,18 @@ export default function ContactForm() {
                 </FormField>
 
                 <div className="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-sm leading-6 text-slate">
-                        We’ll only use your information to respond to your
-                        message.
-                    </p>
+                    <div>
+                        <p className="text-sm leading-6 text-slate">
+                            We’ll only use your information to respond to your
+                            message.
+                        </p>
+
+                        {submissionError && (
+                            <p className="mt-2 text-sm font-semibold text-red-600" role="alert">
+                                {submissionError}
+                            </p>
+                        )}
+                    </div>
 
                     <button
                         type="submit"

@@ -4,22 +4,22 @@ namespace App\Jobs;
 
 use App\Mail\NewUserRegistraitonEmail;
 use App\Models\RegistrationToken;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldBeEncrypted;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class SendRegistrationTokenEmail implements ShouldQueue
+class SendRegistrationTokenEmail implements ShouldBeEncrypted, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(protected User $user, protected string $token)
+    public function __construct(protected RegistrationToken $invitation, protected string $token)
     {
         //
     }
@@ -29,14 +29,12 @@ class SendRegistrationTokenEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->user->email)->send(new NewUserRegistraitonEmail($this->token, $this->user));
+        $user = \App\Models\User::where('email', $this->invitation->email)->firstOrFail();
+        Mail::to($user->email)->send(new NewUserRegistraitonEmail(
+            $this->invitation->registrationUrl($this->token),
+            $user,
+        ));
 
-        $token_record = RegistrationToken::where([
-            ['email', '=', $this->user->email],
-            ['registration_token', '=', $this->token]
-        ])->first();
-
-        $token_record->email_successfully_sent = true;
-        $token_record->save();
+        $this->invitation->update(['email_successfully_sent' => true]);
     }
 }

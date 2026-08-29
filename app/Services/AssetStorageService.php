@@ -25,7 +25,23 @@ class AssetStorageService
             return Storage::disk($disk)->url($path);
         }
 
+        if ($this->isRetiredLegacyUrl($legacyUrl)) {
+            return null;
+        }
+
         return $legacyUrl;
+    }
+
+    private function isRetiredLegacyUrl(?string $url): bool
+    {
+        if (! $url) {
+            return false;
+        }
+
+        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+
+        return $host === 'via.placeholder.com'
+            || str_ends_with($host, '.nyc3.cdn.digitaloceanspaces.com');
     }
 
     public function delete(?string $disk, ?string $path): void
