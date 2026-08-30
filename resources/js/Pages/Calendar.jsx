@@ -63,8 +63,19 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
 
         const existingEvent = eventsByDate.get(dateStr);
         setSignUpDate(dateStr);
-        setIsSignUpOverride(Boolean(existingEvent && existingEvent.user_id !== auth.user.id));
+        setIsSignUpOverride(Boolean(existingEvent && String(existingEvent.user_id) !== String(auth.user.id)));
         setDisplaySignUpModal(true);
+    };
+
+    const handleEventClick = ({ event, jsEvent }) => {
+        jsEvent.preventDefault();
+
+        if (!event.start) return;
+
+        handleDateClick({
+            date: event.start,
+            dateStr: event.startStr.slice(0, 10),
+        });
     };
 
     const submitSignUp = () => {
@@ -160,6 +171,7 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
                     initialView="dayGridMonth"
                     events={events}
                     dateClick={handleDateClick}
+                    eventClick={handleEventClick}
                     eventContent={({ event }) => <span className="deck-duty-event-name">{event.extendedProps.user_name}</span>}
                     dayCellClassNames={dayCellClassNames}
                     eventClassNames={eventClassNames}
