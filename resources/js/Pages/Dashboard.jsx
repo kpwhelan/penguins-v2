@@ -95,7 +95,7 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
                     <div>
                         <p className="eyebrow">Administration</p>
                         <h2 className="section-title mt-3">Publish team updates.</h2>
-                        <p className="mt-3 max-w-2xl leading-7 text-slate">Manage the news and swimmer profiles displayed on the public website.</p>
+                        <p className="mt-3 max-w-2xl leading-7 text-slate">Manage the news and Penguins All Stars displayed on the public website.</p>
                     </div>
                     <div className="mt-6 grid gap-6 xl:grid-cols-2">
                         <NewsUploadForm className="min-w-0" />
