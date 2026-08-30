@@ -20,6 +20,12 @@ function localDateString(date) {
     return `${year}-${month}-${day}`;
 }
 
+function calendarEventDate(event) {
+    if (typeof event.date === 'string') return event.date.slice(0, 10);
+    if (event.date instanceof Date) return localDateString(event.date);
+    return '';
+}
+
 function isEligibleDate(date) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -38,7 +44,10 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
 
     useEffect(() => setEvents(deckDutyEvents), [deckDutyEvents]);
 
-    const eventsByDate = useMemo(() => new Map(events.map((event) => [event.date, event])), [events]);
+    const eventsByDate = useMemo(
+        () => new Map(events.map((event) => [calendarEventDate(event), event]).filter(([date]) => date)),
+        [events],
+    );
 
     const closeSignUpModal = () => {
         setDisplaySignUpModal(false);
