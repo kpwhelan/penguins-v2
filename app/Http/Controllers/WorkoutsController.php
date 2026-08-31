@@ -31,7 +31,7 @@ class WorkoutsController extends Controller
     public function store(WorkoutUploadRequest $request): JsonResponse
     {
         $file = $request->file('workout_file');
-        $dateTime = new DateTime('@'.$request->integer('date'));
+        $dateTime = new DateTime($request->validated('month').'-01');
         $year = $dateTime->format('Y');
         $month = $dateTime->format('m');
         $upload = null;

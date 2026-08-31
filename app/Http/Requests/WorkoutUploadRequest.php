@@ -24,7 +24,7 @@ class WorkoutUploadRequest extends FormRequest
     {
         return [
             'workout_file' => ['required', 'file', 'mimes:pdf', 'max:5120'],
-            'date' => ['required', 'integer', 'min:1'],
+            'month' => ['required', 'date_format:Y-m'],
         ];
     }
 }
