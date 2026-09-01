@@ -3,15 +3,45 @@
 namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RuntimeException;
 
 class AssetStorageService
 {
-    public function storePublicImage(UploadedFile $file, string $directory): array
-    {
-        return $this->store($file, config('filesystems.uploads.public_disk'), $directory);
+    public function storePublicImage(
+        UploadedFile $file,
+        string $directory,
+        int $maxWidth = 1600,
+        int $maxHeight = 1200,
+    ): array {
+        $disk = config('filesystems.uploads.public_disk');
+        $prefix = trim(config('filesystems.uploads.environment_prefix'), '/');
+        $directory = trim($directory, '/');
+        $path = "{$prefix}/{$directory}/".Str::uuid().'.webp';
+        $image = Image::fromUpload($file)
+            ->orient()
+            ->scale($maxWidth, $maxHeight)
+            ->optimize('webp', 82);
+        $contents = $image->toBytes();
+
+        $stored = Storage::disk($disk)->put($path, $contents, [
+            'ContentType' => 'image/webp',
+            'CacheControl' => 'public, max-age=31536000, immutable',
+        ]);
+
+        if (! $stored) {
+            throw new RuntimeException('The optimized image could not be stored.');
+        }
+
+        return [
+            'disk' => $disk,
+            'path' => $path,
+            'original_name' => $file->getClientOriginalName(),
+            'mime_type' => 'image/webp',
+            'size' => strlen($contents),
+        ];
     }
 
     public function storePrivateDocument(UploadedFile $file, string $directory): array

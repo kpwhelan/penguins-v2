@@ -14,16 +14,46 @@ class AssetStorageServiceTest extends TestCase
         Storage::fake('public');
         config()->set('filesystems.uploads.public_disk', 'public');
         config()->set('filesystems.uploads.environment_prefix', 'testing');
-        $file = UploadedFile::fake()->create('Team Photo.JPG', 120, 'image/jpeg');
+        $file = UploadedFile::fake()->image('Team Photo.JPG', 2400, 1800);
 
         $stored = app(AssetStorageService::class)->storePublicImage($file, 'news-images');
 
         $this->assertSame('public', $stored['disk']);
         $this->assertSame('Team Photo.JPG', $stored['original_name']);
-        $this->assertSame('image/jpeg', $stored['mime_type']);
+        $this->assertSame('image/webp', $stored['mime_type']);
         $this->assertStringStartsWith('testing/news-images/', $stored['path']);
-        $this->assertNotSame('testing/news-images/Team Photo.JPG', $stored['path']);
+        $this->assertStringEndsWith('.webp', $stored['path']);
         Storage::disk('public')->assertExists($stored['path']);
+
+        $contents = Storage::disk('public')->get($stored['path']);
+        $dimensions = getimagesizefromstring($contents);
+
+        $this->assertSame(1600, $dimensions[0]);
+        $this->assertSame(1200, $dimensions[1]);
+        $this->assertSame('image/webp', $dimensions['mime']);
+        $this->assertSame(strlen($contents), $stored['size']);
+    }
+
+    public function test_it_optimizes_all_star_portraits_to_the_portrait_bounds(): void
+    {
+        Storage::fake('public');
+        config()->set('filesystems.uploads.public_disk', 'public');
+        config()->set('filesystems.uploads.environment_prefix', 'testing');
+        $file = UploadedFile::fake()->image('Portrait.png', 2400, 3000);
+
+        $stored = app(AssetStorageService::class)->storePublicImage(
+            $file,
+            'swimmer-bios',
+            1200,
+            1500,
+        );
+
+        $contents = Storage::disk('public')->get($stored['path']);
+        $dimensions = getimagesizefromstring($contents);
+
+        $this->assertSame(1200, $dimensions[0]);
+        $this->assertSame(1500, $dimensions[1]);
+        $this->assertSame('image/webp', $dimensions['mime']);
     }
 
     public function test_it_stores_private_documents_separately(): void

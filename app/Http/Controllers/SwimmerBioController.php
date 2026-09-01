@@ -21,7 +21,12 @@ class SwimmerBioController extends Controller
         $upload = null;
 
         try {
-            $upload = $this->assets->storePublicImage($request->file('swimmer_image'), 'swimmer-bios');
+            $upload = $this->assets->storePublicImage(
+                $request->file('swimmer_image'),
+                'swimmer-bios',
+                1200,
+                1500,
+            );
 
             SwimmerBio::create([
                 'swimmer_name' => $request->string('swimmer_name'),

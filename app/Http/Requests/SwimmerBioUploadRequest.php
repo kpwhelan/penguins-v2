@@ -25,7 +25,7 @@ class SwimmerBioUploadRequest extends FormRequest
         return [
             'swimmer_name' => ['required', 'string'],
             'body' => ['required', 'string'],
-            'swimmer_image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'swimmer_image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120', 'dimensions:max_width=6000,max_height=6000'],
         ];
     }
 }

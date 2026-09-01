@@ -58,7 +58,7 @@ export default function NewsUploadForm({ className = '' }) {
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-penguins-700 shadow-sm">
                             <svg aria-hidden="true" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 16V4m0 0L8 8m4-4 4 4M5 14v5h14v-5" /></svg>
                         </span>
-                        <span className="min-w-0"><span className="block text-sm font-extrabold text-navy-950">{fileData?.name ?? 'Choose an image'}</span><span className="mt-1 block text-xs text-slate">JPG or PNG recommended</span></span>
+                        <span className="min-w-0"><span className="block text-sm font-extrabold text-navy-950">{fileData?.name ?? 'Choose an image'}</span><span className="mt-1 block text-xs text-slate">JPG, PNG, or WebP · optimized automatically</span></span>
                         <input id="news_image" type="file" accept=".jpg,.jpeg,.png,.webp" onChange={(event) => setFileData(event.target.files[0] ?? null)} className="sr-only" />
                     </label>
                     <InputError className="mt-2" message={errors.news_image} />
