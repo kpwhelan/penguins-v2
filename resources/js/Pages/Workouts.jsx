@@ -5,6 +5,11 @@ import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
 const months = { '01': 'January', '02': 'February', '03': 'March', '04': 'April', '05': 'May', '06': 'June', '07': 'July', '08': 'August', '09': 'September', '10': 'October', '11': 'November', '12': 'December' };
+const currentYear = new Date().getFullYear();
+const workoutYears = Array.from(
+    { length: currentYear - 1998 },
+    (_, index) => String(currentYear + 1 - index),
+);
 
 function currentMonth() {
     const today = new Date();
@@ -16,6 +21,11 @@ export default function Workouts({ auth, workouts }) {
     const [stateWorkouts, setStateWorkouts] = useState({});
     const [fileData, setFileData] = useState(null);
     const [workoutMonth, setWorkoutMonth] = useState(currentMonth);
+    const [selectedYear, selectedMonth] = workoutMonth.split('-');
+
+    const updateWorkoutMonth = (year, month) => {
+        setWorkoutMonth(`${year}-${month}`);
+    };
 
     useEffect(() => setStateWorkouts(workouts), [workouts]);
 
@@ -50,8 +60,39 @@ export default function Workouts({ auth, workouts }) {
                         <p className="mt-2 text-sm leading-6 text-slate">Choose a PDF and the month it belongs to.</p>
                         <label htmlFor="workout-file" className="mt-6 block text-sm font-extrabold text-navy-950">Workout file</label>
                         <input id="workout-file" type="file" accept="application/pdf,.pdf" onChange={(event) => setFileData(event.target.files[0])} className="mt-2 block w-full cursor-pointer rounded-xl border border-navy-950/10 bg-mist p-3 text-sm text-slate file:mr-3 file:rounded-lg file:border-0 file:bg-penguins-100 file:px-3 file:py-2 file:font-bold file:text-penguins-800" />
-                        <label htmlFor="workout-month" className="mt-5 block text-sm font-extrabold text-navy-950">Workout month</label>
-                        <input id="workout-month" type="month" required value={workoutMonth} onChange={(event) => setWorkoutMonth(event.target.value)} className="mt-2 min-h-12 w-full rounded-xl border border-navy-950/10 bg-white px-4 text-navy-950 focus:border-penguins-500 focus:ring-penguins-500" />
+                        <fieldset className="mt-5">
+                            <legend className="text-sm font-extrabold text-navy-950">Workout month</legend>
+                            <div className="mt-2 grid grid-cols-[minmax(0,1fr)_8rem] gap-3">
+                                <div>
+                                    <label htmlFor="workout-month" className="sr-only">Month</label>
+                                    <select
+                                        id="workout-month"
+                                        required
+                                        value={selectedMonth}
+                                        onChange={(event) => updateWorkoutMonth(selectedYear, event.target.value)}
+                                        className="min-h-12 w-full cursor-pointer rounded-xl border border-navy-950/10 bg-white px-4 text-navy-950 focus:border-penguins-500 focus:ring-penguins-500"
+                                    >
+                                        {Object.entries(months).map(([value, label]) => (
+                                            <option key={value} value={value}>{label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label htmlFor="workout-year" className="sr-only">Year</label>
+                                    <select
+                                        id="workout-year"
+                                        required
+                                        value={selectedYear}
+                                        onChange={(event) => updateWorkoutMonth(event.target.value, selectedMonth)}
+                                        className="min-h-12 w-full cursor-pointer rounded-xl border border-navy-950/10 bg-white px-4 text-navy-950 focus:border-penguins-500 focus:ring-penguins-500"
+                                    >
+                                        {workoutYears.map((year) => (
+                                            <option key={year} value={year}>{year}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
                         <button type="submit" className="button-primary mt-6 w-full" disabled={!fileData}>Upload workout</button>
                     </form>
                 )}
