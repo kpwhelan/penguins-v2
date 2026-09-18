@@ -32,6 +32,29 @@ function isEligibleDate(date) {
     return PRACTICE_DAYS.has(date.getDay()) && date >= today;
 }
 
+function practiceDatesForMonth(month) {
+    const dates = [];
+    const cursor = new Date(month.getFullYear(), month.getMonth(), 1);
+
+    while (cursor.getMonth() === month.getMonth()) {
+        if (PRACTICE_DAYS.has(cursor.getDay())) {
+            dates.push(new Date(cursor));
+        }
+
+        cursor.setDate(cursor.getDate() + 1);
+    }
+
+    return dates;
+}
+
+function formatMobileDate(date) {
+    return new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',
+        month: 'short',
+        day: 'numeric',
+    }).format(date);
+}
+
 export default function Calendar({ deckDutyEvents, members = [], auth }) {
     const [events, setEvents] = useState(deckDutyEvents);
     const [signUpDate, setSignUpDate] = useState('');
@@ -41,6 +64,10 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
     const [displaySignUpModal, setDisplaySignUpModal] = useState(false);
     const [displayBulkSignUpModal, setDisplayBulkSignUpModal] = useState(false);
     const [processing, setProcessing] = useState(false);
+    const [mobileMonth, setMobileMonth] = useState(() => {
+        const today = new Date();
+        return new Date(today.getFullYear(), today.getMonth(), 1);
+    });
 
     useEffect(() => setEvents(deckDutyEvents), [deckDutyEvents]);
 
@@ -48,6 +75,8 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
         () => new Map(events.map((event) => [calendarEventDate(event), event]).filter(([date]) => date)),
         [events],
     );
+    const mobilePracticeDates = useMemo(() => practiceDatesForMonth(mobileMonth), [mobileMonth]);
+    const mobileMonthLabel = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(mobileMonth);
 
     const closeSignUpModal = () => {
         setDisplaySignUpModal(false);
@@ -174,7 +203,83 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
 
             {isViewingBulk && <div className="mb-5 rounded-2xl border border-penguins-500/30 bg-penguins-50 px-5 py-4 text-sm text-navy-950"><span className="font-extrabold">Bulk edit is active.</span> Select eligible dates, then assign them to a swimmer or clear their current assignments.</div>}
 
-            <section className="calendar-shell overflow-hidden rounded-panel border border-navy-950/15 bg-white p-3 shadow-elevated sm:p-6">
+            <section className="rounded-panel border border-navy-950/15 bg-white p-5 shadow-elevated sm:hidden">
+                <div className="flex items-center justify-between gap-3">
+                    <button
+                        type="button"
+                        onClick={() => setMobileMonth((current) => new Date(current.getFullYear(), current.getMonth() - 1, 1))}
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-navy-950 text-xl text-white transition hover:bg-navy-800"
+                        aria-label="Previous month"
+                    >
+                        ‹
+                    </button>
+                    <div className="text-center">
+                        <h2 className="text-xl font-extrabold text-navy-950">{mobileMonthLabel}</h2>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                const today = new Date();
+                                setMobileMonth(new Date(today.getFullYear(), today.getMonth(), 1));
+                            }}
+                            className="mt-1 text-xs font-extrabold uppercase tracking-[0.12em] text-penguins-700"
+                        >
+                            Jump to today
+                        </button>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => setMobileMonth((current) => new Date(current.getFullYear(), current.getMonth() + 1, 1))}
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-navy-950 text-xl text-white transition hover:bg-navy-800"
+                        aria-label="Next month"
+                    >
+                        ›
+                    </button>
+                </div>
+
+                <div className="mt-6 space-y-3">
+                    {mobilePracticeDates.map((date) => {
+                        const dateString = localDateString(date);
+                        const event = eventsByDate.get(dateString);
+                        const eligible = isEligibleDate(date);
+                        const selected = bulkEditSelectedDays.includes(dateString);
+                        const isMine = event && String(event.user_id) === String(auth.user.id);
+
+                        return (
+                            <button
+                                type="button"
+                                key={dateString}
+                                disabled={!eligible}
+                                onClick={() => handleDateClick({ date, dateStr: dateString })}
+                                className={`flex w-full items-center justify-between gap-4 rounded-2xl border px-4 py-4 text-left transition ${selected
+                                    ? 'border-penguins-500 bg-penguins-50 ring-2 ring-penguins-500/25'
+                                    : eligible
+                                        ? 'border-navy-950/15 bg-white shadow-sm hover:border-penguins-500/50 hover:bg-penguins-50'
+                                        : 'cursor-not-allowed border-navy-950/5 bg-mist opacity-60'
+                                }`}
+                            >
+                                <span className="min-w-0">
+                                    <span className="block text-xs font-extrabold uppercase tracking-[0.13em] text-penguins-700">{formatMobileDate(date)}</span>
+                                    <span className={`mt-1.5 block break-words text-base font-extrabold ${event ? 'text-navy-950' : eligible ? 'text-penguins-800' : 'text-slate'}`}>
+                                        {event?.user_name ?? (eligible ? 'Available — tap to volunteer' : 'No assignment')}
+                                    </span>
+                                </span>
+                                <span className={`shrink-0 rounded-full px-3 py-1.5 text-[0.68rem] font-extrabold uppercase tracking-[0.08em] ${isMine
+                                    ? 'bg-penguins-500 text-navy-950'
+                                    : event
+                                        ? 'bg-navy-700 text-white'
+                                        : selected
+                                            ? 'bg-penguins-600 text-white'
+                                            : 'bg-navy-950/5 text-slate'
+                                }`}>
+                                    {isMine ? 'Yours' : event ? 'Assigned' : selected ? 'Selected' : eligible ? 'Open' : 'Past'}
+                                </span>
+                            </button>
+                        );
+                    })}
+                </div>
+            </section>
+
+            <section className="calendar-shell hidden overflow-hidden rounded-panel border border-navy-950/15 bg-white p-3 shadow-elevated sm:block sm:p-6">
                 <FullCalendar
                     plugins={[dayGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
