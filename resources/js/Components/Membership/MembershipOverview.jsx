@@ -2,11 +2,18 @@ import Container from '@/Components/UI/Container';
 
 const membershipDetails = [
     {
-        value: '$120',
+        value: '$130',
         label: 'Quarterly Membership',
         description:
             'The regular Penguins membership rate for swimmers who continue with the team.',
         accent: 'Quarterly',
+    },
+    {
+        value: '$50',
+        label: 'Monthly Membership',
+        description:
+            'A flexible month-to-month option for swimmers who prefer not to commit to a full quarter.',
+        accent: 'Per month',
     },
     {
         value: '$10',
@@ -58,7 +65,7 @@ export default function MembershipOverview() {
                     </p>
                 </div>
 
-                <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+                <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-5">
                     {membershipDetails.map((item) => (
                         <article
                             key={item.label}

@@ -13,6 +13,22 @@ function formatDate(dateString) {
     }).format(new Date(dateString));
 }
 
+function LinkedNewsBody({ children }) {
+    const linkPattern = /(https?:\/\/[^\s]+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})/g;
+
+    return children.split(linkPattern).map((part, index) => {
+        if (part.match(/^https?:\/\//)) {
+            return <a key={`${part}-${index}`} href={part} target="_blank" rel="noreferrer" className="font-bold text-penguins-700 underline decoration-penguins-300 underline-offset-4 transition hover:text-navy-950">{part}</a>;
+        }
+
+        if (part.match(/^[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}$/)) {
+            return <a key={`${part}-${index}`} href={`mailto:${part}`} className="font-bold text-penguins-700 underline decoration-penguins-300 underline-offset-4 transition hover:text-navy-950">{part}</a>;
+        }
+
+        return part;
+    });
+}
+
 export default function NewsSection({ newsItems = [] }) {
     const items = newsItems?.slice(0, 3) ?? [];
     const featuredItem = items[0];
@@ -178,7 +194,7 @@ export default function NewsSection({ newsItems = [] }) {
                         <div className="p-6 sm:p-9">
                             {selectedNewsItem.created_at && <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-penguins-700">{formatDate(selectedNewsItem.created_at)}</p>}
                             <h3 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-navy-950 sm:text-4xl">{selectedNewsItem.title || 'Penguins Update'}</h3>
-                            <div className="mt-6 whitespace-pre-line text-base leading-8 text-slate sm:text-lg">{selectedNewsItem.body}</div>
+                            <div className="mt-6 whitespace-pre-line break-words text-base leading-8 text-slate sm:text-lg"><LinkedNewsBody>{selectedNewsItem.body}</LinkedNewsBody></div>
                             <div className="mt-8 border-t border-navy-950/10 pt-5 text-sm font-extrabold text-navy-950">Granite State Penguins</div>
                         </div>
                     </article>
