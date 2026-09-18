@@ -14,7 +14,6 @@ class HomeController extends Controller
         return Inertia::render('Welcome', [
             'newsItems' => NewsItem::query()
                 ->latest()
-                ->take(3)
                 ->get(),
 
             'swimmerBios' => SwimmerBio::query()

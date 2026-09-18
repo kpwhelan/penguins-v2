@@ -1,12 +1,28 @@
 import Container from '@/Components/UI/Container';
 import NewsCard from '@/Components/Home/NewsCard';
+import Modal from '@/Components/Modal';
+import { useState } from 'react';
+
+function formatDate(dateString) {
+    if (!dateString) return null;
+
+    return new Intl.DateTimeFormat('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+    }).format(new Date(dateString));
+}
 
 export default function NewsSection({ newsItems = [] }) {
     const items = newsItems?.slice(0, 3) ?? [];
     const featuredItem = items[0];
     const additionalItems = items.slice(1);
+    const historicalItems = newsItems?.slice(3) ?? [];
+    const [selectedNewsItem, setSelectedNewsItem] = useState(null);
+    const [archiveIsOpen, setArchiveIsOpen] = useState(false);
 
     return (
+        <>
         <section
             id="news"
             className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-30"
@@ -64,6 +80,7 @@ export default function NewsSection({ newsItems = [] }) {
                         <NewsCard
                             newsItem={featuredItem}
                             featured
+                            onReadMore={setSelectedNewsItem}
                         />
 
                         {additionalItems.length > 0 && (
@@ -72,6 +89,7 @@ export default function NewsSection({ newsItems = [] }) {
                                     <NewsCard
                                         key={newsItem.id}
                                         newsItem={newsItem}
+                                        onReadMore={setSelectedNewsItem}
                                     />
                                 ))}
                             </div>
@@ -112,7 +130,60 @@ export default function NewsSection({ newsItems = [] }) {
                         </p>
                     </div>
                 )}
+
+                {historicalItems.length > 0 && (
+                    <div className="mt-10 border-t border-navy-950/10 pt-8">
+                        <button
+                            type="button"
+                            aria-expanded={archiveIsOpen}
+                            aria-controls="news-archive"
+                            onClick={() => setArchiveIsOpen((current) => !current)}
+                            className="flex w-full items-center justify-between gap-5 rounded-2xl border border-navy-950/10 bg-mist px-5 py-4 text-left transition hover:border-penguins-500/40 hover:bg-penguins-50 focus:outline-none focus:ring-2 focus:ring-penguins-500 focus:ring-offset-4 sm:px-6"
+                        >
+                            <span>
+                                <span className="block text-lg font-extrabold text-navy-950">News archive</span>
+                                <span className="mt-1 block text-sm text-slate">Browse {historicalItems.length} older {historicalItems.length === 1 ? 'update' : 'updates'} from the Penguins.</span>
+                            </span>
+                            <svg className={`h-6 w-6 shrink-0 text-penguins-700 transition-transform ${archiveIsOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
+                            </svg>
+                        </button>
+
+                        {archiveIsOpen && (
+                            <div id="news-archive" className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                {historicalItems.map((newsItem) => (
+                                    <NewsCard key={newsItem.id} newsItem={newsItem} onReadMore={setSelectedNewsItem} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
             </Container>
+
         </section>
+
+        <Modal show={Boolean(selectedNewsItem)} maxWidth="2xl" onClose={() => setSelectedNewsItem(null)}>
+                {selectedNewsItem && (
+                    <article>
+                        <div className="relative aspect-[16/8] overflow-hidden bg-penguins-100">
+                            {selectedNewsItem.image_url ? (
+                                <img src={selectedNewsItem.image_url} alt="" className="h-full w-full object-cover" />
+                            ) : (
+                                <div className="flex h-full items-center justify-center bg-gradient-to-br from-penguins-100 via-penguins-300 to-penguins-700 p-10">
+                                    <img src="/assets/gsp-logo-1200w.png" alt="" className="max-h-48 w-full object-contain drop-shadow-xl" />
+                                </div>
+                            )}
+                            <button type="button" onClick={() => setSelectedNewsItem(null)} className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-navy-950/75 text-2xl text-white shadow-lg backdrop-blur transition hover:bg-navy-950 focus:outline-none focus:ring-2 focus:ring-penguins-300" aria-label="Close news article">×</button>
+                        </div>
+                        <div className="p-6 sm:p-9">
+                            {selectedNewsItem.created_at && <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-penguins-700">{formatDate(selectedNewsItem.created_at)}</p>}
+                            <h3 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-navy-950 sm:text-4xl">{selectedNewsItem.title || 'Penguins Update'}</h3>
+                            <div className="mt-6 whitespace-pre-line text-base leading-8 text-slate sm:text-lg">{selectedNewsItem.body}</div>
+                            <div className="mt-8 border-t border-navy-950/10 pt-5 text-sm font-extrabold text-navy-950">Granite State Penguins</div>
+                        </div>
+                    </article>
+                )}
+        </Modal>
+        </>
     );
 }

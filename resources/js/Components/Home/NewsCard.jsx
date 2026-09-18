@@ -25,6 +25,7 @@ function excerpt(text, length = 180) {
 export default function NewsCard({
     newsItem,
     featured = false,
+    onReadMore,
 }) {
     const date = formatDate(newsItem.created_at);
 
@@ -40,7 +41,9 @@ export default function NewsCard({
                                 className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
                             />
                         ) : (
-                            <div className="absolute inset-0 bg-gradient-to-br from-penguins-400 via-penguins-600 to-navy-950" />
+                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-penguins-300 via-penguins-600 to-navy-950 p-10">
+                                <img src="/assets/gsp-logo-1200w.png" alt="" className="max-h-56 w-full object-contain drop-shadow-2xl" />
+                            </div>
                         )}
 
                         <div className="absolute inset-0 bg-gradient-to-t from-navy-950/55 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-navy-950/20" />
@@ -69,6 +72,13 @@ export default function NewsCard({
                             </p>
                         )}
 
+                        {newsItem.body && onReadMore && (
+                            <button type="button" onClick={() => onReadMore(newsItem)} className="mt-7 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm font-extrabold text-white transition hover:border-penguins-300 hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-penguins-300 focus:ring-offset-2 focus:ring-offset-navy-950">
+                                Read full update
+                                <span aria-hidden="true">→</span>
+                            </button>
+                        )}
+
                         <div className="mt-8 flex items-center gap-3 text-sm font-bold text-penguins-200">
                             <span className="h-px w-10 bg-penguins-400" />
 
@@ -90,7 +100,9 @@ export default function NewsCard({
                         className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
                     />
                 ) : (
-                    <div className="h-full w-full bg-gradient-to-br from-penguins-200 via-penguins-400 to-penguins-700" />
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-penguins-100 via-penguins-300 to-penguins-700 p-8">
+                        <img src="/assets/gsp-logo-1200w.png" alt="" className="max-h-36 w-full object-contain drop-shadow-xl" />
+                    </div>
                 )}
 
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-950/20 to-transparent" />
@@ -111,6 +123,13 @@ export default function NewsCard({
                     <p className="mt-4 leading-7 text-slate">
                         {excerpt(newsItem.body)}
                     </p>
+                )}
+
+                {newsItem.body && onReadMore && (
+                    <button type="button" onClick={() => onReadMore(newsItem)} className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-extrabold text-penguins-700 transition hover:text-navy-950 focus:outline-none focus:ring-2 focus:ring-penguins-500 focus:ring-offset-4">
+                        Read full update
+                        <span aria-hidden="true">→</span>
+                    </button>
                 )}
             </div>
         </article>
