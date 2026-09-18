@@ -33,12 +33,12 @@ export default function NewsCard({
         return (
             <article className="group overflow-hidden rounded-panel bg-navy-950 shadow-elevated">
                 <div className="grid min-h-full lg:grid-cols-[1.1fr_0.9fr]">
-                    <div className="relative min-h-72 overflow-hidden sm:min-h-96 lg:min-h-[30rem]">
+                    <div className="relative min-h-72 overflow-hidden bg-navy-900 sm:min-h-96 lg:min-h-[30rem]">
                         {newsItem.image_url ? (
                             <img
                                 src={newsItem.image_url}
                                 alt=""
-                                className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                                className="absolute inset-0 h-full w-full object-contain transition duration-700 group-hover:scale-[1.01]"
                             />
                         ) : (
                             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-penguins-300 via-penguins-600 to-navy-950 p-10">
@@ -97,7 +97,7 @@ export default function NewsCard({
                     <img
                         src={newsItem.image_url}
                         alt=""
-                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
+                        className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.01]"
                     />
                 ) : (
                     <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-penguins-100 via-penguins-300 to-penguins-700 p-8">

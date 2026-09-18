@@ -183,7 +183,7 @@ export default function NewsSection({ newsItems = [] }) {
                     <article>
                         <div className="relative aspect-[16/8] overflow-hidden bg-penguins-100">
                             {selectedNewsItem.image_url ? (
-                                <img src={selectedNewsItem.image_url} alt="" className="h-full w-full object-cover" />
+                                <img src={selectedNewsItem.image_url} alt="" className="h-full w-full object-contain" />
                             ) : (
                                 <div className="flex h-full items-center justify-center bg-gradient-to-br from-penguins-100 via-penguins-300 to-penguins-700 p-10">
                                     <img src="/assets/gsp-logo-1200w.png" alt="" className="max-h-48 w-full object-contain drop-shadow-xl" />
