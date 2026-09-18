@@ -21,8 +21,14 @@ class MembershipApplicationController extends Controller
     {
         $disk = config('filesystems.uploads.public_disk');
         $path = config('filesystems.uploads.membership_application_path');
+        $storage = Storage::disk($disk);
+        $url = $storage->url($path);
+        $separator = str_contains($url, '?') ? '&' : '?';
+        $versionedUrl = $url.$separator.'v='.$storage->lastModified($path);
 
-        return redirect()->away(Storage::disk($disk)->url($path));
+        return redirect()
+            ->away($versionedUrl)
+            ->header('Cache-Control', 'no-store, max-age=0');
     }
 
     public function store(MembershipApplicationUploadRequest $request): JsonResponse

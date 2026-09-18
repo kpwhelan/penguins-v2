@@ -55,7 +55,10 @@ class AssetStorageService
         $path = trim($path, '/');
         $directory = dirname($path);
         $filename = basename($path);
-        $storedPath = Storage::disk($disk)->putFileAs($directory, $file, $filename);
+        $storedPath = Storage::disk($disk)->putFileAs($directory, $file, $filename, [
+            'CacheControl' => 'public, max-age=300, must-revalidate',
+            'ContentType' => $file->getMimeType() ?: 'application/pdf',
+        ]);
 
         if (! $storedPath) {
             throw new RuntimeException('The uploaded document could not be stored.');
