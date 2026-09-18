@@ -141,7 +141,7 @@ export default function Workouts({ auth, workouts }) {
                                     {isExpanded && (
                                         <div id={`workout-year-${yearKey}`} className="grid gap-0 divide-y divide-navy-950/10 border-t border-navy-950/10 md:grid-cols-2 xl:grid-cols-3">
                                             {Object.keys(stateWorkouts[yearKey]).map((monthKey) => (
-                                                <div className="border-navy-950/10 p-6 md:border-r md:[&:nth-child(2n)]:border-r-0 xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(3n)]:border-r-0" key={`${yearKey}-${monthKey}`}>
+                                                <div className="p-6" key={`${yearKey}-${monthKey}`}>
                                                     <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-penguins-700">{months[monthKey]}</p>
                                                     <ul className="mt-4 space-y-3">
                                                         {stateWorkouts[yearKey][monthKey].map((workout) => (
