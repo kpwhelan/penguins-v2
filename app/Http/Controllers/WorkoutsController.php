@@ -91,6 +91,20 @@ class WorkoutsController extends Controller
             $groupedData[$date->format('Y')][$date->format('m')][] = $workout;
         }
 
+        krsort($groupedData, SORT_NUMERIC);
+
+        foreach ($groupedData as &$months) {
+            krsort($months, SORT_NUMERIC);
+
+            foreach ($months as &$monthlyWorkouts) {
+                usort(
+                    $monthlyWorkouts,
+                    fn (Workout $first, Workout $second): int => strnatcasecmp($first->file_name, $second->file_name),
+                );
+            }
+        }
+        unset($months, $monthlyWorkouts);
+
         return $groupedData;
     }
 }

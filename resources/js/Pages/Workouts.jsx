@@ -21,6 +21,7 @@ export default function Workouts({ auth, workouts }) {
     const [stateWorkouts, setStateWorkouts] = useState({});
     const [fileData, setFileData] = useState(null);
     const [workoutMonth, setWorkoutMonth] = useState(currentMonth);
+    const [expandedYears, setExpandedYears] = useState(() => new Set());
     const [selectedYear, selectedMonth] = workoutMonth.split('-');
 
     const updateWorkoutMonth = (year, month) => {
@@ -28,6 +29,20 @@ export default function Workouts({ auth, workouts }) {
     };
 
     useEffect(() => setStateWorkouts(workouts), [workouts]);
+
+    const toggleYear = (year) => {
+        setExpandedYears((currentYears) => {
+            const nextYears = new Set(currentYears);
+
+            if (nextYears.has(year)) {
+                nextYears.delete(year);
+            } else {
+                nextYears.add(year);
+            }
+
+            return nextYears;
+        });
+    };
 
     const submit = (event) => {
         event.preventDefault();
@@ -100,23 +115,46 @@ export default function Workouts({ auth, workouts }) {
                 <section>
                     <div className="flex items-end justify-between gap-5"><div><p className="eyebrow">Workout Archive</p><h2 className="mt-3 text-3xl font-extrabold tracking-tight text-navy-950">Past team workouts</h2></div></div>
                     <div className="mt-6 space-y-5">
-                        {Object.keys(stateWorkouts).length ? Object.keys(stateWorkouts).map((yearKey) => (
-                            <article className="surface-card overflow-hidden" key={yearKey}>
-                                <div className="border-b border-navy-950/10 bg-navy-950 px-6 py-4"><h3 className="text-2xl font-extrabold text-white">{yearKey}</h3></div>
-                                <div className="grid gap-0 divide-y divide-navy-950/10 md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-3">
-                                    {Object.keys(stateWorkouts[yearKey]).map((monthKey) => (
-                                        <div className="p-6" key={`${yearKey}-${monthKey}`}>
-                                            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-penguins-700">{months[monthKey]}</p>
-                                            <ul className="mt-4 space-y-3">
-                                                {stateWorkouts[yearKey][monthKey].map((workout) => (
-                                                    <li key={workout.id}><a className="inline-flex items-start gap-2 font-bold leading-6 text-navy-950 transition hover:text-penguins-700" href={workout.download_url} target="_blank" rel="noreferrer"><span aria-hidden="true" className="text-penguins-600">↗</span>{workout.file_name}</a></li>
-                                                ))}
-                                            </ul>
+                        {Object.keys(stateWorkouts).length ? Object.keys(stateWorkouts).map((yearKey) => {
+                            const isExpanded = expandedYears.has(yearKey);
+                            const workoutCount = Object.values(stateWorkouts[yearKey]).reduce((total, monthWorkouts) => total + monthWorkouts.length, 0);
+
+                            return (
+                                <article className="surface-card overflow-hidden" key={yearKey}>
+                                    <h3>
+                                        <button
+                                            type="button"
+                                            aria-expanded={isExpanded}
+                                            aria-controls={`workout-year-${yearKey}`}
+                                            onClick={() => toggleYear(yearKey)}
+                                            className="flex w-full cursor-pointer items-center justify-between gap-4 bg-navy-950 px-6 py-4 text-left transition hover:bg-navy-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-penguins-300"
+                                        >
+                                            <span>
+                                                <span className="block text-2xl font-extrabold text-white">{yearKey}</span>
+                                                <span className="mt-0.5 block text-xs font-bold uppercase tracking-[0.14em] text-white/55">{workoutCount} {workoutCount === 1 ? 'workout' : 'workouts'}</span>
+                                            </span>
+                                            <svg className={`h-6 w-6 shrink-0 text-penguins-300 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
+                                            </svg>
+                                        </button>
+                                    </h3>
+                                    {isExpanded && (
+                                        <div id={`workout-year-${yearKey}`} className="grid gap-0 divide-y divide-navy-950/10 border-t border-navy-950/10 md:grid-cols-2 xl:grid-cols-3">
+                                            {Object.keys(stateWorkouts[yearKey]).map((monthKey) => (
+                                                <div className="border-navy-950/10 p-6 md:border-r md:[&:nth-child(2n)]:border-r-0 xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(3n)]:border-r-0" key={`${yearKey}-${monthKey}`}>
+                                                    <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-penguins-700">{months[monthKey]}</p>
+                                                    <ul className="mt-4 space-y-3">
+                                                        {stateWorkouts[yearKey][monthKey].map((workout) => (
+                                                            <li key={workout.id}><a className="inline-flex items-start gap-2 font-bold leading-6 text-navy-950 transition hover:text-penguins-700" href={workout.download_url} target="_blank" rel="noreferrer"><span aria-hidden="true" className="text-penguins-600">↗</span>{workout.file_name}</a></li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
-                            </article>
-                        )) : <div className="surface-card p-10 text-center"><h3 className="text-xl font-extrabold text-navy-950">No workouts uploaded yet</h3><p className="mt-2 text-slate">The team workout archive will appear here.</p></div>}
+                                    )}
+                                </article>
+                            );
+                        }) : <div className="surface-card p-10 text-center"><h3 className="text-xl font-extrabold text-navy-950">No workouts uploaded yet</h3><p className="mt-2 text-slate">The team workout archive will appear here.</p></div>}
                     </div>
                 </section>
             </div>
