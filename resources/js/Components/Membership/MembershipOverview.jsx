@@ -2,7 +2,7 @@ import Container from '@/Components/UI/Container';
 
 const membershipDetails = [
     {
-        value: '$130',
+        value: '$135',
         label: 'Quarterly Membership',
         description:
             'The regular Penguins membership rate for swimmers who continue with the team.',
