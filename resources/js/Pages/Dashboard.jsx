@@ -1,5 +1,6 @@
 import NewsUploadForm from '@/Components/NewsUploadForm';
 import MembershipApplicationUploadForm from '@/Components/MembershipApplicationUploadForm';
+import MembershipRatesForm from '@/Components/MembershipRatesForm';
 import SwimmerBioUploadForm from '@/Components/SwimmerBioUploadForm';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
@@ -18,7 +19,7 @@ function StatIcon({ type }) {
     );
 }
 
-export default function Dashboard({ auth, deck_duty_count, next_deck_duty, next_deck_duty_date }) {
+export default function Dashboard({ auth, deck_duty_count, next_deck_duty, next_deck_duty_date, membership_rates }) {
     const hasMetQuarterlyDutyGoal = deck_duty_count >= 2;
     const remainingDutyDates = Math.max(0, 2 - deck_duty_count);
 
@@ -95,9 +96,10 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty, next_
                     <div>
                         <p className="eyebrow">Administration</p>
                         <h2 className="section-title mt-3">Publish team updates.</h2>
-                        <p className="mt-3 max-w-2xl leading-7 text-slate">Manage the news and Penguins All Stars displayed on the public website.</p>
+                        <p className="mt-3 max-w-2xl leading-7 text-slate">Manage membership information, news, and Penguins All Stars displayed on the public website.</p>
                     </div>
                     <div className="mt-6 grid gap-6 xl:grid-cols-2">
+                        <MembershipRatesForm rates={membership_rates} className="xl:col-span-2" />
                         <NewsUploadForm className="min-w-0" />
                         <SwimmerBioUploadForm className="min-w-0" />
                         <MembershipApplicationUploadForm className="min-w-0 xl:col-span-2" />

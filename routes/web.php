@@ -5,6 +5,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MembershipApplicationController;
+use App\Http\Controllers\MembershipRateController;
 use App\Http\Controllers\NewsItemsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationTokenController;
@@ -14,6 +15,7 @@ use App\Mail\ContactEmail;
 use App\Mail\DeckDutyReminderEmail;
 use App\Mail\NewUserRegistraitonEmail;
 use App\Models\DeckDutyEvent;
+use App\Models\MembershipRate;
 use App\Models\RegistrationToken;
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -25,7 +27,9 @@ Route::get('/', HomeController::class)
     ->name('home');
 
 Route::get('/membership', function () {
-    return Inertia::render('Membership');
+    return Inertia::render('Membership', [
+        'membership_rates' => MembershipRate::current()->forDisplay(),
+    ]);
 })->name('membership');
 
 Route::get('/membership/application', [MembershipApplicationController::class, 'show'])
@@ -34,6 +38,10 @@ Route::get('/membership/application', [MembershipApplicationController::class, '
 Route::post('/membership/application', [MembershipApplicationController::class, 'store'])
     ->middleware(['auth', 'admin'])
     ->name('membership.application.store');
+
+Route::put('/membership/rates', [MembershipRateController::class, 'update'])
+    ->middleware(['auth', 'admin'])
+    ->name('membership.rates.update');
 
 Route::get('/about-us', function () {
     return Inertia::render('AboutUs');
@@ -68,6 +76,7 @@ Route::get('/dashboard', function () {
         'deck_duty_count' => $deck_duty_count,
         'next_deck_duty' => $next_deck_duty,
         'next_deck_duty_date' => $next_deck_duty?->date->format('l, F j'),
+        'membership_rates' => MembershipRate::current()->forDisplay(),
     ]);
 })->middleware('auth')->name('dashboard');
 

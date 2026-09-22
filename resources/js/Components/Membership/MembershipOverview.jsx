@@ -1,22 +1,22 @@
 import Container from '@/Components/UI/Container';
 
-const membershipDetails = [
+const membershipDetails = (rates) => [
     {
-        value: '$135',
+        value: `$${Number(rates.quarterly).toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
         label: 'Quarterly Membership',
         description:
             'The regular Penguins membership rate for swimmers who continue with the team.',
         accent: 'Quarterly',
     },
     {
-        value: '$50',
+        value: `$${Number(rates.monthly).toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
         label: 'Monthly Membership',
         description:
             'A flexible month-to-month option for swimmers who prefer not to commit to a full quarter.',
         accent: 'Per month',
     },
     {
-        value: '$10',
+        value: `$${Number(rates.drop_in).toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
         label: 'Daily Drop-In',
         description:
             'Drop in for a practice without committing. If you continue, the fee can be credited toward your first quarter.',
@@ -38,7 +38,7 @@ const membershipDetails = [
     },
 ];
 
-export default function MembershipOverview() {
+export default function MembershipOverview({ rates }) {
     return (
         <section
             id="membership-details"
@@ -66,7 +66,7 @@ export default function MembershipOverview() {
                 </div>
 
                 <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-5">
-                    {membershipDetails.map((item) => (
+                    {membershipDetails(rates).map((item) => (
                         <article
                             key={item.label}
                             className="group relative overflow-hidden rounded-panel border border-navy-950/10 bg-white p-7 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-penguins-400/40 hover:shadow-card"

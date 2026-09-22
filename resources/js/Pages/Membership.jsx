@@ -10,7 +10,7 @@ import FirstPracticeSection from '@/Components/Membership/FirstPracticeSeciton';
 import LocationSection from '@/Components/Membership/LocationSection';
 import AlternateLocationsSection from '@/Components/Membership/AlternateLocationsSection';
 
-export default function Membership() {
+export default function Membership({ membership_rates }) {
     return (
         <>
             <Head title="Membership | Granite State Penguins Masters Swimming" />
@@ -20,7 +20,7 @@ export default function Membership() {
             <main id="main-content">
                 <MembershipHero />
 
-                <MembershipOverview />
+                <MembershipOverview rates={membership_rates} />
 
                 <MembershipSteps />
 

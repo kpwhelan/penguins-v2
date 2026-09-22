@@ -2,10 +2,31 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 class SeoTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        config()->set('database.default', 'sqlite');
+        config()->set('database.connections.sqlite.database', ':memory:');
+        DB::purge('sqlite');
+        DB::connection('sqlite')->getPdo();
+
+        Schema::create('membership_rates', function (Blueprint $table): void {
+            $table->id();
+            $table->decimal('quarterly', 8, 2);
+            $table->decimal('monthly', 8, 2);
+            $table->decimal('drop_in', 8, 2);
+            $table->timestamps();
+        });
+    }
+
     public function test_public_pages_have_page_specific_indexable_metadata(): void
     {
         $this->get(route('membership'))
