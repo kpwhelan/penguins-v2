@@ -64,7 +64,11 @@ Route::get('/dashboard', function () {
         ->orderBy('date')
         ->first();
 
-    return Inertia::render('Dashboard', ['deck_duty_count' => $deck_duty_count, 'next_deck_duty' => $next_deck_duty]);
+    return Inertia::render('Dashboard', [
+        'deck_duty_count' => $deck_duty_count,
+        'next_deck_duty' => $next_deck_duty,
+        'next_deck_duty_date' => $next_deck_duty?->date->format('l, F j'),
+    ]);
 })->middleware('auth')->name('dashboard');
 
 Route::get('/create-new-user', function () {

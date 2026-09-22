@@ -18,7 +18,7 @@ function StatIcon({ type }) {
     );
 }
 
-export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
+export default function Dashboard({ auth, deck_duty_count, next_deck_duty, next_deck_duty_date }) {
     const hasMetQuarterlyDutyGoal = deck_duty_count >= 2;
     const remainingDutyDates = Math.max(0, 2 - deck_duty_count);
 
@@ -59,7 +59,7 @@ export default function Dashboard({ auth, deck_duty_count, next_deck_duty }) {
                         <div>
                             <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate">Next Deck Duty</p>
                             <p className="mt-4 text-3xl font-extrabold tracking-[-0.03em] text-navy-950 sm:text-4xl">
-                                {next_deck_duty?.date ?? 'Nothing scheduled'}
+                                {next_deck_duty_date ?? 'Nothing scheduled'}
                             </p>
                         </div>
                         <StatIcon type="calendar" />
