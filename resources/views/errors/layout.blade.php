@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta name="theme-color" content="#071b2d">
+    <title>{{ $status }} | Granite State Penguins</title>
+    <link rel="icon" href="/assets/favicon.ico" sizes="any">
+    <style>
+        :root{color-scheme:light;--navy:#071b2d;--ink:#0b2136;--blue:#31bce8;--blue-dark:#087ca8;--slate:#5c7083;--mist:#f0f7fa}*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Montserrat,Avenir,"Segoe UI",sans-serif}body{min-height:100vh;background:var(--navy);color:var(--ink)}.screen{position:relative;display:flex;min-height:100vh;align-items:center;justify-content:center;overflow:hidden;padding:48px 20px}.screen:before{position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.3) 1px,transparent 0);background-size:26px 26px;content:"";opacity:.2}.glow{position:absolute;border-radius:9999px;filter:blur(70px);pointer-events:none}.glow-one{right:-100px;top:-100px;width:340px;height:340px;background:rgba(49,188,232,.25)}.glow-two{bottom:-140px;left:-100px;width:400px;height:400px;background:rgba(8,124,168,.22)}.card{position:relative;z-index:1;width:100%;max-width:760px;overflow:hidden;border:1px solid rgba(255,255,255,.15);border-radius:34px;background:#fff;padding:48px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.25)}.card:before{position:absolute;inset:0 0 auto;height:6px;background:var(--blue);content:""}.logo{display:block;width:208px;max-width:62%;height:auto;margin:0 auto}.status{margin:28px 0 0;color:var(--slate);font-size:14px;font-weight:800;letter-spacing:.24em}.eyebrow{margin:16px 0 0;color:var(--blue-dark);font-size:14px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.title{max-width:650px;margin:16px auto 0;font-size:48px;line-height:1.05;letter-spacing:-.04em}.message{max-width:590px;margin:20px auto 0;color:var(--slate);font-size:18px;line-height:1.75}.actions{display:flex;justify-content:center;gap:12px;margin-top:32px}.button{display:inline-flex;min-height:48px;align-items:center;justify-content:center;border-radius:999px;padding:12px 28px;font-size:14px;font-weight:800;text-decoration:none}.button-primary{border:0;background:var(--blue);color:var(--navy);cursor:pointer}.button-secondary{border:1px solid rgba(7,27,45,.2);background:#fff;color:var(--navy)}.note{margin:30px 0 0;color:var(--slate);font-size:12px;font-weight:600}@media(max-width:640px){.screen{padding:24px 16px}.card{border-radius:26px;padding:34px 22px}.title{font-size:36px}.message{font-size:16px;line-height:1.65}.actions{flex-direction:column}.button{width:100%}}@media(prefers-reduced-motion:no-preference){.button{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}.button:hover{transform:translateY(-2px)}}
+    </style>
+</head>
+<body>
+    <main class="screen">
+        <div class="glow glow-one" aria-hidden="true"></div>
+        <div class="glow glow-two" aria-hidden="true"></div>
+        <section class="card" aria-labelledby="error-title">
+            <img src="/assets/gsp-logo-navbar-480w@2x.png" alt="Granite State Penguins" class="logo">
+            <p class="status">{{ $status }}</p>
+            <p class="eyebrow">{{ $eyebrow }}</p>
+            <h1 id="error-title" class="title">{{ $title }}</h1>
+            <p class="message">{{ $message }}</p>
+            <div class="actions">
+                @if ($reload)
+                    <a class="button button-primary" href="">{{ $action }}</a>
+                @else
+                    <a class="button button-primary" href="{{ $href }}">{{ $action }}</a>
+                @endif
+                @if ($reload || $href !== '/')
+                    <a class="button button-secondary" href="/">Go to the homepage</a>
+                @endif
+            </div>
+            <p class="note">Need help? Contact a Granite State Penguins administrator.</p>
+        </section>
+    </main>
+</body>
+</html>
