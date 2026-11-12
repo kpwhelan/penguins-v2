@@ -6,6 +6,7 @@ import PracticeSection from '@/Components/Home/PracticeSection';
 import NewsSection from '@/Components/Home/NewsSection';
 import AllStarsSection from '@/Components/Home/AllStarsSection';
 import MembershipCta from '@/Components/Home/MembershipCta';
+import SponsorSection from '@/Components/Home/SponsorSection';
 import { Footer } from '@/Components/Footer';
 
 export default function Welcome({ newsItems, swimmerBios }) {
@@ -27,6 +28,8 @@ export default function Welcome({ newsItems, swimmerBios }) {
                 <AllStarsSection swimmerBios={swimmerBios} />
 
                 <MembershipCta />
+
+                <SponsorSection />
 
                 <Footer />
             </main>
