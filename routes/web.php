@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('calendar')->group(function () {
     Route::get('/', [CalendarController::class, 'index'])->name('calendar');
     Route::post('/event', [CalendarController::class, 'signUp'])->name('calendar.signup');
+    Route::delete('/event/{event}', [CalendarController::class, 'cancel'])->whereNumber('event')->name('calendar.cancel');
     Route::post('/bulk-event', [CalendarController::class, 'bulkSignUp'])->name('calendar.bulk.signup');
 });
 

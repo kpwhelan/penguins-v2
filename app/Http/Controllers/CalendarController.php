@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -72,6 +73,31 @@ class CalendarController extends Controller
             'success' => true,
             'deckDutyEvents' => $this->calendarEvents(),
         ], 201);
+    }
+
+    public function cancel(Request $request, int $event): JsonResponse
+    {
+        // Check ownership and date in the delete itself so a stale calendar cannot
+        // remove an assignment that another swimmer has since taken over.
+        $deleted = DeckDutyEvent::query()
+            ->whereKey($event)
+            ->where('user_id', $request->user()->id)
+            ->whereDate('date', '>=', today())
+            ->delete();
+
+        if (! $deleted) {
+            return response()->json([
+                'message' => 'This signup has changed or can no longer be cancelled. The calendar has been refreshed.',
+                'success' => false,
+                'deckDutyEvents' => $this->calendarEvents(),
+            ], 409);
+        }
+
+        return response()->json([
+            'message' => 'Your deck duty signup has been cancelled. This date is now available.',
+            'success' => true,
+            'deckDutyEvents' => $this->calendarEvents(),
+        ]);
     }
 
     public function bulkSignUp(BulkEventRequest $request): JsonResponse

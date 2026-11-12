@@ -59,6 +59,7 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
     const [events, setEvents] = useState(deckDutyEvents);
     const [signUpDate, setSignUpDate] = useState('');
     const [isSignUpOverride, setIsSignUpOverride] = useState(false);
+    const [cancellationEventId, setCancellationEventId] = useState(null);
     const [isViewingBulk, setIsViewingBulk] = useState(false);
     const [bulkEditSelectedDays, setBulkEditSelectedDays] = useState([]);
     const [displaySignUpModal, setDisplaySignUpModal] = useState(false);
@@ -79,9 +80,15 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
     const mobileMonthLabel = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(mobileMonth);
 
     const closeSignUpModal = () => {
+        if (processing) return;
+        resetSignUpModal();
+    };
+
+    const resetSignUpModal = () => {
         setDisplaySignUpModal(false);
         setSignUpDate('');
         setIsSignUpOverride(false);
+        setCancellationEventId(null);
     };
 
     const toggleBulkMode = () => {
@@ -100,7 +107,9 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
         }
 
         const existingEvent = eventsByDate.get(dateStr);
+        const isMine = existingEvent && String(existingEvent.user_id) === String(auth.user.id);
         setSignUpDate(dateStr);
+        setCancellationEventId(isMine ? existingEvent.id : null);
         setIsSignUpOverride(Boolean(existingEvent && String(existingEvent.user_id) !== String(auth.user.id)));
         setDisplaySignUpModal(true);
     };
@@ -122,7 +131,7 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
             .then((response) => {
                 setEvents(response.data.deckDutyEvents);
                 toast.success(response.data.message);
-                closeSignUpModal();
+                resetSignUpModal();
             })
             .catch((error) => {
                 const responseData = error.response?.data;
@@ -134,10 +143,31 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
                 if (responseData?.requires_confirmation) {
                     setIsSignUpOverride(true);
                 } else {
-                    closeSignUpModal();
+                    resetSignUpModal();
                 }
 
                 toast.error(responseData?.message ?? 'We could not update that date. Please try again.');
+            })
+            .finally(() => setProcessing(false));
+    };
+
+    const submitCancellation = () => {
+        if (processing || cancellationEventId === null) return;
+
+        setProcessing(true);
+        axios.delete(route('calendar.cancel', { event: cancellationEventId }))
+            .then((response) => {
+                setEvents(response.data.deckDutyEvents);
+                toast.success(response.data.message);
+                resetSignUpModal();
+            })
+            .catch((error) => {
+                const responseData = error.response?.data;
+                if (responseData?.deckDutyEvents) {
+                    setEvents(responseData.deckDutyEvents);
+                    resetSignUpModal();
+                }
+                toast.error(responseData?.message ?? 'We could not cancel your signup. Please try again.');
             })
             .finally(() => setProcessing(false));
     };
@@ -177,7 +207,7 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
             <div className="mb-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
                 <div className="rounded-panel border border-navy-950/15 bg-white p-5 shadow-soft sm:p-6">
                     <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-                        <div><p className="eyebrow">How it works</p><p className="mt-2 text-sm leading-6 text-slate">Select any upcoming <span className="font-extrabold text-navy-950">Monday, Wednesday, or Friday</span> to volunteer.</p></div>
+                        <div><p className="eyebrow">How it works</p><p className="mt-2 text-sm leading-6 text-slate">Select any upcoming <span className="font-extrabold text-navy-950">Monday, Wednesday, or Friday</span> to volunteer. Select your own assignment to cancel your signup and reopen the date.</p></div>
                         <div className="flex flex-wrap gap-4 text-xs font-bold text-slate">
                             <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-penguins-500" />Your assignment</span>
                             <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-navy-700" />Another swimmer</span>
@@ -300,7 +330,7 @@ export default function Calendar({ deckDutyEvents, members = [], auth }) {
             </section>
 
             <Modal show={displaySignUpModal} maxWidth="lg" onClose={closeSignUpModal}>
-                <SignUpContent signUpDate={signUpDate} submitSignUp={submitSignUp} toggleSetDisplaySignUpModal={closeSignUpModal} isSignUpOverride={isSignUpOverride} processing={processing} />
+                <SignUpContent signUpDate={signUpDate} submitSignUp={cancellationEventId !== null ? submitCancellation : submitSignUp} toggleSetDisplaySignUpModal={closeSignUpModal} isSignUpOverride={isSignUpOverride} isCancellation={cancellationEventId !== null} processing={processing} />
             </Modal>
 
             <Modal show={displayBulkSignUpModal} maxWidth="lg" onClose={() => setDisplayBulkSignUpModal(false)}>
